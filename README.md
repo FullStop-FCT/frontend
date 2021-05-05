@@ -1,6 +1,6 @@
 2021-05-05  Wednesday
 
-# FrontEnd Setup :tw-1f4dd: 
+# FrontEnd Setup 
 
 ## Technologies
 - <a href="https://reactjs.org/docs/getting-started.html">React</a>
