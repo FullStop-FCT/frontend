@@ -6,7 +6,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
-  
+          {/* Add fonts, favicon, etc */}
 
           </Head>
         <body>
