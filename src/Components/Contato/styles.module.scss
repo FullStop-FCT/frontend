@@ -1,0 +1,63 @@
+.Container {
+  background: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 603px;
+  margin: auto;
+  width: 90%;
+  padding: 50px;
+  margin-bottom: 8rem;
+}
+
+.contato {
+  text-align: center;
+  font-size: 1.5rem;
+
+  h1 {
+    color: #035485;
+  }
+  p {
+    padding: 1.2rem;
+  }
+}
+
+.feedback {
+  text-align: center;
+  font-size: 1.2rem;
+
+  h1 {
+    color: #035485;
+    margin-bottom: 1.5rem;
+  }
+  form {
+    input {
+      padding: 0.2rem;
+      width: 100%;
+      color: #000;
+      margin-bottom: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    textarea {
+      margin-top: 1rem;
+      padding: 1rem;
+      width: 100%;
+      color: #000;
+      resize: none;
+    }
+  }
+  button {
+    background-color: #035485;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    padding: 0.7rem 2rem;
+    border-radius: 35px;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+  }
+  button:hover {
+    background-color: #047bc3;
+  }
+}

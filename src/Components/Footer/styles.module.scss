@@ -1,0 +1,17 @@
+.footer {
+  background: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  overflow: hidden;
+  margin: 0;
+
+  p {
+    padding-top: 1rem;
+    align-items: center;
+  }
+}
