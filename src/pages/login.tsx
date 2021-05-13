@@ -4,12 +4,13 @@ import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
 export default function Login(){
   return(
-    <div>
+    <div >
     <Head>
         <title>Login</title>
       </Head>
       <NavBar/>
-      <div className={styles.login}>
+      
+          <div className={styles.login}>
         <h1>Login</h1>
         <form>
         
@@ -23,6 +24,7 @@ export default function Login(){
       
 
       </div>
+     
       
       <Footer/>
     </div>

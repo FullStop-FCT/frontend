@@ -10,7 +10,7 @@ export default function Login(){
       </Head>
       <NavBar/>
       
-      <div className={styles.login}>
+      <div className={styles.register}>
         <h1>Inscreva-se</h1>
         <form>
         
@@ -18,7 +18,15 @@ export default function Login(){
         <input type="text" name="username" placeholder="Username" id="username" /><p/>
         <input type="password" name="password" placeholder="Password" id="password" /><p/>
         <input type="password" name="confirmpassword" placeholder="Confirm Password" id="cpassword" /><p/>
+       {/* <select id="option">
+        <option className={styles.sel} value="select" >Selecione uma opção</option>
+        <option value="vol">Voluntariado</option>
+        <option value="org">Organização</option>
+ 
+       */}
         </form>
+        
+        
         <button>Inscrever-se</button>
        
       
