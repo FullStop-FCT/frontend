@@ -28,7 +28,7 @@ export const menu : MenuItems[] = [
 
   },{
     title: 'Inscreva-se',
-    url: "/register",
+    url: "/registeroption",
     cName: 'nav-links'
 
   },{

@@ -12,11 +12,11 @@ export default function Login(){
       
           <div className={styles.login}>
         <h1>Login</h1>
-        <form>
+        <form >
         
-        <input type="text" name="name" placeholder="Email/Username" id="email" /><p/>
+        <input type="email" name="name" placeholder="Email/Username" id="email" autoFocus  /><p/>
        
-        <input type="password" name="password" placeholder="Password" id="password" /><p/>
+        <input type="password" name="password" placeholder="Password" id="password"/><p/>
         
         </form>
         <button>Login</button>

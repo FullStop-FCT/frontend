@@ -1,0 +1,98 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  .header {
+    width: 15%;
+  }
+  .banneravatar {
+    width: 70%;
+    height: 100%;
+    align-items: center;
+    border: 1px solid rgb(47, 51, 54);
+    border-bottom: none;
+
+    .banner {
+      background: var(--blue-50);
+      flex-shrink: 0;
+      width: 100%;
+      height: min(20vw, 199px);
+      position: relative;
+
+      .avatar {
+        width: max(45px, min(170px, 22vw));
+        height: max(45px, min(170px, 22vw));
+
+        border: 3.75px solid #000;
+        background: var(--gray);
+        border-radius: 50%;
+
+        position: absolute;
+        bottom: max(-100px, -10vw);
+        left: 30px;
+      }
+    }
+
+    .userinfo {
+      color: #fff;
+      padding: min(calc(10vw+10px), 100px) 20px 0;
+      h2 {
+        font: 700 2rem Roboto;
+      }
+      p {
+        margin-top: 0.2rem;
+        color: #e2e2e2ce;
+        font: 100 1rem Roboto;
+      }
+    }
+
+    .line {
+      margin: auto;
+      margin-top: 5rem;
+      width: 90%;
+      border: 1px solid rgb(47, 51, 54);
+    }
+
+    .atividades {
+      margin-top: 2rem;
+      color: #fff;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      button {
+        background-color: #1a1a1a;
+        border: none;
+        color: #fff;
+      }
+      button:hover {
+        color: rgba(255, 255, 255, 0.822);
+      }
+    }
+  }
+
+  .other {
+    width: 15%;
+  }
+}
+
+.currentpage {
+  margin-top: 5rem;
+  text-align: center;
+  color: #fff;
+  font-size: 5rem;
+}
+@media screen and (max-width: 960px) {
+  .container {
+    flex-direction: column;
+    .header {
+      display: none;
+    }
+    .banneravatar {
+      width: 100%;
+    }
+    .other {
+      display: none;
+    }
+  }
+}

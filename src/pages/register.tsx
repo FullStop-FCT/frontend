@@ -15,7 +15,7 @@ export default function Login(){
         <form>
         
         <input type="text" name="name" placeholder="Email" id="email" /><p/>
-        <input type="text" name="username" placeholder="Username" id="username" /><p/>
+        <input type="text" name="username" placeholder="Username" id="username" autoFocus /><p/>
         <input type="password" name="password" placeholder="Password" id="password" /><p/>
         <input type="password" name="confirmpassword" placeholder="Confirm Password" id="cpassword" /><p/>
        {/* <select id="option">
