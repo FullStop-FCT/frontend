@@ -1,0 +1,40 @@
+.h1 {
+  align-items: center;
+  text-align: center;
+  color: #047bc3;
+  padding-top: 8rem;
+}
+.imagediv {
+  color: #047bc3;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 0;
+  padding: 5rem 10rem 8rem 10rem;
+  .image1 {
+    margin: 0;
+    margin-left: 10rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    img {
+      height: 300px;
+      width: 300px;
+    }
+  }
+  .image2 {
+    margin: 0;
+    margin-right: 10rem;
+    margin-left: 1rem;
+    img {
+      height: 300px;
+      width: 300px;
+    }
+  }
+}
+.image1:hover {
+  transform: scale(1.1);
+}
+.image2:hover {
+  transform: scale(1.1);
+}
