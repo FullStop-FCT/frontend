@@ -2,6 +2,7 @@ import styles from '../styles/users.module.scss'
 import  Head  from "next/head"
 import { useState } from 'react'
 import {atividades} from './atividades';
+import Footer from '../../Components/Footer';
 
 export default function User(){
   const[page,changepage] = useState(1);
@@ -23,6 +24,7 @@ export default function User(){
 
 
   return (
+    <>
     <div className={styles.container}>
       <Head>
         <title>User</title>
@@ -34,6 +36,13 @@ export default function User(){
       <div className={styles.banneravatar}>
         <div className={styles.banner}>
           <div className={styles.avatar}>
+          <input
+        accept="image/*"
+  
+        id="contained-button-file"
+        multiple
+        type="file"
+      />
           </div>       
         </div>
         <div className={styles.userinfo}>
@@ -60,8 +69,10 @@ export default function User(){
 
       </div>
       <div className={styles.other}></div>
-    </div>
      
+    </div>
+    <Footer/>
+     </>
 
 
 

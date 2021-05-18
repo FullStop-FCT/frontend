@@ -3,8 +3,8 @@
 import styles from './styles.module.scss'
 export default function Footer()  {
   return (
-   <footer>
-     <div className={styles.footer}>
+   <footer className={styles.footer}>
+     
       <div  className="socialbtns">
         
         <ul>
@@ -17,7 +17,7 @@ export default function Footer()  {
         
       </div>
       <p>Copyright ©  FullStop 2021</p>
-     </div>
+  
      
 
 

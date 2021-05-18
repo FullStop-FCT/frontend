@@ -4,8 +4,8 @@
   box-sizing: border-box;
 }
 html {
-  position: relative;
   min-height: 100%;
+  position: relative;
 }
 
 :root {
@@ -198,17 +198,6 @@ a:hover {
   -moz-border-radius: 20px;
   -webkit-border-radius: 20px;
   -o-border-radius: 20px;
-  transition: all ease 0.5s;
-  -moz-transition: all ease 0.5s;
-  -webkit-transition: all ease 0.5s;
-  -o-transition: all ease 0.5s;
-}
-
-.socialbtns .fa:hover {
-  transform: scale(1.2, 1.2);
-  -moz-transform: scale(1.2, 1.2);
-  -webkit-transform: scale(1.2, 1.2);
-  -o-transform: scale(1.2, 1.2);
   transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
   -webkit-transition: all ease 0.5s;
