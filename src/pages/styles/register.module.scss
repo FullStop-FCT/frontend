@@ -1,4 +1,5 @@
 .register {
+  color: #fff;
   background: #000;
   display: flex;
   flex-direction: column;
@@ -8,30 +9,14 @@
   margin: auto;
   margin-top: 8rem;
   margin-bottom: 7rem;
-  width: 20rem;
+  width: 25rem;
   height: 25rem;
 
   h1 {
     font-size: 2rem;
     color: #047bc3;
-    margin-bottom: 3rem;
-  }
 
-  form {
-    input {
-      margin-bottom: 0.8rem;
-      width: 15rem;
-      height: 2rem;
-    }
-  }
-
-  select {
-    width: 15rem;
-    height: 2rem;
-    position: relative;
-    .sel {
-      display: none;
-    }
+    margin-bottom: 1rem;
   }
 
   button {
@@ -43,9 +28,50 @@
     padding: 0.7rem 2rem;
     border-radius: 35px;
     margin-top: 1.5rem;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   button:hover {
     background-color: #047bc3;
+  }
+}
+.form {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  text-align: center;
+
+  input {
+    color: #fff;
+    border: 2px solid #1a1a1a;
+    padding: 0.2rem;
+    margin: 0.5rem;
+  }
+  input::after {
+    color: #047bc3;
+  }
+  input:focus {
+    border: 1px solid #000;
+    outline: none !important;
+  }
+
+  input:hover {
+    //border: 5px solid #1a1a1a;
+  }
+
+  input::placeholder {
+    color: #fff;
+  }
+  input::selection {
+    border: 1px solid #000;
+  }
+
+  textarea {
+    background-color: #fff;
+  }
+  textarea:focus {
+    outline: none !important;
+    border-color: #719ece;
+    box-shadow: 0 0 10px #719ece;
   }
 }

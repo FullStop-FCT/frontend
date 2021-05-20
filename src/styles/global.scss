@@ -37,7 +37,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--black-50);
+  background: #1a1a1a;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -50,6 +50,9 @@ select,
 button {
   font: 400 1rem Roboto, sans-serif;
   color: var(--black);
+}
+textarea {
+  color: var(--white);
 }
 
 h1,
