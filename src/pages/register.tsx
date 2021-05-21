@@ -5,12 +5,15 @@ import styles from './styles/register.module.scss'
 import  Head  from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
+import { api } from '../../services/api';
+import axios, { AxiosRequestConfig } from 'axios';
 
-const MyTextField: React.FC<FieldAttributes<{}>> = ({placeholder,...props}) =>{
+
+const MyTextField: React.FC<FieldAttributes<{}>> = ({placeholder,type,...props}) =>{
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   return(
-    <TextField variant="outlined"
+    <TextField variant="outlined" type={type}
     size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} InputLabelProps={{
       className: styles.form
      
@@ -24,6 +27,7 @@ const validationSchema = Yup.object({
       .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
       .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
       .required("Obrigatório"),
+  name: Yup.string(),
   email: Yup.string()
       .email("Por favor insira um email válido.")
       .required("Obrigatório"),
@@ -31,17 +35,23 @@ const validationSchema = Yup.object({
       .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
               "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
       .required("Obrigatório"),
-      passwordConfirm: Yup.string()
+  confirmation: Yup.string()
       .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
       .required("Obrigatório"),
-  firstName: Yup.string(),
-  lastName: Yup.string(),
-  phoneNumber: Yup.number().positive().integer("Não pode conter letras")
-      .test("len", "Deve ter exatamente 9 dígitos.", (val) => { if(val) return val.toString().length === 9; })
-      .typeError("Não pode conter letras.")
+  
 });
 
+const options = {
+  headers: {'Content-Type': 'application/json'}
+};
+var config:  AxiosRequestConfig = {
+  headers: { 
+    'Content-Type': 'application/json'
+  }
+};
+
 export default function Register(){
+ 
   return (
     <div>
       <Head>
@@ -52,32 +62,44 @@ export default function Register(){
       <h1>Inscreva-se</h1>
       <Formik initialValues = {{
                 username: '',
+                name: '',
                 email: '',
                 password: '',
-                passwordConfirm: '',
-                firstName: '',
-                lastName: '',
-                phoneNumber: ''
+                confirmation: '',
+                //lastName: 'fred',
+                //phoneNumber: '123123123'
             }}
             validationSchema = {validationSchema}
             
+
             //resetform
-            onSubmit={(data, {setSubmitting}) => {
+            onSubmit={async (values, {setSubmitting}) => {
+            
+            console.log("submitting");
               setSubmitting(true);
+              await api.post('users/insert',values, 
+                config   
+              ).then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
               
-              console.log('submit:',data);
               setSubmitting(false);
+              console.log("submitted");
+              
             }}>
 
-        {({values,isSubmitting}) => (
+        {({isSubmitting}) => (
           <Form className={styles.form}  >
             <MyTextField className={styles.input} placeholder="username"name="username" type="input" as={TextField}/>
+            <MyTextField placeholder="first name" name="name" type="input" as={TextField}/>
             <MyTextField placeholder="email" name="email" type="input" as={TextField}/>
-            <MyTextField placeholder="passwrod" name="password" type="password" as={TextField}/>
-            <MyTextField placeholder="confirm password" name="passwordConfirm" type="password" as={TextField}/>
-            <MyTextField placeholder="first name" name="firstName" type="input" as={TextField}/>
-            <MyTextField placeholder="last name" name="lastName" type="input" as={TextField}/>
-            <MyTextField placeholder="phone number" name="phoneNumber" type="input" as={TextField}/>
+            <MyTextField placeholder="password" name="password" type="password" as={TextField}/>
+            <MyTextField placeholder="confirm password" name="confirmation" type="password" as={TextField}/>
+           {/* <MyTextField placeholder="last name" name="lastName" type="input" as={TextField}/>
+            <MyTextField placeholder="phone number" name="phoneNumber" type="input" as={TextField}/>*/} 
                       <div>
                       <Button disabled={isSubmitting} type="submit">Inscrever-se</Button>
                       </div>
