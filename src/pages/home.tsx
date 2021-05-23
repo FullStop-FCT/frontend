@@ -1,11 +1,15 @@
 import styles from "./styles/home.module.scss";
-
+import {useState} from 'react'
 import  Head  from "next/head";
 import Footer from '../Components/Footer';
 import Header from  '../Components/Header';
 import Activitiy from '../Components/Activities'
 import  Link from 'next/link';
+import {AuthContext} from '../Context/AuthContext'
+import React, {useContext, useEffect} from 'react'
 export default function Home() {
+  const{subAtivity,setSubAtivity } = useContext(AuthContext);
+  //const[ativity, setAtivity] = useState(false);
   return (
     
     <div className={styles.Container}>
@@ -20,9 +24,12 @@ export default function Home() {
         <div className={styles.home}>
           <h1>Home</h1>
           </div>
-          <button>criar atividade</button>
+          <button onClick={()=>setSubAtivity(!subAtivity)}>criar atividade</button>
           <div>
-          <Activitiy></Activitiy>
+            {
+              subAtivity ? <Activitiy/> : <></>
+            }
+          
           </div>
           
       </div>
@@ -35,3 +42,4 @@ export default function Home() {
      
   )
 }
+

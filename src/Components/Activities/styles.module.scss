@@ -1,0 +1,57 @@
+.register {
+  color: #fff;
+  background: #000;
+  margin: auto;
+  margin-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 5px solid #fff;
+
+  h1 {
+    font-size: 2rem;
+    color: #047bc3;
+    margin-bottom: 1rem;
+  }
+
+  button {
+    color: #fff;
+    background-color: #035485;
+    border: none;
+    text-align: center;
+    display: inline-block;
+    padding: 0.7rem 2rem;
+    border-radius: 35px;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+  }
+  button:hover {
+    background-color: #047bc3;
+  }
+}
+.form {
+  background: #000;
+  text-align: center;
+
+  input {
+    color: #fff;
+    border: 2px solid #1a1a1a;
+    padding: 0.2rem;
+    margin: 0.5rem;
+  }
+  input::after {
+    color: #047bc3;
+  }
+  input:focus {
+    border: 1px solid #000;
+    outline: none !important;
+  }
+
+  input::selection {
+    color: #047bc3;
+  }
+  input::placeholder {
+    color: #fff;
+  }
+  input::selection {
+    border: 1px solid #000;
+  }
+}

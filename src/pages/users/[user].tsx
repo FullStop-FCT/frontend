@@ -7,8 +7,44 @@ import React, {useContext} from 'react'
 import {useRouter} from 'next/router'
 import Cookie from 'js-cookie'
 import Header from '../../Components/Header'
+import { api } from '../../../services/api';
 
-export default function User(){
+type userProps = {
+  username: string;
+  email: string;
+  profile: string;
+  phoneNumber: string;
+  mobileNumber: string;
+  address: string;
+  location: string;
+  postalCode: string;
+  birthday: string;
+  gender: string;
+  
+}
+
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const token = Cookie.get('token')
+  const user = Cookie.get('user');
+  console.log('loading');
+  let data: userProps;
+  if(token){
+    await api.post(`users/get/${user}`)
+    .then( function (response) {
+      console.log(response);
+      data = response.data;
+    }).catch(function(error){
+      console.log(error);
+        return {props: {ok:false, reason:"asdasd"}};
+    })
+  // Pass data to the page via props
+  return { props:  {data}  }
+}
+}
+
+export default function User({data}){
   type data = {
     username:string;
     password: string;
@@ -16,16 +52,9 @@ export default function User(){
   const{authenticated} = useContext(AuthContext);
   const[user,setUser] = useState('');
 const router = useRouter();
-//let user =getUser();
-useEffect(() => {
-  const token = Cookie.get('token');
-  const user = Cookie.get('user')
-  if(!token){
-      router.push('/login')
-  }
-   setUser(user);
-   
-})
+
+
+
 
   const[page,changepage] = useState(1);
   const change = (number: number) => {
