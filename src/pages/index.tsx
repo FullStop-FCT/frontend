@@ -1,4 +1,4 @@
-import styles from "./styles/home.module.scss";
+import styles from "./styles/index.module.scss";
 import NavBar from '../Components/NavBar'
 import  Head  from "next/head";
 import Contato from '../Components/Contato';
@@ -28,7 +28,8 @@ export default function Home() {
 
       <a id="sobre"><Sobre/></a>
       <a id="contato"> <Contato/></a>
-      <Footer/>
+      <div className={styles.footer}><Footer></Footer></div>
+      
 
 
       

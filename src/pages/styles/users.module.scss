@@ -3,7 +3,9 @@
   flex-direction: row;
   height: 100%;
   .header {
-    width: 15%;
+    background: #000;
+    width: 20%;
+    border-right: 2px solid rgb(192, 189, 189);
   }
   .banneravatar {
     width: 70%;

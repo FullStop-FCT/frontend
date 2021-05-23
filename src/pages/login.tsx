@@ -1,13 +1,15 @@
-import {Formik, Field, Form, useField, FieldAttributes } from 'Formik'
-import {TextField, Button, InputBase } from "@material-ui/core";
+import {Formik, Form, useField, FieldAttributes } from 'Formik'
+import {TextField, Button } from "@material-ui/core";
 import * as Yup from 'Yup';
 import styles from './styles/register.module.scss'
 import  Head  from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
-import { type } from 'os';
-import { AxiosRequestConfig } from 'axios';
 import { api } from '../../services/api';
+import {AuthContext} from '../Context/AuthContext'
+import React, {useContext, useEffect} from 'react'
+import { useRouter } from 'next/router'
+import Cookies from 'js-cookie';
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({type,placeholder,...props}) =>{
   const [field, meta] = useField<{}>(props);
@@ -29,43 +31,49 @@ const validationSchema = Yup.object({
   lastName: Yup.string(),
 });
 
-var config:  AxiosRequestConfig = {
-  headers: { 
-    'Content-Type': 'application/json'
-  }
-};
-export default function Register(){
+
+
+
+
+export default function Login(){
+  const router = useRouter();
+  useEffect(()=>{
+    const token = Cookies.get('token');
+    if(token){
+      router.push(`/users/${Cookies.get('user')}`)
+    }
+  })
+
+  const {authenticated,handleLogin} = useContext(AuthContext);
   return (
     <div>
       <Head>
-        <title>Register</title>
+        <title>Login</title>
       </Head>
       <NavBar/>
       <div className={styles.register}>
       <h1>Login</h1>
       <Formik initialValues = {{
-                username: '',
-                password: ''
+                username: 'fred123',
+                password: 'password123F'
               
             }}
             validationSchema = {validationSchema}
             
             //resetform
-            onSubmit={async (values, {setSubmitting}) => {
+            onSubmit={ async(values, {setSubmitting}) => {
               console.log("submitting");
               setSubmitting(true);
-              await api.post('authentication/login',values, 
-                config   
-              ).then(function (response) {
-                console.log(JSON.stringify(response.data));
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
               
-              setSubmitting(false);
+              handleLogin(values);
+              console.log(authenticated);
+              
               console.log("submitted");
+              //console.log(user)
+             
+              setSubmitting(false);
             }}>
+              
 
         {({isSubmitting}) => (
           <Form className={styles.form}  >

@@ -19,7 +19,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/pages/register2.js",
-    "src/pages/activity.js"
+    "src/pages/activity.tsx"
   ],
   "exclude": ["node_modules"]
 }

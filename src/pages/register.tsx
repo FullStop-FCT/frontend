@@ -41,14 +41,7 @@ const validationSchema = Yup.object({
   
 });
 
-const options = {
-  headers: {'Content-Type': 'application/json'}
-};
-var config:  AxiosRequestConfig = {
-  headers: { 
-    'Content-Type': 'application/json'
-  }
-};
+
 
 export default function Register(){
  
@@ -66,19 +59,16 @@ export default function Register(){
                 email: '',
                 password: '',
                 confirmation: '',
-                //lastName: 'fred',
-                //phoneNumber: '123123123'
+               
             }}
             validationSchema = {validationSchema}
-            
-
+          
             //resetform
             onSubmit={async (values, {setSubmitting}) => {
             
             console.log("submitting");
               setSubmitting(true);
-              await api.post('users/insert',values, 
-                config   
+              await api.post('users/insert',values  
               ).then(function (response) {
                 console.log(JSON.stringify(response.data));
               })
@@ -98,8 +88,6 @@ export default function Register(){
             <MyTextField placeholder="email" name="email" type="input" as={TextField}/>
             <MyTextField placeholder="password" name="password" type="password" as={TextField}/>
             <MyTextField placeholder="confirm password" name="confirmation" type="password" as={TextField}/>
-           {/* <MyTextField placeholder="last name" name="lastName" type="input" as={TextField}/>
-            <MyTextField placeholder="phone number" name="phoneNumber" type="input" as={TextField}/>*/} 
                       <div>
                       <Button disabled={isSubmitting} type="submit">Inscrever-se</Button>
                       </div>

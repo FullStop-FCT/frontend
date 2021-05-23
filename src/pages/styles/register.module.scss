@@ -58,7 +58,9 @@
   input::password {
     display: none;
   }
-
+  input::selection {
+    color: #047bc3;
+  }
   input::placeholder {
     color: #fff;
   }
