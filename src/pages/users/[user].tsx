@@ -1,7 +1,7 @@
 import styles from '../styles/users.module.scss'
 import  Head  from "next/head"
 import { useEffect, useState } from 'react'
-import {atividades} from './atividades';
+import {atividades} from '../../Components/atividades';
 import {AuthContext} from '../../Context/AuthContext';
 import React, {useContext} from 'react'
 import {useRouter} from 'next/router'
