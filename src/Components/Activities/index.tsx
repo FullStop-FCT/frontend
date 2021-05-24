@@ -29,7 +29,7 @@ const validationSchema = Yup.object({
                     .max(50, "O título deve ter entre 10 a 50 caráteres.")
                     .required("Obrigatório"),
                 description: Yup.string()
-                    .min(100, "A descrição deve conter no minímo 100 caráteres.")
+                    .min(10, "A descrição deve conter no minímo 100 caráteres.")
                     .required("Obrigatório"),
                 date: Yup.string()
                     .required("Obrigatório"),
@@ -64,13 +64,13 @@ export default function Activities(){
       <div className={styles.register} >
       
       <Formik initialValues = {{
-                title: 'Primeira Atividade do HH',
-                description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean m',
-                date: '23/05/2021',
-                location: 'Caparica',
-                totalParticipants: 5,
-                category: 'Sla',
-                activityOwner: 'FullStop',
+                title: '',
+                description: '',
+                date: '',
+                location: '',
+                totalParticipants: 0,
+                category: '',
+                activityOwner: '',
 
             }}
             validationSchema = {validationSchema}

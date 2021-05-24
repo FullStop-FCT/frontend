@@ -7,6 +7,8 @@ import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
 import { api } from '../../services/api';
 import axios, { AxiosRequestConfig } from 'axios';
+import { Router } from '@material-ui/icons';
+import { useRouter } from 'next/router'
 
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({placeholder,type,...props}) =>{
@@ -27,7 +29,7 @@ const validationSchema = Yup.object({
       .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
       .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
       .required("Obrigatório"),
-  name: Yup.string(),
+  name: Yup.string().required("Obrigatório"),
   email: Yup.string()
       .email("Por favor insira um email válido.")
       .required("Obrigatório"),
@@ -44,7 +46,7 @@ const validationSchema = Yup.object({
 
 
 export default function Register(){
- 
+ const router = useRouter();
   return (
     <div>
       <Head>
@@ -78,7 +80,7 @@ export default function Register(){
               
               setSubmitting(false);
               console.log("submitted");
-              
+              router.push("/login")
             }}>
 
         {({isSubmitting}) => (

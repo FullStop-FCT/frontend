@@ -54,8 +54,8 @@ export default function Login(){
       <div className={styles.register}>
       <h1>Login</h1>
       <Formik initialValues = {{
-                username: 'fred123',
-                password: 'password123F'
+                username: '',
+                password: ''
               
             }}
             validationSchema = {validationSchema}
