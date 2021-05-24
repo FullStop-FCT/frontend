@@ -17,12 +17,25 @@
     border-right: 2px solid rgb(192, 189, 189);
     display: flex;
     flex-direction: column;
+    text-align: center;
+    align-items: center;
     .home {
       h1 {
         text-align: center;
         color: white;
         border-bottom: 2px solid rgb(192, 189, 189);
       }
+    }
+    ul {
+      color: #fff;
+    }
+    li::marker {
+      display: none;
+    }
+    .ativity {
+      border: 2px solid #fff;
+      margin: 2rem;
+      margin-bottom: 2rem;
     }
   }
 

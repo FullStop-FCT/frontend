@@ -17,6 +17,8 @@ type AuthContextData = {
   handleLogout:() => void;
   subAtivity: boolean;
   setSubAtivity: (state:boolean) => void;
+  subEdit: boolean;
+  setSubEdit: (state:boolean) => void;
 }
 
 export const AuthContext = createContext( {} as AuthContextData);
@@ -29,6 +31,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
   const [authenticated, setAuthenticated] = useState(false);
   const[loading, setLoading] = useState(true);
   const[subAtivity,setSubAtivity] = useState(false);
+  const[subEdit,setSubEdit] = useState(false);
 
   useEffect(()=> {
     
@@ -65,7 +68,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
       
       if(response.data){
         console.log(response)
-        Cookie.set( 'token', response.data);
+        Cookie.set( 'token', JSON.stringify(response.data));
         Cookie.set('user', response.data.username)
         //add date-fns
         //api.defaults.headers.Authorization = `Bearer ${response.data.tokenID}`;
@@ -91,7 +94,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
 
   return (
     <AuthContext.Provider value={{
-      authenticated,handleLogin,handleLogout,subAtivity,setSubAtivity}}>
+      authenticated,handleLogin,handleLogout,subAtivity,setSubAtivity,subEdit,setSubEdit}}>
       {children}
     </AuthContext.Provider>
   )

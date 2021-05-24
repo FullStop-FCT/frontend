@@ -5,12 +5,14 @@ import {atividades} from './atividades';
 import {AuthContext} from '../../Context/AuthContext';
 import React, {useContext} from 'react'
 import {useRouter} from 'next/router'
-import Cookie from 'js-cookie'
+import Cookies from 'cookie'
 import Header from '../../Components/Header'
 import { api } from '../../../services/api';
+import { GetServerSideProps, GetServerSidePropsContext } from 'next';
 
 type userProps = {
   username: string;
+  name: string;
   email: string;
   profile: string;
   phoneNumber: string;
@@ -22,36 +24,68 @@ type userProps = {
   gender: string;
   
 }
+type Token = {
+  username: string,
+   tokenID: string,
+    role: string,
+     creationData: number, 
+     expirationData: number
+}
 
+export const  getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 
-export async function getServerSideProps() {
   // Fetch data from external API
-  const token = Cookie.get('token')
-  const user = Cookie.get('user');
+  var token:Token;
+  try{
+    token= JSON.parse(Cookies.parse(context.req.headers.cookie).token);
+
+  }catch(err){
+    if(!token){
+      return { 
+        props: {}
+      }
+  }
+  
+  
+  }
+
   console.log('loading');
-  let data: userProps;
-  if(token){
-    await api.post(`users/get/${user}`)
-    .then( function (response) {
-      console.log(response);
-      data = response.data;
-    }).catch(function(error){
-      console.log(error);
-        return {props: {ok:false, reason:"asdasd"}};
-    })
-  // Pass data to the page via props
-  return { props:  {data}  }
-}
+  console.log(token)
+  console.log('loading');
+
+  var user : userProps
+    console.log('asouidbasiou')
+   await api.post(`users/get/${token.username}`,token).then((response) => {
+    console.log(response)
+    user = response.data
+  }).catch((error) => {
+    console.log(error);
+  
+  })
+  
+ 
+  
+
+return { 
+  props: user
 }
 
-export default function User({data}){
+}
+
+export default function User(props: userProps){
+  const{subEdit,setSubEdit} = useContext(AuthContext);
+  console.log(props)
+  const router = useRouter();
+  if(JSON.stringify(props) === '{}'){
+    router.push('/login');
+  }
+  const currentUser: userProps = props;
   type data = {
     username:string;
     password: string;
   }
   const{authenticated} = useContext(AuthContext);
   const[user,setUser] = useState('');
-const router = useRouter();
 
 
 
@@ -82,18 +116,17 @@ const router = useRouter();
       <div className={styles.banneravatar}>
         <div className={styles.banner}>
           <div className={styles.avatar}>
-          <input
-        accept="image/*"
-  
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
+          
           </div>       
         </div>
         <div className={styles.userinfo}>
-          <h2>{user}</h2>
-          <p><span>@{user}</span></p>
+          <h2>{currentUser.name}</h2>
+          <p><span>@{currentUser.username}</span></p><br/>
+          <button onClick={()=>setSubEdit(!subEdit)}>Edit info</button>
+          {
+              subEdit ? <h1>oi</h1> : <></>
+            }
+          
         </div>
         <div>
         <hr className={styles.line}/>

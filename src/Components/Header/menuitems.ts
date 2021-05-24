@@ -16,7 +16,7 @@ export const menu : MenuItems[] = [
 
   },{
     title: 'Explore',
-    url: "#",
+    url: "/home",
     cName: 'nav-links'
 
   },{
@@ -27,13 +27,13 @@ export const menu : MenuItems[] = [
   },
   {
     title: 'Notification',
-    url: "/",
+    url: "/home",
     cName: 'nav-links'
 
   },
   {
     title: 'More',
-    url: "#",
+    url: "/home",
     cName: 'nav-links'
 
   }

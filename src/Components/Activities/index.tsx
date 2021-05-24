@@ -99,6 +99,7 @@ export default function Activities(){
              
              
               setSubmitting(false);
+              router.push("/home")
             }}>
               
 
