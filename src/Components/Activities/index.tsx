@@ -8,6 +8,7 @@ import React, {useContext, useEffect} from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
+import MapView from '../Maps';
 
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({type,placeholder,...props}) =>{
@@ -56,21 +57,19 @@ export default function Activities(){
   const router = useRouter();
   const{subAtivity,setSubAtivity } = useContext(AuthContext);
   const {authenticated} = useContext(AuthContext);
+  const token: Token = JSON.parse(Cookies.get('token'));
   return (
-    <div>
-      <Head>
-        <title>Login</title>
-      </Head>
-      <div className={styles.register} >
+    <div className={styles.container}>
+      <div>
       
       <Formik initialValues = {{
                 title: '',
                 description: '',
                 date: '',
                 location: '',
-                totalParticipants: 0,
+                totalParticipants: '',
                 category: '',
-                activityOwner: '',
+                activityOwner: token.username,
 
             }}
             validationSchema = {validationSchema}
@@ -82,8 +81,8 @@ export default function Activities(){
               const config = {
                 headers: {  'Content-Type': 'application/json'}
               }
-              const token = Cookies.get('token');
-              const request = JSON.stringify({token:{...JSON.parse(token) as Token},activityData:{...values}})
+              
+              const request = JSON.stringify({token:{...(token)},activityData:{...values}})
               console.log(request)
               console.log(authenticated)
               if(authenticated){
@@ -99,7 +98,7 @@ export default function Activities(){
              
              
               setSubmitting(false);
-              router.push("/home")
+              router.reload()
             }}>
               
 
@@ -108,10 +107,13 @@ export default function Activities(){
             <MyTextField placeholder="title"name="title" type="input" as={TextField}/>
             <MyTextField placeholder="description"name="description" type="input" as={TextField}/>
             <MyTextField placeholder="date"name="date" type="input" as={TextField}/>
-            <MyTextField placeholder="location"name="location" type="input" as={TextField}/>
             <MyTextField placeholder="totalParticipants"name="totalParticipants" type="input" as={TextField}/>
             <MyTextField placeholder="category"name="category" type="input" as={TextField}/>
-            <MyTextField placeholder="activityOwner"name="activityOwner" type="input" as={TextField}/>
+            <div className={styles.mapView}>
+            <MapView/>
+            
+
+            </div>
            
                       <div>
                       <Button disabled={isSubmitting} type="submit">submit</Button>

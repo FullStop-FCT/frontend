@@ -1,4 +1,5 @@
 .Container {
+  z-index: 1;
   display: flex;
   flex-direction: row;
   height: 1000px;
@@ -43,5 +44,25 @@
     width: 20%;
     height: 100%;
     background: #000;
+  }
+
+  .activity {
+    background: #000;
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    border: 2px solid #fff;
+    overflow-y: scroll;
+
+    .but {
+      color: #fff;
+      background: #047bc3;
+      float: right;
+      position: relative;
+      margin-top: 1rem;
+      margin-right: 1rem;
+      width: 2rem;
+      height: 2rem;
+    }
   }
 }

@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import {api}  from '../../services/api';
 import { useRouter } from 'next/router'
 import Cookie from 'js-cookie';
-import { addDays } from 'date-fns'
+import { addDays, milliseconds } from 'date-fns'
 
 
 type data = {
@@ -42,7 +42,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
         setAuthenticated(true);
         
       }
-      else{
+      else{ 
         setAuthenticated(false);
       }
       setLoading(false);
@@ -76,7 +76,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
         setAuthenticated(true);
      
         
-        router.push(`/users/${response.data.username}`);   
+        router.push(`/${response.data.username}`);   
                 }
               })
               .catch(function (error) {

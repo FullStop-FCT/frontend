@@ -40,7 +40,7 @@ export default function Login(){
   useEffect(()=>{
     const token = Cookies.get('token');
     if(token){
-      router.push(`/users/${Cookies.get('user')}`)
+      router.push(`/${Cookies.get('user')}`)
     }
   })
 

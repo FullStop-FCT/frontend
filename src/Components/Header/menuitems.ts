@@ -21,7 +21,7 @@ export const menu : MenuItems[] = [
 
   },{
     title: 'Profile',
-    url: `/users/${user}`,
+    url: `/${user}`,
     cName: 'nav-links'
 
   },

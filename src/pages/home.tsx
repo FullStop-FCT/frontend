@@ -7,10 +7,13 @@ import Activitiy from '../Components/Activities'
 import  Link from 'next/link';
 import {AuthContext} from '../Context/AuthContext'
 import React, {useContext, useEffect} from 'react'
-import Cookies from 'cookie'
+import Cookies from 'js-cookie'
 import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import { api } from "../../services/api";
-
+import useSWR from 'swr'
+import {useRouter} from 'next/router'
+import SessionOf from '../Components/SessionOf'
+import MapView from "../Components/Maps";
 type Token = {
   username: string,
    tokenID: string,
@@ -29,54 +32,41 @@ type AtivitiesProps = {
   category: string
 }
 
-type listAtivitiesProps = {
-    data: AtivitiesProps[];
+type listAtivitiesProps = AtivitiesProps[];
+
+//await api.post('activities/list',token)
+async function fetcher(path:string): Promise<listAtivitiesProps> {
+
+  const token: Token  = Cookies.getJSON('token')
+  return  await api.post(path,token).then(response => response.data);
+  
 }
 
-export const  getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
+export default function Home() {
+  const{subAtivity,setSubAtivity, authenticated } = useContext(AuthContext);
 
-  // Fetch data from external API
-  var token:Token;
-  try{
-    token= JSON.parse(Cookies.parse(context.req.headers.cookie).token);
+  const router = useRouter();
+  useEffect(() => {
+    if(!authenticated){
+      router.push('/login')
+    }
+  },[])
 
-  }catch(err){
-    if(!token){
-      return { 
-        props: {}
-      }
-  }
-  
-  
-  }
-  console.log('loading');
-  console.log(token)
-  console.log('loading');
 
-  var data: listAtivitiesProps;
-  await api.post('activities/list',token)
-  .then(function(response){
-    console.log(response.data)
-    data = response.data
-  }).catch(function(error){
-    console.log(error);
-  })
+
+  const { data, error} = useSWR('activities/list', fetcher);
   
 
-  return { 
-    props: {data}
-  }
+  let props: listAtivitiesProps = data;
 
-}
+  
+  if (error) {return <SessionOf/>}
+  if (!data) return <div>loading...</div>
 
 
-export default function Home(props: listAtivitiesProps) {
-  console.log(props.data)
-  const{subAtivity,setSubAtivity } = useContext(AuthContext);
-  //const[ativity, setAtivity] = useState(false);
   return (
     
-    <div className={styles.Container}>
+    <div className={styles.Container} >
       <Head>
         <title>Home</title>
         </Head>
@@ -88,17 +78,25 @@ export default function Home(props: listAtivitiesProps) {
         <div className={styles.home}>
           <h1>Home</h1>
           </div>
-          <button onClick={()=>setSubAtivity(!subAtivity)}>criar atividade</button>
-          <div>
+          <button onClick={()=>setSubAtivity(!subAtivity)} >criar atividade</button>
+          
+          
             {
-              subAtivity ? <Activitiy/> : <></>
+              subAtivity ? 
+              <div className= {styles.activity} >
+                <button className={styles.but} onClick={()=>setSubAtivity(false)} ><p>&#10006;</p></button>
+              <Activitiy/> 
+              
+              </div>  
+              : <></>
             }
           
-          </div>
+          
           <ul>
-            {props.data.map((ativ,index) =>{
+            {props.map((ativ,index) =>{
               return (
-                <div className={styles.ativity}><li key={ativ.title}>
+                <li key={index}>
+                  <div className={styles.ativity}>
                 <p>
                   {ativ.title}
                 </p>
@@ -118,7 +116,8 @@ export default function Home(props: listAtivitiesProps) {
                   {ativ.activityOwner}
                 </p>
                 <p>{ativ.category}</p>
-              </li> </div>
+                </div>
+              </li>
                 
               )
             })}
