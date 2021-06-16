@@ -1,13 +1,13 @@
 import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
 import { Libraries } from "@react-google-maps/api/dist/utils/make-load-script-url";
-import { formatRelative} from "date-fns"
-import { useCallback, useRef, useState } from "react";
+import { formatRelative } from "date-fns"
+import { useCallback, useRef, useState, useContext } from "react";
 import mapstyle from "./mapstyle";
 import usePlacesAutoComplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-
+import { TextField, Button } from "@material-ui/core";
 import {
   Combobox,
   ComboboxInput,
@@ -15,7 +15,7 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox"
-
+import { AuthContext } from '../../Context/AuthContext'
 import styles from './styles.module.scss'
 
 
@@ -39,93 +39,110 @@ const options = {
   zoomControl: true,
 }
 
-export default function MapView(){
-  const [markers, setMarkers] = useState({ lat: 0, lng: 0});
-    const {isLoaded, loadError} = useLoadScript({
-      googleMapsApiKey: "AIzaSyBvd8Z9pZ5bwi6przQ1-KIYh88l_qFdjK0",
-      libraries,
-    });
-    
-    const onMapClick = useCallback((event) =>{
-        
-      setMarkers(
-        {
-          lat: event.latLng.lat(),
-          lng: event.latLng.lng(),
-    
-        } ,
-      );
-      console.log(event.latLng.lat(), event.latLng.lng())
-    },[]);
+export default function MapView() {
+  const { activityLocation, setActivityLocation } = useContext(AuthContext);
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: "AIzaSyBvd8Z9pZ5bwi6przQ1-KIYh88l_qFdjK0",
+    libraries,
+  });
+  const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
 
-    const mapRef = useRef(null);
-    const onMapLoad = useCallback((map) => {
-      mapRef.current = map;
-    }, []);
+  const onMapClick = useCallback((event) => {
 
-    const panTo = useCallback(({lat,lng}) => {
-      mapRef.current.panTo({lat, lng});
-      mapRef.current.setZoom(15);
-  },[])
- 
+    setMarkers(
+      {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
 
-    if(loadError) return <div> Error Loading Google Maps</div>
-    if(!isLoaded) return <div>Loading...</div>
+      } ,
+    );
+    console.log(event.latLng.lat(), event.latLng.lng())
+  }, []);
+
+  const mapRef = useRef(null);
+  const onMapLoad = useCallback((map) => {
+    mapRef.current = map;
+  }, []);
+
+  const panTo = useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(15);
+    setMarkers({ lat, lng })
+
+  }, [])
+
+  const inputvalue = useCallback((result) => {
+    //console.log(result)
+    setActivityLocation(result);
+    console.log("act", activityLocation);
+  }, [])
+
+  if (loadError) return <div> Error Loading Google Maps</div>
+  if (!isLoaded) return <div>Loading...</div>
   return (
     <div>
-      <Search panTo= {panTo}/>
+
+      <Search panTo={panTo} inputvalue={inputvalue} />
+
+
 
       <GoogleMap mapContainerStyle={mapContainerStyle}
-                zoom={9}
-                center={center }
-                options={options}
-                onClick={onMapClick
-              }
-              onLoad = {onMapLoad}
-        >
-            <Marker  position ={{lat: markers.lat, lng: markers.lng}}/>
+        zoom={9}
+        center={center}
+        options={options}
+        onClick={onMapClick
+        }
+        onLoad={onMapLoad}
+      >
+        <Marker position={{ lat: markers.lat, lng: markers.lng }} />
 
 
 
-        </GoogleMap>
+      </GoogleMap>
     </div>
   )
 }
 
-function Search({panTo}){
-  const {ready,value, suggestions:{status, data},
-setValue, clearSuggestions,} = usePlacesAutoComplete({ 
-    requestOptions: {
-      location: {lat: () => 38.660046, lng: () => -9.198817, },
-      radius: 200 * 1000
-    },
-  });
+function Search({ panTo, inputvalue }) {
+  const { ready, value, suggestions: { status, data },
+    setValue, clearSuggestions, } = usePlacesAutoComplete({
+      requestOptions: {
+        location: { lat: () => 38.660046, lng: () => -9.198817, },
+        radius: 200 * 1000
+      },
+    });
 
   return (
-  
-  <div className={styles.search}>
-    <Combobox   onSelect={async (address) => {
-      setValue(address,false);
-      clearSuggestions();
-      try{
-        const results = await getGeocode({address});
-        const {lat, lng} = await getLatLng(results[0])
-        panTo({lat, lng});
-       console.log(lat, lng)
-      }catch(error){
-        console.log("error")
-      }
-    }}>
-  <ComboboxInput  value={value} onChange={(e) => {
-    setValue(e.target.value);
-  }}
-  disabled={!ready}
-  placeholder="Location"/>
-  <ComboboxPopover>
-  <ComboboxList>
-    {status === "OK" && data.map(({description}) => <ComboboxOption key={description} value={description} />)}
-    </ComboboxList>
-  </ComboboxPopover>
-</Combobox></div>
+
+    <div className={styles.search}>
+      <Combobox onSelect={async (address) => {
+        setValue(address, false);
+        inputvalue(address);
+        clearSuggestions();
+        try {
+          const results = await getGeocode({ address });
+          const { lat, lng } = await getLatLng(results[0])
+
+          panTo({ lat, lng });
+          //inputvalue(address);
+          //inputvalue(address);
+          console.log(lat, lng)
+        } catch (error) {
+          console.log("error")
+        }
+      }}>
+        <ComboboxInput value={value} onChange={(e) => {
+          setValue(e.target.value);
+          // console.log(e.target.value)
+          inputvalue(e.target.value);
+        }}
+          disabled={!ready}
+          placeholder="Location" />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === "OK" && data.map(({ description }) => <ComboboxOption key={description} value={description} />)}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox></div>
   )
 }

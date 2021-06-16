@@ -1,48 +1,32 @@
 import styles from "./styles.module.scss";
+import React from 'react';
+//import emailjs from 'emailjs-com';
 
+export default function Contato() {
 
+  function sendEmail(e) {
 
+  }
 
-
-export default function Contato(){
-  
-  
   return (
     <div className={styles.Container}>
       <div className={styles.contato}>
         <h1>Contato</h1>
-      <p>fullstophh@gmail.com</p>
-      <p>Tel: +351 000000000</p>
+        <p>fullstophh@gmail.com</p>
       </div>
 
       <div className={styles.feedback}>
-        <h1>Dê-nos um feedback</h1>
-        <form>
-        
-        <input type="text" name="name" placeholder="Nome" id="name" /><p/>
-        <input type="text" name="email" placeholder="Email" id="email" /><p/>
-        <textarea placeholder="Mensagem" id="mensagem"></textarea>
+        <h1>Fale connosco</h1>
+        <form onSubmit={sendEmail}>
+          <input type="text" name="name" placeholder="Nome" /><p />
+          <input type="text" name="email" placeholder="Email" /><p />
+          <input type="text" name="assunto" placeholder="Assunto" /><p />
+          <textarea name="mensagem" placeholder="Mensagem" ></textarea>
         </form>
-        <button>Enviar</button>
-       
+        <input type="submit" value="Enviar" /><p />
+
       </div>
-     
 
-      
-      
-
-
-      
     </div>
   )
-
-
-
-
-
-
-
-
-
-
 }

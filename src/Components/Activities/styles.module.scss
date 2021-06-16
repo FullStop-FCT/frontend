@@ -39,30 +39,27 @@
     width: 20rem;
     height: 2rem;
   }
-  input::after {
-    color: #047bc3;
-  }
-  input:focus {
-    border: 1px solid #000;
-    outline: none !important;
-  }
-
   input::selection {
-    color: #047bc3;
-  }
-  input::placeholder {
-    color: #fff;
-  }
-  input::selection {
-    border: 1px solid #000;
+    outline: none;
   }
 
   .mapView {
     input {
-      color: #000;
+      background-color: #000;
+      color: rgb(194, 194, 194);
+      border: 2px solid #1a1a1a;
+      padding: 0.5rem;
+
+      margin: 0.5rem;
+      width: 20.5rem;
+      height: 2.5rem;
+      font: 500 1rem Roboto, sans-serif;
     }
     input::placeholder {
-      color: #000;
+      color: #777676;
+    }
+    input:focus {
+      outline: none;
     }
   }
 }

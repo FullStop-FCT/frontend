@@ -19,6 +19,8 @@ type AuthContextData = {
   setSubAtivity: (state:boolean) => void;
   subEdit: boolean;
   setSubEdit: (state:boolean) => void;
+  activityLocation: string;
+  setActivityLocation: (input:string) => void;
 }
 
 export const AuthContext = createContext( {} as AuthContextData);
@@ -28,9 +30,10 @@ type AuthContextProviderProps = {
 }
 export function AuthContextProvider({children}: AuthContextProviderProps){
   const router = useRouter();
+  const [activityLocation, setActivityLocation] = useState("");
   const [authenticated, setAuthenticated] = useState(false);
   const[loading, setLoading] = useState(true);
-  const[subAtivity,setSubAtivity] = useState(false);
+  const[subAtivity,setSubAtivity] = useState(true);
   const[subEdit,setSubEdit] = useState(false);
 
   useEffect(()=> {
@@ -94,7 +97,7 @@ export function AuthContextProvider({children}: AuthContextProviderProps){
 
   return (
     <AuthContext.Provider value={{
-      authenticated,handleLogin,handleLogout,subAtivity,setSubAtivity,subEdit,setSubEdit}}>
+      authenticated,handleLogin,handleLogout,subAtivity,setSubAtivity,subEdit,setSubEdit,activityLocation,setActivityLocation}}>
       {children}
     </AuthContext.Provider>
   )

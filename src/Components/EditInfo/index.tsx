@@ -1,8 +1,7 @@
 import { Formik, Form, useField, FieldAttributes } from 'Formik'
 import { TextField, Button } from "@material-ui/core";
 import * as Yup from 'Yup';
-import Head from "next/head";
-import { api } from '../../../services/api';
+import { api, storage } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -12,7 +11,11 @@ import MapView from '../Maps';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import PhotoCamera from '@material-ui/icons/PhotoCamera';
-
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import { format } from 'date-fns'
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
   const [field, meta] = useField<{}>(props);
@@ -27,20 +30,15 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...prop
 }
 
 const validationSchema = Yup.object({
-  title: Yup.string()
-    .min(10, "O título deve ter entre 10 a 50 caráteres.")
-    .max(50, "O título deve ter entre 10 a 50 caráteres.")
-    .required("Obrigatório"),
-  description: Yup.string()
-    .min(10, "A descrição deve conter no minímo 100 caráteres.")
-    .required("Obrigatório"),
-  date: Yup.string()
-    .required("Obrigatório"),
-  totalParticipants: Yup.number()
-    .moreThan(0, "Uma atividade precisa de pelo menos uma pessoa.")
-    .typeError("Não pode conter letras.")
-    .required("Obrigatório"),
-  category: Yup.string().required("Obrigatório")
+  profile: Yup.string().required(),
+  phoneNumber: Yup.number().typeError("Não pode conter letras."),
+  mobileNumber: Yup.number().typeError("Não pode conter letras."),
+  address: Yup.string(),
+  location: Yup.string(),
+  postalCode: Yup.string().matches(/^\d\d\d\d-\d\d\d$/, "Formato correto: Ex: 1234-567"),
+  birthday: Yup.string(),
+  gender: Yup.string(),
+
 });
 
 
@@ -62,8 +60,54 @@ const useStyles = makeStyles((theme) => ({
   input: {
     display: 'none',
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    background: 'linear-gradient(45deg, #fff 30%, #fff 90%)',
+  },
 }));
-export default function EditInfo() {
+type userProps = {
+  username: string;
+  name: string;
+  email: string;
+  profile: string;
+  phoneNumber: string;
+  mobileNumber: string;
+  address: string;
+  location: string;
+  postalCode: string;
+  birthday: string;
+  gender: string;
+
+}
+
+export default function EditInfo(user: userProps) {
+  const [gender, setGender] = useState(user.gender);
+  const [profile, setProfile] = useState(user.profile)
+  const [open, setOpen] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const handleChange = (event) => {
+    setGender(event.target.value);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleChangeProfile = (event) => {
+    setProfile(event.target.value);
+  };
+
+  const handleCloseProfile = () => {
+    setOpenProfile(false);
+  };
+
+  const handleOpenProfile = () => {
+    setOpenProfile(true);
+  };
   const classes = useStyles();
   const router = useRouter();
   const { subAtivity, setSubAtivity } = useContext(AuthContext);
@@ -73,10 +117,13 @@ export default function EditInfo() {
   const photoHandler = (event) => {
     console.log(event.target.files[0])
     setphotoState(event.target.files[0])
+    //console.log(photoState.name);
+    // console.log(photoState)
   }
   return (
     <div className={styles.container}>
       <div>
+
 
         <div className={styles.banneravatar}>
 
@@ -94,36 +141,36 @@ export default function EditInfo() {
           </div>
         </div>
         <Formik initialValues={{
-          username: '',
-          phoneNumber: '',
-          mobileNumber: '',
-          address: '',
-          location: '',
-          postalCode: '',
-          birthday: '',
-          gender: '',
-          kind: '',
+          profile: user.profile,
+          phoneNumber: user.phoneNumber,
+          mobileNumber: user.mobileNumber,
+          address: user.address,
+          location: user.location,
+          postalCode: user.postalCode,
+          birthday: user.birthday,
+          gender: user.gender,
+
 
         }}
           validationSchema={validationSchema}
 
           //resetform
           onSubmit={async (values, { setSubmitting }) => {
+
             console.log("submitting");
             setSubmitting(true);
-
-
-
-
-
             const fd = new FormData();
-            fd.append('image', photoState.state.selectedFile, photoState.state.selectedFile);
+            fd.append('image', photoState, token.username);
 
             if (authenticated) {
-              await api.post()
+              await storage.post(token.username + '.jpg', fd, {
+                onUploadProgress: ProgressEvent => {
+                  console.log('Upload Progress ' + Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%')
+                }
+              })
                 .then(function (response) {
-
-                  console.log(response.data)
+                  console.log(response)
+                  console.log('upload')
                 }).catch(function (error) {
 
                   console.log(error);
@@ -144,19 +191,60 @@ export default function EditInfo() {
           {({ isSubmitting }) => (
 
             <Form className={styles.form} >
-              <MyTextField placeholder="username" name="username" type="input" as={TextField} />
-              <MyTextField placeholder="phoneNumber" name="phoneNumber" type="input" as={TextField} />
-              <MyTextField placeholder="mobileNumber" name="mobileNumber" type="input" as={TextField} />
-              <MyTextField placeholder="address" name="address" type="input" as={TextField} />
-              <MyTextField placeholder="location" name="location" type="input" as={TextField} />
-              <MyTextField placeholder="postalCode" name="postalCode" type="input" as={TextField} />
-              <MyTextField placeholder="birthday" name="birthday" type="input" as={TextField} />
-              <MyTextField placeholder="gender" name="gender" type="input" as={TextField} />
-              <MyTextField placeholder="kind" name="kind" type="input" as={TextField} />
+              <FormControl className={classes.formControl}>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  displayEmpty
+                  open={openProfile}
+                  onClose={handleCloseProfile}
+                  onOpen={handleOpenProfile}
+                  value={profile}
+                  onChange={handleChangeProfile}
+                >
+                  <MenuItem value="" disabled>
+                    Tipo de Perfil
+                  </MenuItem>
+                  <MenuItem value={'PUBLIC'}>Público</MenuItem>
+                  <MenuItem value={'PRIVATE'}>Privado</MenuItem>
+                </Select>
+                <MyTextField placeholder="phoneNumber" name="phoneNumber" type="input" as={TextField} />
+                <MyTextField placeholder="mobileNumber" name="mobileNumber" type="input" as={TextField} />
+                <MyTextField placeholder="address" name="address" type="input" as={TextField} />
+                <MyTextField placeholder="location" name="location" type="input" as={TextField} />
+                <MyTextField placeholder="postalCode" name="postalCode" type="input" as={TextField} />
+                <TextField
+                  id="date"
+                  label="Data nascimento"
+                  type="date"
+                  defaultValue={user.birthday}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  displayEmpty
+                  open={open}
+                  onClose={handleClose}
+                  onOpen={handleOpen}
+                  value={gender}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="" disabled>
+                    Selecionar Género
+                  </MenuItem>
+                  <MenuItem value={'Masculino'}>Masculino</MenuItem>
+                  <MenuItem value={'Feminio'}>Feminio</MenuItem>
+                  <MenuItem value={'Não Binário'}>Não Binário</MenuItem>
+                </Select></FormControl>
+
 
 
               <div>
-                <Button disabled={isSubmitting} type="submit">submit</Button>
+                <Button disabled={isSubmitting} type="submit">save</Button>
               </div>
             </Form>
 
@@ -169,7 +257,7 @@ export default function EditInfo() {
         </Formik>
       </div>
 
-    </div>
+    </div >
 
   );
 
