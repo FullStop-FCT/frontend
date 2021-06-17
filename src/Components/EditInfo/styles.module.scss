@@ -61,35 +61,65 @@
     position: relative;
 
     .avatar {
-      width: max(35px, min(160px, 18vw));
-      height: max(35px, min(160px, 18vw));
-
-      border: 3.75px solid #000;
+      width: 160px;
+      height: 160px;
+      z-index: 0;
+      border: 3px solid #000;
       background: var(--gray);
       border-radius: 50%;
        align-items: center;
       position: relative;
       bottom: max(-100px, -10vw);
       left: 30px;
+
+      .image{
+        width: 160px;
+      height: 160px;
+
+      z-index: 0;
+      top:-1px;
+      left: -1px;
+
+      border-radius: 50%;
+       align-items: center;
+      position: relative;
+     
+      }
+      .imagepreview{
+        width: 155px;
+        height: 156px;
+  
+        z-index: 0;
+        top:-1px;
+        left: -1px;
+  
+        border-radius: 50%;
+         align-items: center;
+        position: relative;
+    
+      }
     }
 
     .input{
       display: none;
+   
     }
     
     .icon{
-      position: relative;
-      top: 20%;
-      
+      position: absolute;
+      top: 135px;
+      left: 60px;
+    
     }
     
     .iconbutton{
-      
+     
          color: var(--blue-50);
           width: 100px;
           height: 100px;
     }
     .PhotoCamera{
+ 
       width: 100px;
    }
     .iconbutton:hover{

@@ -11,7 +11,7 @@ import { api } from '../../../services/api';
 import useSWR from 'swr'
 import SessionOf from '../../Components/SessionOf'
 import EditInfo from '../../Components/EditInfo'
-
+import Image from 'next/image'
 type userProps = {
   username: string;
   name: string;
@@ -43,6 +43,8 @@ async function fetcher(path: string): Promise<userProps> {
 }
 
 
+
+
 export default function User() {
 
   const { subEdit, setSubEdit, authenticated } = useContext(AuthContext);
@@ -70,6 +72,11 @@ export default function User() {
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
 
+  const myLoader = () => {
+    return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
+  }
+
+
 
   return (
 
@@ -84,8 +91,16 @@ export default function User() {
         </div>
         <div className={styles.banneravatar}>
           <div className={styles.banner}>
-            <div className={styles.avatar}>
 
+            <div className={styles.avatar}>
+              <Image
+                loader={myLoader}
+                src="me.png"
+                placeholder="blur"
+                width={170}
+                height={170}
+                className={styles.image}
+              />
             </div>
           </div>
           <div className={styles.userinfo}>

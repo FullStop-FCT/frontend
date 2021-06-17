@@ -1,5 +1,5 @@
 .container {
-  
+  z-index: 1;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -23,16 +23,23 @@
       position: relative;
 
       .avatar {
-        width: max(45px, min(170px, 22vw));
-        height: max(45px, min(170px, 22vw));
+        width: 170px;
+        height: 170px;
 
-        border: 3.75px solid #000;
+        border: 5px solid #000;
         background: var(--gray);
         border-radius: 50%;
 
         position: absolute;
         bottom: max(-100px, -10vw);
         left: 30px;
+
+        .image{
+  
+  
+        border-radius: 50%;
+   
+        }
       }
     }
 

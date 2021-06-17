@@ -31,10 +31,17 @@
         border: 3.75px solid #000;
         background: var(--gray);
         border-radius: 50%;
-
+        z-index: 0;
         position: absolute;
         bottom: max(-100px, -10vw);
         left: 30px;
+        .image{
+          
+  
+        border-radius: 50%;
+         
+        
+        }
       }
     }
 
@@ -158,10 +165,7 @@
       //width: 1rem;
       border-bottom-right-radius: 16px;
     }
-    &::-webkit-scrollbar-track {
-      //background-color: rgb(0, 0, 0);
-     
-    }
+   
   
     &::-webkit-scrollbar-thumb {
       background-color: var(--blue-50);

@@ -10,6 +10,7 @@ import Header from '../Components/Header'
 import { api } from '../../services/api';
 import useSWR from 'swr'
 import SessionOf from '../Components/SessionOf'
+import Image from 'next/image'
 
 type userProps = {
   username: string;
@@ -64,12 +65,14 @@ export default function User() {
   console.log(window.location.pathname)
   let username = window.location.pathname.replace('/', '')
   console.log(username)
-  //const token: Token  = Cookies.getJSON('token')
+  const token: Token = Cookies.getJSON('token')
   const { data, error } = useSWR(`users/get/${username}`, fetcher);
   let user: userProps = data;
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
-
+  const myLoader = () => {
+    return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
+  }
 
   return (
 
@@ -82,9 +85,17 @@ export default function User() {
         <Header />
       </div>
       <div className={styles.banneravatar}>
+
         <div className={styles.banner}>
           <div className={styles.avatar}>
-
+            <Image
+              loader={myLoader}
+              src="me.png"
+              placeholder="blur"
+              width={200}
+              height={200}
+              className={styles.image}
+            />
           </div>
         </div>
         <div className={styles.userinfo}>

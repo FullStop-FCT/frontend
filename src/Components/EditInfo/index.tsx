@@ -1,7 +1,7 @@
 import { Formik, Form, useField, FieldAttributes } from 'Formik'
 import { TextField, Button } from "@material-ui/core";
 import * as Yup from 'Yup';
-import { api, storage } from '../../../services/api';
+import { api, storageProfilePic } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
 import React, { useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -16,6 +16,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { format } from 'date-fns'
+import Image from 'next/image'
+
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
   const [field, meta] = useField<{}>(props);
@@ -109,17 +111,23 @@ export default function EditInfo(user: userProps) {
     setOpenProfile(true);
   };
   const classes = useStyles();
+  const token: Token = JSON.parse(Cookies.get('token'));
+  const myLoader = () => {
+    return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
+  }
   const router = useRouter();
   const { subAtivity, setSubAtivity } = useContext(AuthContext);
   const { authenticated, activityLocation, setActivityLocation } = useContext(AuthContext);
   const [photoState, setphotoState] = useState(null);
-  const token: Token = JSON.parse(Cookies.get('token'));
+  const [photopreviewState, setphotopreviewState] = useState(null);
   const photoHandler = (event) => {
     console.log(event.target.files[0])
     setphotoState(event.target.files[0])
-    //console.log(photoState.name);
-    // console.log(photoState)
+    setphotopreviewState(URL.createObjectURL(event.target.files[0]))
+    console.log(photopreviewState);
+    console.log(photoState)
   }
+
   return (
     <div className={styles.container}>
       <div>
@@ -129,15 +137,28 @@ export default function EditInfo(user: userProps) {
 
           <div className={styles.banner}>
             <div className={styles.avatar}>
-              <div className={styles.icon}>
-                <input accept="image/*" className={styles.input} id="icon-button-file" type="file" onChange={photoHandler} />
-                <label htmlFor="icon-button-file">
-                  <IconButton color="primary" aria-label="upload picture" component="span" className={styles.iconbutton} >
-                    <PhotoCamera />
-                  </IconButton>
-                </label>
-              </div>
+              {
+                photopreviewState == null ? <Image
+                  loader={myLoader}
+                  src="me.png"
+
+                  placeholder="blur"
+                  width={160}
+                  height={160}
+                  className={styles.image}
+                /> : <img src={photopreviewState} className={styles.imagepreview} />
+              }
             </div>
+
+            <div className={styles.icon}>
+              <input accept="image/*" className={styles.input} id="icon-button-file" type="file" onChange={photoHandler} />
+              <label htmlFor="icon-button-file">
+                <IconButton color="primary" aria-label="upload picture" component="span" className={styles.iconbutton} >
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </div>
+
           </div>
         </div>
         <Formik initialValues={{
@@ -160,14 +181,10 @@ export default function EditInfo(user: userProps) {
             console.log("submitting");
             setSubmitting(true);
             const fd = new FormData();
-            fd.append('image', photoState, token.username);
-
+            fd.append('image', photoState);
+            console.log(fd.get('type'));
             if (authenticated) {
-              await storage.post(token.username + '.jpg', fd, {
-                onUploadProgress: ProgressEvent => {
-                  console.log('Upload Progress ' + Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%')
-                }
-              })
+              await storageProfilePic.post(token.username + '.jpg', fd)
                 .then(function (response) {
                   console.log(response)
                   console.log('upload')
@@ -208,21 +225,24 @@ export default function EditInfo(user: userProps) {
                   <MenuItem value={'PUBLIC'}>Público</MenuItem>
                   <MenuItem value={'PRIVATE'}>Privado</MenuItem>
                 </Select>
-                <MyTextField placeholder="phoneNumber" name="phoneNumber" type="input" as={TextField} />
-                <MyTextField placeholder="mobileNumber" name="mobileNumber" type="input" as={TextField} />
-                <MyTextField placeholder="address" name="address" type="input" as={TextField} />
-                <MyTextField placeholder="location" name="location" type="input" as={TextField} />
-                <MyTextField placeholder="postalCode" name="postalCode" type="input" as={TextField} />
-                <TextField
-                  id="date"
-                  label="Data nascimento"
-                  type="date"
-                  defaultValue={user.birthday}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                />
+              </FormControl>
 
+              <MyTextField placeholder="phoneNumber" name="phoneNumber" type="input" as={TextField} />
+              <MyTextField placeholder="mobileNumber" name="mobileNumber" type="input" as={TextField} />
+              <MyTextField placeholder="address" name="address" type="input" as={TextField} />
+              <MyTextField placeholder="location" name="location" type="input" as={TextField} />
+              <MyTextField placeholder="postalCode" name="postalCode" type="input" as={TextField} />
+              <TextField
+                id="date"
+                label="Data nascimento"
+                type="date"
+                defaultValue={user.birthday}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+
+              <FormControl className={classes.formControl}>
                 <Select
                   labelId="demo-controlled-open-select-label"
                   id="demo-controlled-open-select"
