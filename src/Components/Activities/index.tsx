@@ -9,18 +9,23 @@ import { useRouter } from 'next/router'
 import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
 import MapView from '../Maps';
-
-
+import { useState } from 'react';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from '@material-ui/pickers';
+import ptBr from 'date-fns/locale/pt-BR'
+import format from 'date-fns/format'
+import { StayCurrentLandscapeTwoTone } from '@material-ui/icons';
+import moment from 'moment'
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <TextField type={type}
-      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} InputLabelProps={{
-        className: styles.form
-
-      }} />
+      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
   )
 }
 
@@ -32,8 +37,9 @@ const validationSchema = Yup.object({
   description: Yup.string()
     .min(10, "A descrição deve conter no minímo 100 caráteres.")
     .required("Obrigatório"),
-  date: Yup.string()
-    .required("Obrigatório"),
+  date: Yup.date()
+    .required("Obrigatorio"),
+
   totalParticipants: Yup.number()
     .moreThan(0, "Uma atividade precisa de pelo menos uma pessoa.")
     .typeError("Não pode conter letras.")
@@ -51,11 +57,21 @@ type Token = {
   expirationData: number
 }
 
+
+
 export default function Activities() {
   const router = useRouter();
   const { subAtivity, setSubAtivity } = useContext(AuthContext);
-  const { authenticated, activityLocation, setActivityLocation } = useContext(AuthContext);
+  const { authenticated, activityLocation, markers } = useContext(AuthContext);
   const token: Token = JSON.parse(Cookies.get('token'));
+
+  const [date, setDate] = useState("");
+  const handleDateChange = (event) => {
+
+    setDate(format(new Date(event.target.value), "dd/MM/yyyy HH:mm"))
+    console.log(date)
+
+  };
   return (
     <div className={styles.container}>
       <div>
@@ -64,10 +80,12 @@ export default function Activities() {
           title: '',
           description: '',
           date: '',
-          location: '',
+          location: activityLocation,
           totalParticipants: '',
-          category: '',
           activityOwner: token.username,
+          category: '',
+          lat: '',
+          lon: '',
 
         }}
           validationSchema={validationSchema}
@@ -81,27 +99,30 @@ export default function Activities() {
             }
 
             values.location = activityLocation;
+            values.lat = markers.lat + '';
+            values.lon = markers.lng + '';
+            values.date = date;
             const request = JSON.stringify({ token: { ...(token) }, activityData: { ...values } })
             console.log(request)
             console.log(authenticated)
+            if (values.location !== "") {
+              if (authenticated) {
+                await api.post('activities/insert', request, config)
+                  .then(function (response) {
+                    // setSubAtivity(!subAtivity)
+                    console.log(response.data)
+                  }).catch(function (error) {
 
-
-
-
-
-            if (authenticated) {
-              await api.post('activities/insert', request, config)
-                .then(function (response) {
-                  setSubAtivity(!subAtivity)
-                  console.log(response.data)
-                }).catch(function (error) {
-
-                  console.log(error);
-                })
+                    console.log(error);
+                  })
+              }
+            }
+            else {
+              alert('sem location')
             }
 
 
-            //alert('sem location')
+            //
 
 
 
@@ -115,9 +136,24 @@ export default function Activities() {
             <Form className={styles.form} >
               <MyTextField placeholder="title" name="title" type="input" as={TextField} />
               <MyTextField placeholder="description" name="description" type="input" as={TextField} />
-              <MyTextField placeholder="date" name="date" type="input" as={TextField} />
               <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
               <MyTextField placeholder="category" name="category" type="input" as={TextField} />
+              <p>data</p>
+              <MyTextField
+                id="datetime-local"
+
+                type="datetime-local"
+                name="date"
+                // variant='outlined'
+                placeholder="data"
+                defaultValue={null}
+                onChange={(event) => handleDateChange(event)}
+                //InputLabelProps={{
+                //shrink: true,
+                //] }}
+                as={TextField}
+              />
+
               <div className={styles.mapView}>
                 <MapView />
 
@@ -131,6 +167,7 @@ export default function Activities() {
 
 
 
+
           )
 
 
@@ -138,7 +175,7 @@ export default function Activities() {
         </Formik>
       </div>
 
-    </div>
+    </div >
 
   );
 

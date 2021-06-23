@@ -17,9 +17,11 @@ import {
 } from "@reach/combobox"
 import { AuthContext } from '../../Context/AuthContext'
 import styles from './styles.module.scss'
+import { createContext } from 'use-context-selector'
 
 
 import "@reach/combobox/styles.css"
+import { activityMapLocation } from "../../hooks/activityMapLocation";
 
 
 const libraries: Libraries = ["places"];
@@ -40,13 +42,14 @@ const options = {
 }
 
 export default function MapView() {
-  const { activityLocation, setActivityLocation } = useContext(AuthContext);
+
+  //const { location } = activityMapLocation();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: "AIzaSyBvd8Z9pZ5bwi6przQ1-KIYh88l_qFdjK0",
     libraries,
   });
-  const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
-
+  //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
+  const { activityLocation, setActivityLocation, markers, setMarkers } = useContext(AuthContext);
   const onMapClick = useCallback((event) => {
 
     setMarkers(
@@ -71,11 +74,13 @@ export default function MapView() {
 
   }, [])
 
-  const inputvalue = useCallback((result) => {
-    //console.log(result)
-    setActivityLocation(result);
-    console.log("act", activityLocation);
-  }, [])
+  const inputvalue = (result: string) => {
+    //debugger
+    let res: string = result;
+    console.log(res)
+    setActivityLocation(res)
+    console.log('local: ' + activityLocation)
+  };
 
   if (loadError) return <div> Error Loading Google Maps</div>
   if (!isLoaded) return <div>Loading...</div>
@@ -83,6 +88,7 @@ export default function MapView() {
     <div>
 
       <Search panTo={panTo} inputvalue={inputvalue} />
+      <h1>{activityLocation}</h1>
 
 
 
@@ -99,11 +105,13 @@ export default function MapView() {
 
 
       </GoogleMap>
+
     </div>
   )
 }
 
 function Search({ panTo, inputvalue }) {
+
   const { ready, value, suggestions: { status, data },
     setValue, clearSuggestions, } = usePlacesAutoComplete({
       requestOptions: {
@@ -117,15 +125,15 @@ function Search({ panTo, inputvalue }) {
     <div className={styles.search}>
       <Combobox onSelect={async (address) => {
         setValue(address, false);
-        inputvalue(address);
+        //inputvalue(address);
         clearSuggestions();
         try {
           const results = await getGeocode({ address });
           const { lat, lng } = await getLatLng(results[0])
 
           panTo({ lat, lng });
-          //inputvalue(address);
-          //inputvalue(address);
+
+          inputvalue(address);
           console.log(lat, lng)
         } catch (error) {
           console.log("error")
@@ -133,7 +141,8 @@ function Search({ panTo, inputvalue }) {
       }}>
         <ComboboxInput value={value} onChange={(e) => {
           setValue(e.target.value);
-          // console.log(e.target.value)
+          console.log(e.target.value)
+
           inputvalue(e.target.value);
         }}
           disabled={!ready}

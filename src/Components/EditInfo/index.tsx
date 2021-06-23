@@ -88,8 +88,15 @@ export default function EditInfo(user: userProps) {
   const [profile, setProfile] = useState(user.profile)
   const [open, setOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
+  const [birthday, setBirthday] = useState(user.birthday);
+
+  const handleBirthdayChange = (event) => {
+    setBirthday(format(new Date(event.target.value), "dd/MM/yyyy"));
+    console.log(format(new Date(event.target.value), "dd/MM/yyyy"))
+  }
   const handleChange = (event) => {
     setGender(event.target.value);
+    console.log(event.target.value)
   };
 
   const handleClose = () => {
@@ -180,10 +187,27 @@ export default function EditInfo(user: userProps) {
 
             console.log("submitting");
             setSubmitting(true);
+            const config = {
+              headers: { 'Content-Type': 'application/json' }
+            }
+            values.profile = profile
+            values.gender = gender
+            const request = JSON.stringify({ token: { ...(token) }, userInfo: { ...values } })
+            console.log(request)
+
             const fd = new FormData();
             fd.append('image', photoState);
             console.log(fd.get('type'));
             if (authenticated) {
+              await api.put('users/updated', request, config)
+                .then(function (response) {
+                  // setSubAtivity(!subAtivity)
+                  console.log(response.data)
+                }).catch(function (error) {
+
+                  console.log(error);
+                })
+
               await storageProfilePic.post(token.username + '.jpg', fd)
                 .then(function (response) {
                   console.log(response)
@@ -193,6 +217,9 @@ export default function EditInfo(user: userProps) {
                   console.log(error);
                 })
             }
+            /* if (authenticated) {
+               
+             } */
 
 
             //alert('sem location')
@@ -236,7 +263,8 @@ export default function EditInfo(user: userProps) {
                 id="date"
                 label="Data nascimento"
                 type="date"
-                defaultValue={user.birthday}
+                defaultValue={birthday}
+                onChange={(event) => handleBirthdayChange(event)}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -257,7 +285,7 @@ export default function EditInfo(user: userProps) {
                     Selecionar Género
                   </MenuItem>
                   <MenuItem value={'Masculino'}>Masculino</MenuItem>
-                  <MenuItem value={'Feminio'}>Feminio</MenuItem>
+                  <MenuItem value={'Feminino'}>Feminino</MenuItem>
                   <MenuItem value={'Não Binário'}>Não Binário</MenuItem>
                 </Select></FormControl>
 
