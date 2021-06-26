@@ -80,6 +80,7 @@ type userProps = {
   postalCode: string;
   birthday: string;
   gender: string;
+  kind: string,
 
 }
 
@@ -89,7 +90,11 @@ export default function EditInfo(user: userProps) {
   const [open, setOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [birthday, setBirthday] = useState(user.birthday);
-
+  const router = useRouter();
+  const { subAtivity, setSubAtivity } = useContext(AuthContext);
+  const { authenticated, activityLocation, setActivityLocation } = useContext(AuthContext);
+  const [photoState, setphotoState] = useState(null);
+  const [photopreviewState, setphotopreviewState] = useState(null);
   const handleBirthdayChange = (event) => {
     setBirthday(format(new Date(event.target.value), "dd/MM/yyyy"));
     console.log(format(new Date(event.target.value), "dd/MM/yyyy"))
@@ -122,11 +127,7 @@ export default function EditInfo(user: userProps) {
   const myLoader = () => {
     return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
   }
-  const router = useRouter();
-  const { subAtivity, setSubAtivity } = useContext(AuthContext);
-  const { authenticated, activityLocation, setActivityLocation } = useContext(AuthContext);
-  const [photoState, setphotoState] = useState(null);
-  const [photopreviewState, setphotopreviewState] = useState(null);
+
   const photoHandler = (event) => {
     console.log(event.target.files[0])
     setphotoState(event.target.files[0])
@@ -177,6 +178,7 @@ export default function EditInfo(user: userProps) {
           postalCode: user.postalCode,
           birthday: user.birthday,
           gender: user.gender,
+          kind: 'helper',
 
 
         }}
@@ -192,14 +194,16 @@ export default function EditInfo(user: userProps) {
             }
             values.profile = profile
             values.gender = gender
-            const request = JSON.stringify({ token: { ...(token) }, userInfo: { ...values } })
+            values.birthday = birthday
+            values.kind = 'helper'
+            const request = JSON.stringify({ token: { ...(token) }, userData: { ...values } })
             console.log(request)
 
             const fd = new FormData();
             fd.append('image', photoState);
             console.log(fd.get('type'));
             if (authenticated) {
-              await api.put('users/updated', request, config)
+              await api.patch('users/update', request, config)
                 .then(function (response) {
                   // setSubAtivity(!subAtivity)
                   console.log(response.data)
@@ -208,18 +212,19 @@ export default function EditInfo(user: userProps) {
                   console.log(error);
                 })
 
-              await storageProfilePic.post(token.username + '.jpg', fd)
-                .then(function (response) {
-                  console.log(response)
-                  console.log('upload')
-                }).catch(function (error) {
+              if (photoState !== null) {
+                await storageProfilePic.post(token.username + '.jpg', fd)
+                  .then(function (response) {
+                    console.log(response)
+                    console.log('upload')
+                  }).catch(function (error) {
 
-                  console.log(error);
-                })
+                    console.log(error);
+                  })
+              }
+
             }
-            /* if (authenticated) {
-               
-             } */
+
 
 
             //alert('sem location')

@@ -15,7 +15,7 @@ import {
   ComboboxList,
   ComboboxOption,
 } from "@reach/combobox"
-import { AuthContext } from '../../Context/AuthContext'
+import { MapContext } from '../../Context/MapContext'
 import styles from './styles.module.scss'
 import { createContext } from 'use-context-selector'
 
@@ -45,11 +45,11 @@ export default function MapView() {
 
   //const { location } = activityMapLocation();
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyBvd8Z9pZ5bwi6przQ1-KIYh88l_qFdjK0",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
   //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
-  const { activityLocation, setActivityLocation, markers, setMarkers } = useContext(AuthContext);
+  const { activityLocation, setActivityLocation, markers, setMarkers } = useContext(MapContext);
   const onMapClick = useCallback((event) => {
 
     setMarkers(
