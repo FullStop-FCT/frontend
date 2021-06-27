@@ -78,7 +78,7 @@ export default function User() {
 
     <div className={styles.container}>
       <Head>
-        <title>User</title>
+        <title>{token.username}</title>
       </Head>
 
       <div className={styles.header}>
