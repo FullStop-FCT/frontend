@@ -1,26 +1,33 @@
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
 
-
-export default function SessionOf(){
+export default function SessionOf() {
   const router = useRouter();
-  return ( 
+
+  const login = () => {
+    Cookies.remove('token')
+    Cookies.remove('user')
+    router.push('/login')
+  }
+
+  return (
+    <div>
+
       <div>
 
-        <div>
-
-          <h1>Your session has expired</h1>
-          <button onClick={() => { router.push('/login')}}>Login in</button>
-
-        </div>
-
-
-
-
-
-
+        <h1>Your session has expired</h1>
+        <button onClick={login}>Login in</button>
 
       </div>
+
+
+
+
+
+
+
+    </div>
 
 
 

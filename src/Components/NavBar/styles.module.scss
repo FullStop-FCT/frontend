@@ -1,5 +1,5 @@
 .NavbarItems {
-  background: rgb(0, 0, 0);
+  background: var(--bluehh);
   height: 80px;
   display: flex;
   position: fixed;
@@ -11,7 +11,7 @@
 }
 
 .navbarlogo {
-  color: #fff;
+  color: var(--redhh);
   justify-self: start;
   margin-left: 20px;
   cursor: pointer;
