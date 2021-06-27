@@ -4,6 +4,8 @@ import * as Yup from 'Yup';
 import Head from "next/head";
 import { api } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
+import { MapContext } from '../../Context/MapContext'
+
 import React, { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie';
@@ -19,6 +21,7 @@ import ptBr from 'date-fns/locale/pt-BR'
 import format from 'date-fns/format'
 import { StayCurrentLandscapeTwoTone } from '@material-ui/icons';
 import moment from 'moment'
+
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
   const [field, meta] = useField<{}>(props);
@@ -62,7 +65,9 @@ type Token = {
 export default function Activities() {
   const router = useRouter();
   const { subAtivity, setSubAtivity } = useContext(AuthContext);
-  const { authenticated, activityLocation, markers } = useContext(AuthContext);
+  const { authenticated } = useContext(AuthContext);
+  const { activityLocation, markers } = useContext(MapContext
+  )
   const token: Token = JSON.parse(Cookies.get('token'));
 
   const [date, setDate] = useState("");

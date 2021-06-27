@@ -24,6 +24,7 @@ type userProps = {
   postalCode: string;
   birthday: string;
   gender: string;
+  kind: string,
 
 }
 type Token = {
@@ -68,7 +69,9 @@ export default function User() {
 
   const token: Token = Cookies.getJSON('token')
   const { data, error } = useSWR(`users/get/${token.username}`, fetcher);
+
   let user: userProps = data;
+  console.log(data)
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
 
@@ -138,6 +141,8 @@ export default function User() {
       </div>
       <div className={styles.settings}>
         <EditInfo {...user} />
+
+
       </div>
 
 

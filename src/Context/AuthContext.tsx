@@ -23,10 +23,7 @@ type AuthContextData = {
   setSubAtivity: (state: boolean) => void;
   subEdit: boolean;
   setSubEdit: (state: boolean) => void;
-  activityLocation: string;
-  setActivityLocation: (input: string) => void;
-  markers: marker;
-  setMarkers: (marker: marker) => void
+
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -36,12 +33,11 @@ type AuthContextProviderProps = {
 }
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const router = useRouter();
-  const [activityLocation, setActivityLocation] = useState("");
+
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [subAtivity, setSubAtivity] = useState(true);
   const [subEdit, setSubEdit] = useState(false);
-  const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
 
 
 
@@ -111,8 +107,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   return (
     <AuthContext.Provider value={{
-      authenticated, handleLogin, handleLogout, subAtivity, setSubAtivity, subEdit, setSubEdit, activityLocation, setActivityLocation,
-      markers, setMarkers,
+      authenticated, handleLogin, handleLogout, subAtivity, setSubAtivity, subEdit, setSubEdit
     }}>
       {children}
     </AuthContext.Provider>
