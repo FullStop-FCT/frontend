@@ -12,15 +12,17 @@ html {
   --black: #000000;
   --black-50: #1a1a1a;
 
-  --white: #ffffff;
+ 
+  --whitehh: #E9ECF5;
 
   --gray: #e2e2e2;
 
   --bluehh: #A3C3D9;
 
   --redhh : #993955;
+
+  --redhh-2: #d15175;
   
-  -whitehh: #E9ECF5;
  
 }
 
@@ -94,7 +96,8 @@ button {
 }
 
 .nav-links:hover {
-  background-color: #000000;
+  background-color: var(--redhh);
+  color: var(--bluehh);
   border-radius: 4px;
   transition: all 0.2s ease-out;
 }
@@ -195,16 +198,11 @@ a:hover {
 
 .socialbtns .fa {
   width: 40px;
-  height: 28px;
-  color: #fff;
-  background-color: #000;
-  padding-top: 12px;
-  border-radius: 20px;
-  -moz-border-radius: 20px;
-  -webkit-border-radius: 20px;
-  -o-border-radius: 20px;
-  transition: all ease 0.5s;
-  -moz-transition: all ease 0.5s;
-  -webkit-transition: all ease 0.5s;
-  -o-transition: all ease 0.5s;
+  height: 40px;
+  color: var(--whitehh);
+  background-color: var(--redhh);
+  padding: 12px;
+  border-radius: 25px;
+ 
+  
 }

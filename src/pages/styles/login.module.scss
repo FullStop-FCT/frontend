@@ -1,5 +1,6 @@
 .login {
-  background: #000;
+  color: #fff;
+  background: var(--bluehh);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -8,36 +9,45 @@
   margin: auto;
   margin-top: 8rem;
   margin-bottom: 7rem;
-  width: 20rem;
-  height: 25rem;
+  width: 25rem;
+  height: 40rem;
 
   h1 {
     font-size: 2rem;
-    color: #047bc3;
-    margin-bottom: 3rem;
-  }
-
-  form {
-    input {
-      color: #000;
-      margin-bottom: 0.8rem;
-      width: 15rem;
-      height: 2rem;
-    }
+    color: var(--redhh);
+    margin-bottom: 1rem;
   }
 
   button {
     color: #fff;
-    background-color: #035485;
+    background-color: var(--redhh);
     border: none;
     text-align: center;
     display: inline-block;
     padding: 0.7rem 2rem;
     border-radius: 35px;
     margin-top: 1.5rem;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   button:hover {
-    background-color: #047bc3;
+    background-color: var(--redhh-2);
   }
+}
+.form {
+  background: var(--bluehh);
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  text-align: center;
+
+  input {
+    color: rgb(0, 0, 0);
+    border: 2px solid var(--bluehh);
+    padding: 0.2rem;
+    margin: 0.5rem;
+  }
+  input::placeholder {
+    color: #fff;
+  }
+ 
 }

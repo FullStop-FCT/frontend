@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'Yup';
 import { TextField, Button } from "@material-ui/core";
 import { Formik, Form, useField, FieldAttributes } from 'Formik'
@@ -17,7 +17,7 @@ const Multiline: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props 
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
-    <TextField rowsMax={4} variant="outlined" multiline type={type}
+    <TextField rows={4} variant="outlined" multiline type={type}
       size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} className={styles.multiline} />
   )
 }
@@ -39,6 +39,7 @@ const validationSchema = Yup.object({
 
 export default function Contato() {
 
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: { preventDefault: () => void; currentTarget: { elements: Iterable<unknown> | ArrayLike<unknown>; }; }) {
     //prevents the form from submitting to the browser
@@ -79,29 +80,46 @@ export default function Contato() {
 
           //resetform
           onSubmit={async (values, { setSubmitting }) => {
-            console.log("submitting");
+            setLoading(true);
             setSubmitting(true);
-            console.log(values)
-            fetch('/api/mail', {
-              method: 'post',
-              body: JSON.stringify(values)
-            });
-            console.log('')
+            setTimeout(function () {
 
-            setSubmitting(false);
+              console.log(values)
+              console.log("submitting");
+
+              fetch('/api/mail', {
+                method: 'post',
+                body: JSON.stringify(values)
+              });
+              console.log('')
+              document.getElementById("form").reset();
+              setSubmitting(false);
+              setLoading(false)
+            }, 3000);
+
+
           }}>
 
 
           {({ isSubmitting }) => (
-            <Form className={styles.form}  >
+            <Form className={styles.form} id="form"  >
               <MyTextField placeholder="Nome" name="nome" type="input" as={TextField} />
+              <br />
               <MyTextField placeholder="Email" name="email" type="input" as={TextField} />
+              <br />
               <MyTextField placeholder="Assunto" name="assunto" type="input" as={TextField} />
+              <br />
               <Multiline placeholder="Mensagem" name="mensagem" type="input"
               />
 
-              <div>
+
+              <div >
                 <Button disabled={isSubmitting} type="submit">Enviar</Button>
+                <div className={styles.loading}>
+                  {
+                    loading ? <img src="/loadingfeedback.gif" alt="loading" /> : <> </>
+                  }
+                </div >
               </div>
             </Form>
 

@@ -1,7 +1,7 @@
 import { Formik, Form, useField, FieldAttributes } from 'Formik'
 import { TextField, Button } from "@material-ui/core";
 import * as Yup from 'Yup';
-import styles from './styles/register.module.scss'
+import styles from './styles/login.module.scss'
 import Head from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
@@ -51,7 +51,7 @@ export default function Login() {
         <title>Login</title>
       </Head>
       <NavBar />
-      <div className={styles.register}>
+      <div className={styles.login}>
         <h1>Login</h1>
         <Formik initialValues={{
           username: '',
@@ -78,6 +78,7 @@ export default function Login() {
           {({ isSubmitting }) => (
             <Form className={styles.form}  >
               <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
+              <br />
               <MyTextField placeholder="password" name="password" type="password" as={TextField} />
 
               <div>

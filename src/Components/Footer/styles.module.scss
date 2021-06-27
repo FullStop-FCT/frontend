@@ -1,5 +1,5 @@
 .footer {
-  background-color: #000;
+  background-color: var(--whitehh);
   width: 100%;
   margin: 0;
   bottom: 0;
@@ -8,7 +8,7 @@
   left: 0;
 
   p {
-    color: #fff;
+    color: var(--redhh);
     padding-top: 1rem;
     align-items: center;
     text-align: center;
