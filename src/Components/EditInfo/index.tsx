@@ -90,9 +90,7 @@ export default function EditInfo(user: userProps) {
   const [open, setOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [birthday, setBirthday] = useState(user.birthday);
-  const router = useRouter();
-  const { subAtivity, setSubAtivity } = useContext(AuthContext);
-  const { authenticated, activityLocation, setActivityLocation } = useContext(AuthContext);
+  const { authenticated } = useContext(AuthContext);
   const [photoState, setphotoState] = useState(null);
   const [photopreviewState, setphotopreviewState] = useState(null);
   const handleBirthdayChange = (event) => {

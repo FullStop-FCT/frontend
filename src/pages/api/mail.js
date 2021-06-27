@@ -6,20 +6,20 @@ export default (req, res) => {
     const body = JSON.parse(req.body);
 
     const message = `
-        Nome:${body.name}\r\n
-        Email:${body.email}\r\n
-        Assunto:${body.assunto}\r\n
-        Mensagem:${body.mensagem}
+        Nome: ${body.nome}\r\n
+        Email: ${body.email}\r\n
+        Assunto: ${body.assunto}\r\n
+        Mensagem: ${body.mensagem}
         `;
-    
+
     console.log(message);
 
     const data = {
-        to: 'fullstophh@gmail.com' ,
+        to: 'fullstophh@gmail.com',
         from: 'HelpinHand@fullstop.website',
-        subject: 'Nova mensagem de HelpinHand',
+        subject: `HelpinHand ${body.email}`,
         text: message,
-        html: message.replace(/\r\n/g, '<br>') 
+        html: message.replace(/\r\n/g, '<br>')
     };
 
     mail.send(data);

@@ -63,3 +63,46 @@
     background-color: #047bc3;
   }
 }
+
+.form {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  text-align: center;
+
+  input {
+    color: #fff;
+    border: 2px solid #1a1a1a;
+    padding: 0.2rem;
+    margin: 0.5rem;
+  }
+  input::after {
+    color: #047bc3;
+  }
+  input:focus {
+    border: 1px solid #000;
+    outline: none !important;
+  }
+
+  input::password {
+    display: none;
+  }
+  input::selection {
+    color: #047bc3;
+  }
+  input::placeholder {
+    color: rgb(0, 0, 0);
+  }
+  input::selection {
+    border: 1px solid #000;
+  }
+
+  .multiline{
+    background: #fff;
+    color: #000;
+    input::placeholder { 
+      color: rgb(0, 0, 0);
+    }
+  }
+}
