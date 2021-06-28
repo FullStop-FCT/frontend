@@ -6,10 +6,14 @@
   margin-top: 2rem;
   align-items: center;
   height: 100%;
+  background-color: var(--bluehh);
+  ul {
+    list-style-type: none;
+    }
 
   h1 {
     font-size: 2.5rem;
-    color: #fff;
+    color: var(--redhh);
     justify-self: start;
     cursor: pointer;
     margin-top: 2rem;
@@ -26,11 +30,12 @@
   }
   button {
     color: #fff;
-    background: #047bc3;
+    background: var(--redhh);
     width: 5rem;
     height: 2rem;
+    border-radius: 20px;
   }
   button:hover {
-    background: #57b0e7;
+    background: var(--redhh-2);
   }
 }

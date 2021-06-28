@@ -36,7 +36,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [subAtivity, setSubAtivity] = useState(true);
+  const [subAtivity, setSubAtivity] = useState(false);
   const [subEdit, setSubEdit] = useState(false);
 
 
