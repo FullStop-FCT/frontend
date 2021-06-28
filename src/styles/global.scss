@@ -89,30 +89,17 @@ button {
   margin-right: 2rem;
 }
 
-@mixin links {
+.nav-links {
   color: var(--redhh);
   text-decoration: none;
   padding: 0.5rem 1rem;
 }
 
-.nav-links {
-  @include links;
-}
-
-.user-nav-links {
-  @include links;
-}
-
 .nav-links:hover {
+  background-color: var(--redhh);
+  color: var(--bluehh);
   border-radius: 4px;
   transition: all 0.2s ease-out;
-  color: #5e1e30;
-}
-
-.user-nav-links:hover {
-  border-radius: 4px;
-  transition: all 0.2s ease-out;
-  font-size: 120%;
 }
 
 .fa-bars {
@@ -144,23 +131,14 @@ button {
     transition: all 0.5s ease;
     z-index: 1;
   }
-
-  @mixin links {
+  .nav-links {
     text-align: center;
     padding: 2rem;
     width: 100%;
     display: table;
   }
-  
-  .nav-links {
-    @include links;
-  }
 
-  .user-nav-links {
-    @include links;
-  }
-
-  .user-nav-links:hover {
+  .nav-links:hover {
     background-color: var(--redhh);
     border-radius: 0;
     color: var(--bluehh)
