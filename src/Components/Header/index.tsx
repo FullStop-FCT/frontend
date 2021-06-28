@@ -16,7 +16,7 @@ export default function NavBar() {
 
 
   return (
-    <div className={styles.Container}>
+    <div>
       <div className={styles.NavbarItems}>
         <nav >
           <h1>Helpin'Hand</h1>
@@ -24,19 +24,19 @@ export default function NavBar() {
             <ul>
               {menu.map((item, index) => {
                 return (
-                  <li key={index}>
+                  <p key={index}>
 
                     <Link href={item.url} ><a className={item.cName}
 
                     >{item.title}</a></Link>
 
-                  </li>
+                  </p>
 
                 )
               })}
 
             </ul>
-            <button onClick={() => handleLogout()}>Logout</button>
+          <button onClick={() => handleLogout()}>Logout</button>
           </div>
 
         </nav>

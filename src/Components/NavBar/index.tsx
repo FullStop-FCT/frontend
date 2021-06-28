@@ -1,5 +1,5 @@
 
-import {menu} from './menuitems'
+import { menu } from './menuitems'
 import { useState } from 'react';
 import styles from './styles.module.scss'
 import Link from 'next/link';

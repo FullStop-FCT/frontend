@@ -10,32 +10,33 @@ const user = Cookie.get('user')
 
 export const menu : MenuItems[] = [
   {
-    title: 'Home',
-    url: "/home",
-    cName: 'nav-links'
-
-  },{
-    title: 'Explore',
-    url: "/home",
-    cName: 'nav-links'
-
-  },{
-    title: 'Profile',
+    title: 'Perfil',
     url: `/${user}`,
-    cName: 'nav-links'
+    cName: 'user-nav-links'
 
   },
   {
-    title: 'Notification',
+    title: 'Explorar',
     url: "/home",
-    cName: 'nav-links'
+    cName: 'user-nav-links'
 
   },
   {
-    title: 'More',
+    title: 'Criar Atividade',
+    url: "/createActivity",
+    cName: 'user-nav-links'
+
+  },
+  {
+    title: 'Conta',
+    url: "/account",
+    cName: 'user-nav-links'
+  },
+  {
+    title: 'Notificações',
     url: "/home",
-    cName: 'nav-links'
+    cName: 'user-nav-links'
 
   }
-  
+
 ]
