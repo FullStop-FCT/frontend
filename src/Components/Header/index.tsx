@@ -1,4 +1,3 @@
-
 import { menu } from './menuitems'
 import { useState } from 'react';
 import styles from './styles.module.scss'
@@ -16,7 +15,7 @@ export default function NavBar() {
 
 
   return (
-    <div>
+    <div className={styles.Container}>
       <div className={styles.NavbarItems}>
         <nav >
           <h1>Helpin'Hand</h1>
@@ -24,19 +23,19 @@ export default function NavBar() {
             <ul>
               {menu.map((item, index) => {
                 return (
-                  <p key={index}>
+                  <li key={index}>
 
                     <Link href={item.url} ><a className={item.cName}
 
                     >{item.title}</a></Link>
 
-                  </p>
+                  </li>
 
                 )
               })}
 
             </ul>
-          <button onClick={() => handleLogout()}>Logout</button>
+            <button onClick={() => handleLogout()}>Logout</button>
           </div>
 
         </nav>

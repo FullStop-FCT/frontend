@@ -79,7 +79,7 @@ export default function Contato() {
           validationSchema={validationSchema}
 
           //resetform
-          onSubmit={async (values, { setSubmitting }) => {
+          onSubmit={async (values, { setSubmitting, resetForm }) => {
             setLoading(true);
             setSubmitting(true);
             setTimeout(function () {
@@ -92,9 +92,10 @@ export default function Contato() {
                 body: JSON.stringify(values)
               });
               console.log('')
-              document.getElementById("form").reset();
+              //document.getElementById("form").onreset
               setSubmitting(false);
               setLoading(false)
+              resetForm();
             }, 3000);
 
 
