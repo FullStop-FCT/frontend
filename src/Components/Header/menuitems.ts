@@ -8,7 +8,7 @@ type MenuItems = {
 }
 const user = Cookie.get('user')
 
-export const menu : MenuItems[] = [
+export const menu: MenuItems[] = [
   {
     title: 'Perfil',
     url: `/${user}`,
@@ -27,11 +27,7 @@ export const menu : MenuItems[] = [
     cName: 'user-nav-links'
 
   },
-  {
-    title: 'Conta',
-    url: "/account",
-    cName: 'user-nav-links'
-  },
+
   {
     title: 'Notificações',
     url: "/home",

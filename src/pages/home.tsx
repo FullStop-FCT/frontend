@@ -83,12 +83,12 @@ export default function Home() {
 
   return (
 
-    <div className={styles.Container} >
+    <div className={styles.container} >
       <Head>
         <title>Home</title>
       </Head>
 
-      <div className={styles.Header} >
+      <div className={styles.header} >
         <Header />
       </div>
       <div className={styles.Feed}>
@@ -199,6 +199,7 @@ export default function Home() {
         </div>
 
       </div>
+      <div className={styles.other}></div>
 
     </div>
 

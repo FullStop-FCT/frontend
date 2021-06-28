@@ -1,5 +1,5 @@
 .container {
-  z-index: 1;
+
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -9,6 +9,8 @@
     width: 20%;
     border-right: 2px solid rgb(192, 189, 189);
   }
+
+
   .banneravatar {
     width: 70%;
     height: 100%;

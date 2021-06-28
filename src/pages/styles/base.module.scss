@@ -1,67 +1,61 @@
-$primary_background: #E9ECF5;
-$secondary_background: #A3C3D9;
-
-.Container {
-  z-index: 1;
+.container {
   display: flex;
   flex-direction: row;
-  height: 1000px;
-  width: 100%;
+  justify-content: space-between;
+  height: 100%;
 
-  @media screen and (min-width: 960px) {
-  .Header {
-    background: $secondary_background;
+  .header {
+    background: var(--bluehh);
     width: 20%;
-    height: 100%;
+    border-right: 2px solid rgb(192, 189, 189);
   }
-}
-
-@media screen and (max-width: 960px) {
-  .Header {
-    background: $secondary_background;
-  }
-}
-
-  @media screen and (min-width: 960px) {
+ 
   .Feed {
-    width: 60%;
+    width: 70%;
     height: 100%;
-    background: $primary_background;
-  
+    background: var(--whitehh);
     display: flex;
     flex-direction: column;
     text-align: center;
     align-items: center;
+    position: relative;
 
     .searchBar {
       display: flex;
       margin-bottom: 20px;
       margin-top: 70px;
-      box-sizing: 500px;
+    
     }
-  }
-
     ul {
       color: #fff;
     }
     li::marker {
       display: none;
     }
-  }
-
-  .activity {
-    background-color: $primary_background;
-    border-radius: 5px;
-    border: $secondary_background;
-    border-style: solid;
-    margin-bottom: 20px;
-    width: 600px;
-
-    a {
-      font-size: 160%;
-      color: #993955;
-      text-decoration: underline;
+    .activity {
+      background-color: var(--whitehh);
+      border-radius: 5px;
+      border: var(--bluehh);
+      border-style: solid;
+      margin-bottom: 20px;
+      width: 600px;
+  
+      a {
+        font-size: 160%;
+        color: #993955;
+        text-decoration: underline;
+      }
     }
   }
+  .other {
+    width: 15%;
+  }
 
-}
+ 
+  }
+
+
+
+    
+
+
