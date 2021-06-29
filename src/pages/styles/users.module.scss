@@ -98,9 +98,9 @@
 }
 @media screen and (max-width: 960px) {
   .container {
-    flex-direction: column;
+    flex-direction: row;
     .header {
-      display: none;
+      width: 15%;
     }
     .banneravatar {
       width: 100%;

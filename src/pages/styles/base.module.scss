@@ -26,12 +26,7 @@
       margin-top: 70px;
     
     }
-    ul {
-      color: #fff;
-    }
-    li::marker {
-      display: none;
-    }
+  
     .activity {
       background-color: var(--whitehh);
       border-radius: 5px;
@@ -55,7 +50,21 @@
   }
 
 
-
+  @media screen and (max-width: 960px) {
+    .container {
+      flex-direction: column;
+      .header {
+        display: none;
+      }
+      .banneravatar {
+        width: 100%;
+      }
+      .other {
+        display: none;
+      }
+    }
+  }
+  
     
 
 

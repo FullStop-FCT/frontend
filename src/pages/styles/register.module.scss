@@ -1,6 +1,6 @@
 .register {
   color: #fff;
-  background: #000;
+  background: var(--bluehh);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,14 +14,13 @@
 
   h1 {
     font-size: 2rem;
-    color: #047bc3;
-
+    color: var(--redhh);
     margin-bottom: 1rem;
   }
 
   button {
     color: #fff;
-    background-color: #035485;
+    background-color: var(--redhh);
     border: none;
     text-align: center;
     display: inline-block;
@@ -31,40 +30,26 @@
     font-size: 0.9rem;
   }
   button:hover {
-    background-color: #047bc3;
+    background-color: var(--redhh-2);
   }
 }
 .form {
-  background: #000;
+  background: var(--bluehh);
   display: flex;
   flex-direction: column;
   width: 60%;
   text-align: center;
 
   input {
-    color: #fff;
-    border: 2px solid #1a1a1a;
+    color: rgb(0, 0, 0);
+    border: 2px solid var(--bluehh);
     padding: 0.2rem;
     margin: 0.5rem;
   }
-  input::after {
-    color: #047bc3;
-  }
-  input:focus {
-    border: 1px solid #000;
-    outline: none !important;
+  input::placeholder {
+    color: #000;
   }
 
-  input::password {
-    display: none;
-  }
-  input::selection {
-    color: #047bc3;
-  }
-  input::placeholder {
-    color: #fff;
-  }
-  input::selection {
-    border: 1px solid #000;
-  }
+ 
+ 
 }
