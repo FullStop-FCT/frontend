@@ -4,6 +4,7 @@
   height: 603px;
   width: 100%;
   margin-bottom: 8rem;
+ 
 }
 
 .container2 {
@@ -16,6 +17,7 @@
   height: 25rem;
   margin: auto;
   width: 90%;
+  border-radius: 4rem ;
 
   h1 {
     color: var(--redhh);
@@ -36,6 +38,9 @@
     border-radius: 35px;
     margin-top: 1.5rem;
     font-size: 1rem;
+    a{
+      color: #fff;
+    }
   }
   button:hover {
     background-color: var(--redhh-2);

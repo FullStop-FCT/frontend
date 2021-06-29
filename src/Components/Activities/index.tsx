@@ -125,13 +125,6 @@ export default function Activities() {
             else {
               alert('sem location')
             }
-
-
-            //
-
-
-
-
             setSubmitting(false);
             //router.reload()
           }}>
