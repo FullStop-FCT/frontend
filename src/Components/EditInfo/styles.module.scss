@@ -1,6 +1,6 @@
 .container {
   color: #fff;
-  //background: #000;
+  background: var(--bluehh);
   
   h1 {
     font-size: 2rem;
@@ -54,7 +54,7 @@
   border-bottom: none;
 
   .banner {
-    background: var(--blue-50);
+    background: var(--bluehh);
     flex-shrink: 0;
     width: 100%;
     height: min(20vw, 199px);
@@ -65,7 +65,7 @@
       height: 160px;
       z-index: 0;
       border: 3px solid #000;
-      background: var(--gray);
+      background: var(--whitehh);
       border-radius: 50%;
        align-items: center;
       position: relative;

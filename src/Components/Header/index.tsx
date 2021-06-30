@@ -1,4 +1,4 @@
-import { menu } from './menuitems'
+
 import { useState } from 'react';
 import styles from './styles.module.scss'
 import Link from 'next/link';
@@ -26,21 +26,16 @@ export default function NavBar() {
         <h1>Helpin'Hand</h1>
         <div className={styles.Navbar}>
 
-          <div className={styles.topics}>
-            <Link href={`/${Token}`}><a className={styles.links} ><CgProfile /><a className={styles.linkname}> Perfil</a></a></Link>
-          </div>
 
-          <div className={styles.topics}>
-            <Link href={'/home'}><a className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></a></Link>
-          </div>
+          <Link href={`/${Token}`}>
+            <div className={styles.topics}><span className={styles.links} ><CgProfile /><a className={styles.linkname}> Perfil</a></span></div></Link>
 
-          <div className={styles.topics}>
-            <Link href={'/createActivity'}><a className={styles.links}><IoCreateSharp /><a className={styles.linkname}> Criar Atividade</a></a></Link>
-          </div>
+          <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 
-          <div className={styles.topics}>
-            <Link href={`/${Token}`}><a className={styles.links}><IoNotifications /><a className={styles.linkname}> Notificações</a></a></Link>
-          </div>
+          <Link href={'/createActivity'}><div className={styles.topics}><span className={styles.links}><IoCreateSharp /><a className={styles.linkname}> Criar Atividade</a></span></div></Link>
+
+          <Link href={`/${Token}`}><div className={styles.topics}><span className={styles.links}><IoNotifications /><a className={styles.linkname}> Notificações</a></span></div></Link>
+
 
 
           <button onClick={() => handleLogout()}>Logout</button>

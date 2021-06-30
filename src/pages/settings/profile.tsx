@@ -1,4 +1,4 @@
-import styles from '../styles/userprofile.module.scss'
+import styles from '../styles/editprofile.module.scss'
 import Head from "next/head"
 import { useEffect, useState } from 'react'
 import { atividades } from '../../Components/atividades';

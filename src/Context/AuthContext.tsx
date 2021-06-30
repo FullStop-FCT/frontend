@@ -3,7 +3,7 @@ import { api } from '../../services/api';
 import { useRouter } from 'next/router'
 import Cookie from 'js-cookie';
 import { addDays, milliseconds } from 'date-fns'
-
+import Loading from '../Components/Loading'
 
 type data = {
   username: string;
@@ -50,7 +50,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     const token = Cookie.get('token');
     if (token) {
-      //api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+
 
       setAuthenticated(true);
 
@@ -64,9 +64,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function handleLogout() {
     setAuthenticated(false);
-    Cookie.remove('token');
-    Cookie.remove('user');
-    router.push('/');
+    router.push('/')
+
 
   }
 
@@ -102,7 +101,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   if (loading) {
-    return <h1>Loading</h1>
+    return <Loading />
   }
 
   return (

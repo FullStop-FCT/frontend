@@ -95,7 +95,7 @@ export default function Home() {
 
         <div className={styles.searchBar}>
           <button><SearchIcon fontSize="large" ></SearchIcon></button>
-          <input name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
+          <input className={styles.formP} name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
 
           <LocationOnIcon fontSize="large"></LocationOnIcon>
           <select className={styles.select} name="distrito" id="Portugal">

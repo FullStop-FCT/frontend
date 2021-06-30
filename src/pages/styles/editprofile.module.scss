@@ -1,7 +1,7 @@
 .container {
-  
+  pointer-events: none;
   z-index: 1;
-  opacity: 0.1;
+  opacity: 0.2;
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -73,7 +73,7 @@
       justify-content: space-around;
 
       button {
-        background-color: #1a1a1a;
+        background-color: #b43636;
         border: none;
         color: #fff;
       }
@@ -119,7 +119,7 @@
   align-items: center;
   justify-content: space-around;
   text-align: center;
-  background-color: #000;
+  background-color: var(--redhh);
   z-index: 3;
   width: 700px;
   margin-left: auto;
@@ -145,7 +145,7 @@
   
   
   .settings{
-    background-color: #000;
+    background-color: var(--bluehh);
     position: absolute;
     margin-left: auto;
     margin-right: auto;
@@ -168,11 +168,11 @@
    
   
     &::-webkit-scrollbar-thumb {
-      background-color: var(--blue-50);
+      background-color: var(--redhh);
       
     }
     &::-webkit-scrollbar-button{
-      background-color: #000;
+      background-color: var(--bluehh);
       border-bottom-right-radius: 16px;
       height: 1rem;
       

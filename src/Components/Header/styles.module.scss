@@ -19,7 +19,7 @@
     
     flex-direction: column;
     text-align: start;
-    
+    height: 100%;
     margin-top: 2rem;
     top: 15%;
     font-size: 1.7rem;
@@ -27,7 +27,7 @@
 
     .topics{
       margin-bottom: 1.5rem;
-      
+      cursor: pointer;   
       .links{
 
         color: var(--redhh)
@@ -50,7 +50,7 @@
       
       
       
-      a{
+      span{
         color: var(--bluehh)
        
       }
@@ -76,12 +76,13 @@
   }
   button {
     color: #fff;
-    background: #047bc3;
+    background: var(--redhh);
     width: 5rem;
     height: 2rem;
+    border-radius: 2rem;
   }
   button:hover {
-    background: #57b0e7;
+    background: var(--redhh-2);
   }
 }
 

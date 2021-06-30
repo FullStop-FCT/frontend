@@ -11,20 +11,22 @@ import { api } from '../../services/api';
 import useSWR from 'swr'
 import SessionOf from '../Components/SessionOf'
 import Image from 'next/image'
-
+import Loading from '../Components/Loading'
 type userProps = {
-  username: string;
-  name: string;
+  birthday: string;
   email: string;
+  name: string;
   profile: string;
   phoneNumber: string;
   mobileNumber: string;
   address: string;
   location: string;
   postalCode: string;
-  birthday: string;
   gender: string;
-
+  username: string;
+  points: number;
+  kind: string;
+  image: string;
 }
 type Token = {
   username: string,
@@ -68,11 +70,12 @@ export default function User() {
   const token: Token = Cookies.getJSON('token')
   const { data, error } = useSWR(`users/get/${username}`, fetcher);
   let user: userProps = data;
+  if (!data) return <Loading />
   if (error) { return <SessionOf /> }
-  if (!data) return <div>loading...</div>
   const myLoader = () => {
     return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
   }
+
 
   return (
 
