@@ -35,9 +35,9 @@ const validationSchema = Yup.object({
   profile: Yup.string().required(),
   phoneNumber: Yup.number().typeError("Não pode conter letras."),
   mobileNumber: Yup.number().typeError("Não pode conter letras."),
-  address: Yup.string(),
+  // address: Yup.string(),
   location: Yup.string(),
-  postalCode: Yup.string().matches(/^\d\d\d\d-\d\d\d$/, "Formato correto: Ex: 1234-567"),
+  // postalCode: Yup.string().matches(/^\d\d\d\d-\d\d\d$/, "Formato correto: Ex: 1234-567"),
   birthday: Yup.string(),
   gender: Yup.string(),
 
@@ -69,18 +69,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 type userProps = {
-  username: string;
-  name: string;
+  birthday: string;
   email: string;
+  name: string;
   profile: string;
   phoneNumber: string;
   mobileNumber: string;
   address: string;
   location: string;
   postalCode: string;
-  birthday: string;
   gender: string;
-  kind: string,
+  username: string;
+  points: number;
+  kind: string;
+  image: string;
 
 }
 
@@ -94,8 +96,8 @@ export default function EditInfo(user: userProps) {
   const [photoState, setphotoState] = useState(null);
   const [photopreviewState, setphotopreviewState] = useState(null);
   const handleBirthdayChange = (event) => {
-    setBirthday(format(new Date(event.target.value), "dd/MM/yyyy"));
-    console.log(format(new Date(event.target.value), "dd/MM/yyyy"))
+    setBirthday(format(new Date(event.target.value), "yyyy-MM-dd"));
+    console.log(format(new Date(event.target.value), "yyyy-MM-dd"))
   }
   const handleChange = (event) => {
     setGender(event.target.value);
@@ -123,7 +125,7 @@ export default function EditInfo(user: userProps) {
   const classes = useStyles();
   const token: Token = JSON.parse(Cookies.get('token'));
   const myLoader = () => {
-    return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
+    return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
   }
 
   const photoHandler = (event) => {
@@ -171,12 +173,10 @@ export default function EditInfo(user: userProps) {
           profile: user.profile,
           phoneNumber: user.phoneNumber,
           mobileNumber: user.mobileNumber,
-          address: user.address,
           location: user.location,
-          postalCode: user.postalCode,
           birthday: user.birthday,
           gender: user.gender,
-          kind: 'helper',
+          image: user.image,
 
 
         }}
@@ -193,25 +193,25 @@ export default function EditInfo(user: userProps) {
             values.profile = profile
             values.gender = gender
             values.birthday = birthday
-            values.kind = 'helper'
-            const request = JSON.stringify({ token: { ...(token) }, userData: { ...values } })
-            console.log(request)
 
             const fd = new FormData();
             fd.append('image', photoState);
             console.log(fd.get('type'));
             if (authenticated) {
-              await api.patch('users/update', request, config)
-                .then(function (response) {
-                  // setSubAtivity(!subAtivity)
-                  console.log(response.data)
-                }).catch(function (error) {
 
-                  console.log(error);
-                })
 
               if (photoState !== null) {
-                await storageProfilePic.post(token.username + '.jpg', fd)
+                /*await storageProfilePic.delete(values.image + '.jpg')
+                  .then(function (response) {
+                    console.log(response)
+                    console.log('delete')
+                  }).catch(function (error) {
+
+                    console.log(error);
+                  })*/
+
+                values.image = token.username + Date.now();
+                await storageProfilePic.post(values.image + '.jpg', fd)
                   .then(function (response) {
                     console.log(response)
                     console.log('upload')
@@ -220,7 +220,15 @@ export default function EditInfo(user: userProps) {
                     console.log(error);
                   })
               }
+              let request = JSON.stringify({ token: { ...(token) }, userData: { ...values } })
+              await api.patch('users/update', request, config)
+                .then(function (response) {
+                  // setSubAtivity(!subAtivity)
+                  console.log(response.data)
+                }).catch(function (error) {
 
+                  console.log(error);
+                })
             }
 
 
@@ -259,9 +267,7 @@ export default function EditInfo(user: userProps) {
 
               <MyTextField placeholder="phoneNumber" name="phoneNumber" type="input" as={TextField} />
               <MyTextField placeholder="mobileNumber" name="mobileNumber" type="input" as={TextField} />
-              <MyTextField placeholder="address" name="address" type="input" as={TextField} />
               <MyTextField placeholder="location" name="location" type="input" as={TextField} />
-              <MyTextField placeholder="postalCode" name="postalCode" type="input" as={TextField} />
               <TextField
                 id="date"
                 label="Data nascimento"

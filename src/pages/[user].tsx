@@ -44,6 +44,10 @@ async function fetcher(path: string): Promise<userProps> {
 
 }
 
+async function fetcher2(path: string): Promise<userProps> {
+  return await api.get(path).then(response => response.data);
+}
+
 export default function User() {
   const { subEdit, setSubEdit, authenticated } = useContext(AuthContext);
   const router = useRouter();
@@ -68,74 +72,149 @@ export default function User() {
   let username = window.location.pathname.replace('/', '')
   console.log(username)
   const token: Token = Cookies.getJSON('token')
-  const { data, error } = useSWR(`users/get/${username}`, fetcher);
-  let user: userProps = data;
-  if (!data) return <Loading />
-  if (error) { return <SessionOf /> }
-  const myLoader = () => {
-    return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
+  var myLoader = null;
+  let user: userProps = null;
+
+  if (username === token.username) {
+    let { data, error } = useSWR(`users/get/${username}`, fetcher);
+    user = data;
+    if (!data) return <Loading />
+    if (error) { return <SessionOf /> }
+    myLoader = () => {
+      return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
+    }
+
+    return (
+
+      <div className={styles.container}>
+        <Head>
+          <title>{token.username}</title>
+        </Head>
+
+        <div className={styles.header}>
+          <Header />
+        </div>
+        <div className={styles.banneravatar}>
+
+          <div className={styles.banner}>
+            <div className={styles.avatar}>
+              <Image
+                loader={myLoader}
+                src="me.png"
+                placeholder="blur"
+                width={200}
+                height={200}
+                className={styles.image}
+              />
+            </div>
+          </div>
+          <div className={styles.userinfo}>
+            <h2>{user.name}</h2>
+            <p><span>@{user.username}</span></p><br />
+            <button onClick={() => router.push('/settings/profile')}>Edit info</button>
+            {
+              subEdit ? <h1>oi</h1> : <></>
+            }
+
+          </div>
+          <div>
+            <hr className={styles.line} />
+            <div className={styles.atividades}>
+              {atividades.map((item, index) => {
+                return (
+                  <button key={index} onClick={() => change(item.number)}>
+                    <span >{item.title}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className={styles.currentpage}>
+              <h1>{page}</h1>
+            </div>
+            <div></div>
+          </div>
+
+        </div>
+        <div className={styles.other}></div>
+
+
+      </div>
+
+
+    )
+  }
+  //quando é outro user 
+  else {
+    let { data, error } = useSWR(`users/user/${username}`, fetcher2);
+    user = data;
+    if (error) { return <SessionOf /> }
+    if (!data) return <Loading />
+    myLoader = () => {
+      return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
+    }
+
+    return (
+
+      <div className={styles.container}>
+        <Head>
+          <title>{token.username}</title>
+        </Head>
+
+        <div className={styles.header}>
+          <Header />
+        </div>
+        <div className={styles.banneravatar}>
+
+          <div className={styles.banner}>
+            <div className={styles.avatar}>
+              <Image
+                loader={myLoader}
+                src="me.png"
+                placeholder="blur"
+                width={200}
+                height={200}
+                className={styles.image}
+              />
+            </div>
+          </div>
+          <div className={styles.userinfo}>
+            <h2>{user.name}</h2>
+            <p><span>@{user.username}</span></p><br />
+
+          </div>
+          <div>
+            <hr className={styles.line} />
+            <div className={styles.atividades}>
+              {atividades.map((item, index) => {
+                return (
+                  <button key={index} onClick={() => change(item.number)}>
+                    <span >{item.title}</span>
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className={styles.currentpage}>
+              <h1>{page}</h1>
+            </div>
+            <div></div>
+          </div>
+
+        </div>
+        <div className={styles.other}></div>
+
+
+      </div>
+
+
+    )
+
   }
 
 
-  return (
-
-    <div className={styles.container}>
-      <Head>
-        <title>{token.username}</title>
-      </Head>
-
-      <div className={styles.header}>
-        <Header />
-      </div>
-      <div className={styles.banneravatar}>
-
-        <div className={styles.banner}>
-          <div className={styles.avatar}>
-            <Image
-              loader={myLoader}
-              src="me.png"
-              placeholder="blur"
-              width={200}
-              height={200}
-              className={styles.image}
-            />
-          </div>
-        </div>
-        <div className={styles.userinfo}>
-          <h2>{user.name}</h2>
-          <p><span>@{user.username}</span></p><br />
-          <button onClick={() => router.push('/settings/profile')}>Edit info</button>
-          {
-            subEdit ? <h1>oi</h1> : <></>
-          }
-
-        </div>
-        <div>
-          <hr className={styles.line} />
-          <div className={styles.atividades}>
-            {atividades.map((item, index) => {
-              return (
-                <button key={index} onClick={() => change(item.number)}>
-                  <span >{item.title}</span>
-                </button>
-              )
-            })}
-          </div>
-
-          <div className={styles.currentpage}>
-            <h1>{page}</h1>
-          </div>
-          <div></div>
-        </div>
-
-      </div>
-      <div className={styles.other}></div>
 
 
-    </div>
-
-
-  )
 
 
 

@@ -10,7 +10,7 @@
 
   button {
     color: #fff;
-    background-color: #035485;
+    background-color: var(--redhh);
     border: none;
     text-align: center;
     display: inline-block;
@@ -20,7 +20,7 @@
     font-size: 0.9rem;
   }
   button:hover {
-    background-color: #047bc3;
+    background-color: var(--redhh-2);
   }
 }
 
@@ -114,7 +114,7 @@
     
     .iconbutton{
      
-         color: var(--blue-50);
+         color: var(--bluehh);
           width: 100px;
           height: 100px;
     }

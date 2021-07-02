@@ -13,18 +13,20 @@ import SessionOf from '../../Components/SessionOf'
 import EditInfo from '../../Components/EditInfo'
 import Image from 'next/image'
 type userProps = {
-  username: string;
-  name: string;
+  birthday: string;
   email: string;
+  name: string;
   profile: string;
   phoneNumber: string;
   mobileNumber: string;
   address: string;
   location: string;
   postalCode: string;
-  birthday: string;
   gender: string;
-  kind: string,
+  username: string;
+  points: number;
+  kind: string;
+  image: string;
 
 }
 type Token = {
@@ -76,7 +78,7 @@ export default function User() {
   if (!data) return <div>loading...</div>
 
   const myLoader = () => {
-    return `https://storage.googleapis.com/imagens-helpin-hand/${token.username}.jpg`
+    return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
   }
 
 
