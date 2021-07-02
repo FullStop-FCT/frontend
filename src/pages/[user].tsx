@@ -78,6 +78,7 @@ export default function User() {
   if (username === token.username) {
     let { data, error } = useSWR(`users/get/${username}`, fetcher);
     user = data;
+    console.log(user);
     if (!data) return <Loading />
     if (error) { return <SessionOf /> }
     myLoader = () => {

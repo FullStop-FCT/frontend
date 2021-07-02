@@ -2,6 +2,7 @@ import styles from './styles/registeroption.module.scss'
 import Head from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
+import Link from 'next/link';
 export default function Login() {
   //css por fazer
   return (
@@ -14,11 +15,11 @@ export default function Login() {
       <div className={styles.imagediv}>
 
         <div className={styles.image1}>
-          <a href="/register"><img src="/voluntariado.png"></img></a>
+          <a href="/registeruser"><img src="/voluntariado.png"></img></a>
           <h1>Voluntariado</h1>
         </div>
         <div className={styles.image2}>
-          <a><img src="/organizacao.png"></img></a>
+          <a href="/registerorg"><img src="/organizacao.png"></img></a>
           <h1>Organização</h1>
         </div>
 
