@@ -20,6 +20,6 @@
     "**/*.tsx",
     "src/pages/register2.js",
     "src/pages/activity.tsx"
-, "src/pages/api/mail.js", "src/Components/Contato/index.js"  ],
+, "src/pages/api/mail.js", "src/Components/Contato/index.js", "src/Components/keywords/index.jsx"  ],
   "exclude": ["node_modules"]
 }

@@ -88,7 +88,7 @@ export default function MapView() {
     <div>
 
       <Search panTo={panTo} inputvalue={inputvalue} />
-      <h1>{activityLocation}</h1>
+
 
 
 

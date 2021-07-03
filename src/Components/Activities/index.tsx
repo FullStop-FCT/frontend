@@ -7,7 +7,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import { MapContext } from '../../Context/MapContext'
 
 import React, { useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import App from '../keywords/'
 import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
 import MapView from '../Maps';
@@ -16,6 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
+  KeyboardTimePicker
 } from '@material-ui/pickers';
 import ptBr from 'date-fns/locale/pt-BR'
 import format from 'date-fns/format'
@@ -28,7 +29,16 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...prop
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <TextField type={type}
-      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} variant="outlined" />
+  )
+}
+
+const Multiline: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
+  const [field, meta] = useField<{}>(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+  return (
+    <TextField rows={5} variant="outlined" multiline type={type}
+      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} className={styles.multiline} />
   )
 }
 
@@ -63,7 +73,7 @@ type Token = {
 
 
 export default function Activities() {
-  const router = useRouter();
+
   const { subAtivity, setSubAtivity } = useContext(AuthContext);
   const { authenticated } = useContext(AuthContext);
   const { activityLocation, markers } = useContext(MapContext
@@ -87,10 +97,14 @@ export default function Activities() {
           date: '',
           location: activityLocation,
           totalParticipants: '',
-          activityOwner: token.username,
           category: '',
           lat: '',
           lon: '',
+          startHour: '',
+          endHour: '',
+          keywords: [],
+
+
 
         }}
           validationSchema={validationSchema}
@@ -133,7 +147,9 @@ export default function Activities() {
           {({ isSubmitting }) => (
             <Form className={styles.form} >
               <MyTextField placeholder="title" name="title" type="input" as={TextField} />
-              <MyTextField placeholder="description" name="description" type="input" as={TextField} />
+              <Multiline placeholder="description" name="description" type="input"
+                as={Multiline} />
+
               <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
               <MyTextField placeholder="category" name="category" type="input" as={TextField} />
               <p>data</p>
@@ -151,11 +167,31 @@ export default function Activities() {
                 //] }}
                 as={TextField}
               />
+              <MyTextField
+                id="time"
+                type="time"
+                name="time"
+                defaultValue="07:30"
+                as={TextField}
+              />
+              <MyTextField
+                id="time"
+                type="time"
+                name="time"
+                defaultValue="07:30"
+                as={TextField}
+              />
+
+              <Multiline placeholder="keywords" name="keyword" type="input"
+                as={Multiline} />
 
               <div className={styles.mapView}>
                 <MapView />
 
 
+              </div>
+              <div>
+                <App />
               </div>
 
               <div>
