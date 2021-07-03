@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { AuthContext } from '../../Context/AuthContext'
 import React, { useContext } from 'react'
 import Cookies from 'js-cookie'
-import { CgProfile } from 'react-icons/cg'
 import { FaHandHoldingHeart } from 'react-icons/fa'
-import { IoCreateSharp, IoNotifications } from 'react-icons/io5'
+import { IoCreateSharp, IoNotifications, IoHome, IoTrophySharp, IoPersonSharp } from 'react-icons/io5'
+import { BsFillPeopleFill } from "react-icons/bs";
 export default function NavBar() {
 
 
@@ -26,13 +26,18 @@ export default function NavBar() {
         <h1>Helpin'Hand</h1>
         <div className={styles.Navbar}>
 
+          <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
           <Link href={`/${Token}`}>
-            <div className={styles.topics}><span className={styles.links} ><CgProfile /><a className={styles.linkname}> Perfil</a></span></div></Link>
+            <div className={styles.topics}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
 
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 
+          <Link href={'/organizations'}><div className={styles.topics}><span className={styles.links}><BsFillPeopleFill /><a className={styles.linkname}> Organizações</a></span></div></Link>
+
           <Link href={'/createActivity'}><div className={styles.topics}><span className={styles.links}><IoCreateSharp /><a className={styles.linkname}> Criar Atividade</a></span></div></Link>
+
+          <Link href={'/rankings'}><div className={styles.topics}><span className={styles.links}><IoTrophySharp /><a className={styles.linkname}> Rankings</a></span></div></Link>
 
           <Link href={`/${Token}`}><div className={styles.topics}><span className={styles.links}><IoNotifications /><a className={styles.linkname}> Notificações</a></span></div></Link>
 

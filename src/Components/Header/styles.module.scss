@@ -28,15 +28,13 @@
     .topics{
       margin-bottom: 1.5rem;
       cursor: pointer;   
-      .links{
 
-        color: var(--redhh)
+      .links{
+        color: var(--redhh);
         
-    
       }
       .links:active{
-          
-          color: var(--bluehh);
+        color: var(--bluehh);
           
       }
     
