@@ -2,7 +2,6 @@ import styles from './styles/registeroption.module.scss'
 import Head from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
-import Link from 'next/link';
 export default function Login() {
   //css por fazer
   return (
