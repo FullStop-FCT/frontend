@@ -11,7 +11,7 @@ type Token = {
     role: string,
     creationData: number,
     expirationData: number
-  }
+}
 
 export default function Rankings() {
 
@@ -31,7 +31,13 @@ export default function Rankings() {
                 <Header/>
             </div> 
 
-            <div className={defaultStyles.Feed}>
+            
+            <div className={rankingStyles.option}> <h1>Utilizadores</h1> </div>
+
+            <div className={rankingStyles.option}> Organizações</div>
+
+
+            {/*<div className={defaultStyles.Feed}>
                 <div className={rankingStyles.scoreTable}>
                     <table>
                         <tbody>
@@ -52,7 +58,7 @@ export default function Rankings() {
 
                     </table>
                 </div>
-            </div>
+                        </div>*/}
         </div>
     )
 }
