@@ -8,10 +8,7 @@ import Cookie from 'js-cookie'
 import Link from 'next/link';
 import { useEffect } from "react";
 export default function Home() {
-  useEffect(() => {
-    Cookie.remove('token');
-    Cookie.remove('user');
-  }, [])
+
 
   return (
     <div>
@@ -19,7 +16,6 @@ export default function Home() {
         <title>Home Page</title>
       </Head>
       <NavBar />
-
       <div className={styles.introContainer}>
         <div className={styles.div1image}>
           <img src="/pessoas-parque.png" alt="Pessoas no parque" />

@@ -30,7 +30,7 @@
       cursor: pointer;   
 
       .links{
-        color: var(--redhh);
+        color: var(--black);
         
       }
       .links:active{
@@ -41,8 +41,8 @@
     }
 
     .topics:hover{
-      color: var(--redhh);
-      background-color: var(--redhh);
+      color: #fff;
+      background-color: #fff;
       opacity:0.5;
       border-radius: 10px;
       

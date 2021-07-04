@@ -13,9 +13,7 @@ export default function Create_Activity() {
                 <h1>Criar Atividade</h1>
                 <Activity />
             </div >
-            <div className={styles.other}>
 
-            </div>
         </div >
     );
 }

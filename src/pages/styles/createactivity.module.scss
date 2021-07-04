@@ -2,28 +2,26 @@
 
   display: flex;
   flex-direction: row;
- 
   height: 100%;
- 
+  
   .header {
     background: var(--bluehh);
     width: 20%;
     border-right: 2px solid rgb(192, 189, 189);
+    
   }
 
   .activityContainer{
     text-align: center;
     margin-top: 4rem;
     margin-bottom: 2rem;
-    width: 70%;
+    width: 100%;
     h1{
       margin-bottom: 2rem;
     }
   }
 
-  .other {
-    width: 15%;
-  }
+  
 }
 
 

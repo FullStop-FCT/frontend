@@ -7,7 +7,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import { MapContext } from '../../Context/MapContext'
 
 import React, { useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import KeyWord from '../keywords/'
 import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
 import MapView from '../Maps';
@@ -16,6 +16,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
+  KeyboardTimePicker
 } from '@material-ui/pickers';
 import ptBr from 'date-fns/locale/pt-BR'
 import format from 'date-fns/format'
@@ -28,9 +29,22 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...prop
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
     <TextField type={type}
-      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} />
+      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} variant="outlined" />
   )
 }
+
+const Multiline: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
+  const [field, meta] = useField<{}>(props);
+  const errorText = meta.error && meta.touched ? meta.error : "";
+  return (
+    <TextField rows={3} variant="outlined" multiline type={type}
+      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} className={styles.multiline} />
+  )
+}
+
+
+
+
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -63,7 +77,7 @@ type Token = {
 
 
 export default function Activities() {
-  const router = useRouter();
+
   const { subAtivity, setSubAtivity } = useContext(AuthContext);
   const { authenticated } = useContext(AuthContext);
   const { activityLocation, markers } = useContext(MapContext
@@ -71,12 +85,23 @@ export default function Activities() {
   const token: Token = JSON.parse(Cookies.get('token'));
 
   const [date, setDate] = useState("");
-  const handleDateChange = (event) => {
+  const [timein, setTimeIn] = useState("");
+  const [timeout, setTimeOut] = useState("");
+  const handleDateChange = () => {
 
-    setDate(format(new Date(event.target.value), "dd/MM/yyyy HH:mm"))
-    console.log(date)
+    // setDate(format(new Date(event.target.value), "dd/MM/yyyy"))
+    console.log('asdads')
 
   };
+
+  const handleTimeIn = (event) => {
+    setTimeIn(format(new Date(event.target.value), "HH:mm"))
+    console.log(timein)
+  }
+
+  const handleTimeOut = (event) => {
+    setTimeOut(format(new Date(event.target.value), "HH:mm"))
+  }
   return (
     <div className={styles.container}>
       <div>
@@ -87,10 +112,14 @@ export default function Activities() {
           date: '',
           location: activityLocation,
           totalParticipants: '',
-          activityOwner: token.username,
           category: '',
           lat: '',
           lon: '',
+          startHour: '',
+          endHour: '',
+          keywords: [],
+
+
 
         }}
           validationSchema={validationSchema}
@@ -132,34 +161,63 @@ export default function Activities() {
 
           {({ isSubmitting }) => (
             <Form className={styles.form} >
-              <MyTextField placeholder="title" name="title" type="input" as={TextField} />
-              <MyTextField placeholder="description" name="description" type="input" as={TextField} />
-              <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
-              <MyTextField placeholder="category" name="category" type="input" as={TextField} />
-              <p>data</p>
-              <MyTextField
-                id="datetime-local"
+              <div className={styles.formtext}>
+                <MyTextField placeholder="title" name="title" type="input" as={TextField} />
+                <Multiline placeholder="description" name="description" type="input"
+                  as={Multiline} />
 
-                type="datetime-local"
-                name="date"
-                // variant='outlined'
-                placeholder="data"
-                defaultValue={null}
-                onChange={(event) => handleDateChange(event)}
-                //InputLabelProps={{
-                //shrink: true,
-                //] }}
-                as={TextField}
-              />
+                <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
+                <MyTextField placeholder="category" name="category" type="input" as={TextField} />
+                <div>
+                  <KeyWord />
+                </div>
+                <p>data</p>
+                <MyTextField
+                  id="datetime-local"
 
-              <div className={styles.mapView}>
-                <MapView />
+                  type="date"
+                  name="date"
+                  // variant='outlined'
+                  placeholder="data"
+                  defaultValue={null}
+                  onChange={(event) => handleDateChange(event)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  as={TextField}
+                />
+                <p>Hora de entrada </p>
+                <MyTextField
+                  id="time"
+                  type="time"
+                  name="time-in"
+                  defaultValue={null}
+                  onChange={handleDateChange}
+                  as={TextField}
+                />
+                <p>Hora de saida</p>
+                <MyTextField
+                  id="time"
+                  type="time"
+                  name="time-out"
+                  defaultValue={null}
+                  onChange={handleTimeOut}
+                  as={TextField}
+                />
+
 
 
               </div>
 
-              <div>
+              <div className={styles.mapView}>
+                <MapView />
                 <Button disabled={isSubmitting} type="submit">submit</Button>
+
+              </div>
+
+
+              <div>
+
               </div>
             </Form>
 

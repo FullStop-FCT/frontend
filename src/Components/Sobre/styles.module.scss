@@ -1,5 +1,5 @@
 .container1 {
-  background: var(--bluehh);
+  background: var(--whitehh);
   display: flex;
   height: 603px;
   width: 100%;
@@ -13,18 +13,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--whitehh);
+  background: var(--bluehh);
   height: 25rem;
   margin: auto;
   width: 90%;
   border-radius: 4rem ;
 
   h1 {
-    color: var(--redhh);
+    color: #fff;
     margin-bottom: 3rem;
   }
   p {
-    color: #000;
+    color: #fff;
     font-size: 20px;
   }
 

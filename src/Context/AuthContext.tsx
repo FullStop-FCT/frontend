@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import Cookie from 'js-cookie';
 import { addDays, milliseconds } from 'date-fns'
 import Loading from '../Components/Loading'
+import { IoLogOutSharp } from 'react-icons/io5';
 
 type data = {
   username: string;
@@ -50,8 +51,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     const token = Cookie.get('token');
     if (token) {
-
-
       setAuthenticated(true);
 
     }
@@ -62,10 +61,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   }, []);
 
+
+  const logOut = () => {
+
+  }
   async function handleLogout() {
     setAuthenticated(false);
-    router.push('/')
 
+    Cookie.remove('token');
+    Cookie.remove('user');
+    window.location.href = '/';
 
   }
 

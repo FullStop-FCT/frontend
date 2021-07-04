@@ -39,7 +39,7 @@ export default function NavBar() {
 
           <Link href={'/rankings'}><div className={styles.topics}><span className={styles.links}><IoTrophySharp /><a className={styles.linkname}> Rankings</a></span></div></Link>
 
-          <Link href={`/${Token}`}><div className={styles.topics}><span className={styles.links}><IoNotifications /><a className={styles.linkname}> Notificações</a></span></div></Link>
+          <Link href={`/home`}><div className={styles.topics}><span className={styles.links}><IoNotifications /><a className={styles.linkname}> Notificações</a></span></div></Link>
 
 
 
