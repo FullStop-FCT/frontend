@@ -7,7 +7,7 @@ import { AuthContext } from '../../Context/AuthContext'
 import { MapContext } from '../../Context/MapContext'
 
 import React, { useContext, useEffect } from 'react'
-import App from '../keywords/'
+import KeyWord from '../keywords/'
 import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
 import MapView from '../Maps';
@@ -37,10 +37,14 @@ const Multiline: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props 
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
   return (
-    <TextField rows={5} variant="outlined" multiline type={type}
+    <TextField rows={3} variant="outlined" multiline type={type}
       size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} className={styles.multiline} />
   )
 }
+
+
+
+
 
 const validationSchema = Yup.object({
   title: Yup.string()
@@ -81,12 +85,23 @@ export default function Activities() {
   const token: Token = JSON.parse(Cookies.get('token'));
 
   const [date, setDate] = useState("");
-  const handleDateChange = (event) => {
+  const [timein, setTimeIn] = useState("");
+  const [timeout, setTimeOut] = useState("");
+  const handleDateChange = () => {
 
-    setDate(format(new Date(event.target.value), "dd/MM/yyyy HH:mm"))
-    console.log(date)
+    // setDate(format(new Date(event.target.value), "dd/MM/yyyy"))
+    console.log('asdads')
 
   };
+
+  const handleTimeIn = (event) => {
+    setTimeIn(format(new Date(event.target.value), "HH:mm"))
+    console.log(timein)
+  }
+
+  const handleTimeOut = (event) => {
+    setTimeOut(format(new Date(event.target.value), "HH:mm"))
+  }
   return (
     <div className={styles.container}>
       <div>
@@ -146,56 +161,63 @@ export default function Activities() {
 
           {({ isSubmitting }) => (
             <Form className={styles.form} >
-              <MyTextField placeholder="title" name="title" type="input" as={TextField} />
-              <Multiline placeholder="description" name="description" type="input"
-                as={Multiline} />
+              <div className={styles.formtext}>
+                <MyTextField placeholder="title" name="title" type="input" as={TextField} />
+                <Multiline placeholder="description" name="description" type="input"
+                  as={Multiline} />
 
-              <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
-              <MyTextField placeholder="category" name="category" type="input" as={TextField} />
-              <p>data</p>
-              <MyTextField
-                id="datetime-local"
+                <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
+                <MyTextField placeholder="category" name="category" type="input" as={TextField} />
+                <div>
+                  <KeyWord />
+                </div>
+                <p>data</p>
+                <MyTextField
+                  id="datetime-local"
 
-                type="datetime-local"
-                name="date"
-                // variant='outlined'
-                placeholder="data"
-                defaultValue={null}
-                onChange={(event) => handleDateChange(event)}
-                //InputLabelProps={{
-                //shrink: true,
-                //] }}
-                as={TextField}
-              />
-              <MyTextField
-                id="time"
-                type="time"
-                name="time"
-                defaultValue="07:30"
-                as={TextField}
-              />
-              <MyTextField
-                id="time"
-                type="time"
-                name="time"
-                defaultValue="07:30"
-                as={TextField}
-              />
+                  type="date"
+                  name="date"
+                  // variant='outlined'
+                  placeholder="data"
+                  defaultValue={null}
+                  onChange={(event) => handleDateChange(event)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  as={TextField}
+                />
+                <p>Hora de entrada </p>
+                <MyTextField
+                  id="time"
+                  type="time"
+                  name="time-in"
+                  defaultValue={null}
+                  onChange={handleDateChange}
+                  as={TextField}
+                />
+                <p>Hora de saida</p>
+                <MyTextField
+                  id="time"
+                  type="time"
+                  name="time-out"
+                  defaultValue={null}
+                  onChange={handleTimeOut}
+                  as={TextField}
+                />
 
-              <Multiline placeholder="keywords" name="keyword" type="input"
-                as={Multiline} />
+
+
+              </div>
 
               <div className={styles.mapView}>
                 <MapView />
-
-
-              </div>
-              <div>
-                <App />
-              </div>
-
-              <div>
                 <Button disabled={isSubmitting} type="submit">submit</Button>
+
+              </div>
+
+
+              <div>
+
               </div>
             </Form>
 
