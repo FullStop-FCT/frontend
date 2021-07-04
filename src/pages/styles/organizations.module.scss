@@ -1,0 +1,17 @@
+.container {
+
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    
+    .header {
+      background: var(--bluehh);
+      width: 20%;
+      border-right: 2px solid rgb(192, 189, 189);
+      
+    }
+    .orgs {
+        width: 80%;
+
+    }
+}

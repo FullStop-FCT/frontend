@@ -1,6 +1,5 @@
 import Header from '../Components/Header';
-import defaultStyles from './styles/base.module.scss';
-import rankingStyles from './styles/rankings.module.scss';
+import styles from './styles/rankings.module.scss';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
@@ -25,40 +24,23 @@ export default function Rankings() {
     }, [])
 
     return (
-        <div className={defaultStyles.container}>
+        <div className={styles.container}>
 
-            <div className={defaultStyles.header}>
+            <div className={styles.header}>
                 <Header/>
             </div> 
 
-            
-            <div className={rankingStyles.option}> <h1>Utilizadores</h1> </div>
-
-            <div className={rankingStyles.option}> Organizações</div>
-
-
-            {/*<div className={defaultStyles.Feed}>
-                <div className={rankingStyles.scoreTable}>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Horas Realizadas</th>
-                            </tr>
-                        </tbody>
-                        {users.map( (user, index) => 
-                                <tbody key={index}>
-                                    <tr >
-                                        <td>{user.username}</td>
-                                        <td>{user.hoursDone}</td>
-                                    </tr>
-                                </tbody> 
-                                
-                            )}
-
-                    </table>
+            <div className={styles.imagediv}>
+                <div className={styles.image1}>
+                    <a href="/rankings/users"><img src="/individuo.png"></img></a>
+                    <h1>Voluntários</h1>
                 </div>
-                        </div>*/}
+                <div className={styles.image2}>
+                    <a href="/rankings/organizacoes"><img src="/grupo.png"></img></a>
+                    <h1>Organizações</h1>
+                </div>
+            </div>
         </div>
     )
+
 }

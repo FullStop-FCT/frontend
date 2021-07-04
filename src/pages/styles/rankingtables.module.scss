@@ -1,0 +1,36 @@
+.container {
+
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    
+    .header {
+      background: var(--bluehh);
+      width: 20%;
+      border-right: 2px solid rgb(192, 189, 189);
+      
+    }
+
+    .scoreTable {
+      margin:auto;
+    }
+
+    table {
+      border-color: var(--bluehh);
+      border-radius: 3px;
+      border-style: solid;
+    }
+    tbody {
+      text-align: center;
+    }
+
+    th, td {
+      color: black;
+      padding: 10px 100px 0px 100px;
+    }
+
+    th {
+      font-size: 40px;
+      background-color: var(--bluehh);
+    }
+}

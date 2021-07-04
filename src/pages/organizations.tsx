@@ -1,4 +1,6 @@
 import Orgs from '../Components/OrgCards';
+import Header from '../Components/Header';
+import styles from './styles/organizations.module.scss'
 
 
 
@@ -10,5 +12,15 @@ export default function Organizations() {
     document.head.appendChild(styleLink);
 
 
-    return (<Orgs/>)
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+            <Header/>
+            </div>
+
+            <div className={styles.orgs}>
+                <Orgs/>
+            </div>
+        </div>
+        )
 }

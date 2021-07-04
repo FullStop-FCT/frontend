@@ -25,42 +25,34 @@ export default function Organizations() {
     }, [])
 
     return (
-        <div className={defaultStyles.container}>
 
-            <div className={defaultStyles.header}>
-                <Header/>
-            </div> 
+        <div className={defaultStyles.Feed}>
+
+            <Card.Group> 
             
+                {orgs.map( organization => 
 
-            <div className={defaultStyles.Feed}>
- 
+                    <Card key={organization.username}>
+                        <Card.Content >
+                            <Image
+                                floated='right'
+                                size='mini'
+                            />
+                            <Card.Header href="">{organization.name}</Card.Header>
+                            <Card.Meta>X Followers</Card.Meta>
+                            <Card.Description>{organization.location}</Card.Description>
+                        </Card.Content>
+                        <Card.Content extra>
+                            <div className='ui two buttons'>
+                            <Button>Seguir</Button>
+                            </div>
+                        </Card.Content>
+                    </Card>
+                    
+                )}
 
-                <Card.Group> 
-                
-                    {orgs.map( organization => 
-
-                        <Card key={organization.username}>
-                            <Card.Content >
-                                <Image
-                                    floated='right'
-                                    size='mini'
-                                />
-                                <Card.Header>{organization.name}</Card.Header>
-                                <Card.Meta>X Followers</Card.Meta>
-                                <Card.Description>{organization.location}</Card.Description>
-                            </Card.Content>
-                            <Card.Content extra>
-                                <div className='ui two buttons'>
-                                <Button>Follow</Button>
-                                </div>
-                            </Card.Content>
-                        </Card>
-                        
-                    )}
-
-                </Card.Group>
-                
-            </div>
+            </Card.Group>
+            
         </div>
     )
 }
