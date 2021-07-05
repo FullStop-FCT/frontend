@@ -133,40 +133,7 @@ export default function Home() {
 
         </div>
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="default"
-            />
-          }
-          label="Mostrar apenas as atividades das organizações que sigo"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="default"
-            />
-          }
-          label="Mostrar apenas atividades de organizações"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="default"
-            />
-          }
-          label="Mostrar apenas atividades de indivíduos"
-        />
-        <br />
+        
 
         <div>
           {props.map((ativ, index) => {
@@ -199,7 +166,44 @@ export default function Home() {
         </div>
 
       </div>
-      <div className={styles.other}></div>
+      
+      <div className={styles.other}>
+        <h1>Filtros</h1>
+        <FormControlLabel className={styles.filters}
+          control={
+            <Checkbox 
+              checked={state.checkedA}
+              onChange={handleChange}
+              name="checkedA"
+              color="default"
+            />
+          }
+          label="Mostrar apenas atividades das organizações que sigo"
+        />
+        <FormControlLabel className={styles.filters}
+          control={
+            <Checkbox
+              checked={state.checkedA}
+              onChange={handleChange}
+              name="checkedA"
+              color="default"
+            />
+          }
+          label="Mostrar apenas atividades de organizações"
+        />
+        <FormControlLabel className={styles.filters}
+          control={
+            <Checkbox
+              checked={state.checkedA}
+              onChange={handleChange}
+              name="checkedA"
+              color="default"
+            />
+          }
+          label="Mostrar apenas atividades de indivíduos"
+        />
+        <br />
+      </div>
 
     </div>
 

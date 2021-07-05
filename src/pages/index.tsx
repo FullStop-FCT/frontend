@@ -35,9 +35,6 @@ export default function Home() {
       <div className={styles.footer}><Footer></Footer></div>
 
 
-
-
-
     </div>
   )
 }
