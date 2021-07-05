@@ -18,8 +18,6 @@ export default function Users() {
 
     const [users, setUsers] = useState([]);
 
-    const [counter, setCounter] = useState(0);
-
     useEffect( () => {
         axios.post('https://helpinhand-318217.ey.r.appspot.com/rest/users/user/hours', token)
             .then(response => { setUsers(response.data)})
@@ -37,14 +35,16 @@ export default function Users() {
                 <table>
                     <tbody>
                         <tr>
+                            <th>Posição</th>
                             <th>Nome</th>
                             <th>Horas Realizadas</th>
                         </tr>
                     </tbody>
                     {users.map( (user, index) => 
                             <tbody key={index}>
-                                <tr >
-                                    <td>{ (index + 1) + ". " + user.username }</td> 
+                                <tr>
+                                    <td>{index + 1 + "."}</td>
+                                    <td>{user.username}</td> 
                                     <td>{user.hoursDone}</td>
                                 </tr>
                             </tbody>

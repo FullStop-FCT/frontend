@@ -40,7 +40,7 @@ export default function Organizations() {
                             />
                             <Card.Header href="">{organization.name}</Card.Header>
                             <Card.Meta>X Followers</Card.Meta>
-                            <Card.Description>{organization.location}</Card.Description>
+                            <Card.Description>{organization.following}</Card.Description>
                         </Card.Content>
                         <Card.Content extra>
                             <div className='ui two buttons'>
