@@ -5,6 +5,7 @@ import Cookie from 'js-cookie';
 import { addDays, milliseconds } from 'date-fns'
 import Loading from '../Components/Loading'
 import { IoLogOutSharp } from 'react-icons/io5';
+import KeyWord from '../Components/keywords';
 
 type data = {
   username: string;
@@ -24,7 +25,8 @@ type AuthContextData = {
   setSubAtivity: (state: boolean) => void;
   subEdit: boolean;
   setSubEdit: (state: boolean) => void;
-
+  keywords: string[];
+  setKeywords: (string) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -39,7 +41,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [loading, setLoading] = useState(true);
   const [subAtivity, setSubAtivity] = useState(false);
   const [subEdit, setSubEdit] = useState(false);
-
+  const [keywords, setKeywords] = useState([]);
 
 
 
@@ -111,7 +113,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   return (
     <AuthContext.Provider value={{
-      authenticated, handleLogin, handleLogout, subAtivity, setSubAtivity, subEdit, setSubEdit
+      authenticated, handleLogin, handleLogout, subAtivity, setSubAtivity, subEdit, setSubEdit, keywords, setKeywords
     }}>
       {children}
     </AuthContext.Provider>

@@ -296,7 +296,8 @@ export default function EditInfo(user: userProps) {
                   <MenuItem value={'Masculino'}>Masculino</MenuItem>
                   <MenuItem value={'Feminino'}>Feminino</MenuItem>
                   <MenuItem value={'Não Binário'}>Não Binário</MenuItem>
-                </Select></FormControl>
+                </Select>
+              </FormControl>
 
 
 

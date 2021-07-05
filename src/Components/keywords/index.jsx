@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from '../../Context/AuthContext';
+
+
+
 
 
 const TagsInput = props => {
+  const { setKeywords } = useContext(AuthContext);
   const [tags, setTags] = useState(props.tags);
   const removeTags = indexToRemove => {
     setTags([...tags.filter((_, index) => index !== indexToRemove)]);
+    setKeywords([...tags.filter((_, index) => index !== indexToRemove)])
   };
   const addTags = event => {
     if (event.target.value !== "" && [...tags, event.target.value].length <= 5) {
       setTags([...tags, event.target.value]);
+      setKeywords([...tags, event.target.value])
       props.selectedTags([...tags, event.target.value]);
       event.target.value = "";
       //  console.log(tag.lenght())
