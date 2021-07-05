@@ -16,13 +16,6 @@ export default function Rankings() {
 
     const token: Token = Cookies.getJSON('token');
 
-    const [users, setUsers] = useState([]);
-
-    useEffect( () => {
-        axios.post('https://helpinhand-318217.ey.r.appspot.com/rest/users/user/hours', token)
-            .then(response => { setUsers(response.data)})
-    }, [])
-
     return (
         <div className={styles.container}>
 
@@ -42,7 +35,7 @@ export default function Rankings() {
                         <h1>Voluntários</h1>
                     </div>
                     <div className={styles.image2}>
-                        <a href="/rankings/organizacoes"><img src="/grupo.png"></img></a>
+                        <a href="/rankings/organizations"><img src="/grupo.png"></img></a>
                         <h1>Organizações</h1>
                     </div>
                 </div>
