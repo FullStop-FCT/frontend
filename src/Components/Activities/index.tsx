@@ -94,6 +94,7 @@ type Token = {
 
 
 export default function Activities() {
+
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
@@ -182,7 +183,7 @@ export default function Activities() {
           description: '',
           date: date,
           location: activityLocation,
-          totalParticipants: '',
+          totalParticipants: 0,
           category: category,
           lat: '',
           lon: '',
@@ -211,6 +212,8 @@ export default function Activities() {
             values.endHour = timeout;
             values.keywords = keywords;
             values.category = category;
+
+
             if (category == "") {
               values.category = "Outros"
             }

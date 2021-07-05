@@ -1,0 +1,86 @@
+.container{
+  background-color: #fff;
+  width: 30rem;
+  height: 13rem;
+  border-radius: 2rem;
+  margin: auto;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  .avatarandname{
+    display: flex;
+    flex-direction: row;
+
+    .userimage{
+      width: 60px;
+      min-height: 60px;
+      border: 5px solid var(--redhh);
+      border-radius: 50%;
+      background-color: rgb(114, 113, 113);
+      margin-top: 5px;
+      margin-left: 10px;
+    }
+    .username{
+      margin-left: 5px;
+      margin-top: 5px;
+      p{
+        text-align: start;
+      }
+    }
+  }
+  .activity{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    h3{
+      margin-bottom: 10px;
+    }
+    .activityinfo{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly ;
+     // overflow: hidden;
+     overflow:hidden;
+     
+     text-overflow: clip;
+      .localdate{
+        width: 130px;
+        height: 60px;
+        background-color: rgb(218, 217, 217);
+        border-radius: 1rem;   
+        text-align: start;
+        p{
+        
+          margin-left: 10px;
+          margin-top: 7px;
+        }
+      }
+      .participants{
+        width: 130px;
+        height: 60px;
+        background-color: rgb(218, 217, 217);
+        border-radius: 1rem;  
+        h4{
+          margin-top: 10px;
+        
+        }
+      }
+    }
+  }
+
+  .vermaiscontainer{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-top: 20px;
+    margin-right: 2rem;
+  }
+
+
+
+
+
+}
+
+
+

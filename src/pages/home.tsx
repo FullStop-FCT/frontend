@@ -17,6 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Activity from '../Components/Activity'
 
 
 type Token = {
@@ -76,7 +77,7 @@ export default function Home() {
   }
 
   let props: listAtivitiesProps = data;
-
+  console.log(data);
 
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
@@ -133,45 +134,29 @@ export default function Home() {
 
         </div>
 
-        
+
 
         <div>
-          {props.map((ativ, index) => {
+          {props.map((ativ: AtivitiesProps, index) => {
             return (
-              <div className={styles.activity} key={index}>
-                <Link href="/{ativ.title}">
-                  {ativ.title}
-                </Link>
-                <p>
-                  {ativ.description}
-                </p>
-                <p>
-                  {ativ.date}
-                </p>
-                <p>
-                  {ativ.location}
-                </p>
-                <p>
-                  {ativ.totalParticipants}
-                </p>
-                <p>
-                  {ativ.activityOwner}
-                </p>
-                <p>
-                  {ativ.category}
-                </p>
-              </div>
+
+
+
+              < Activity {...ativ} />
+
+
+
             )
           })}
         </div>
 
       </div>
-      
+
       <div className={styles.other}>
         <h1>Filtros</h1>
         <FormControlLabel className={styles.filters}
           control={
-            <Checkbox 
+            <Checkbox
               checked={state.checkedA}
               onChange={handleChange}
               name="checkedA"

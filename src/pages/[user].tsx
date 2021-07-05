@@ -147,7 +147,7 @@ export default function User() {
   }
   //quando é outro user 
   else {
-    let { data, error } = useSWR(`users/user/${username}`, fetcher2);
+    let { data, error } = useSWR(`users/self/${username}`, fetcher2);
     user = data;
     if (error) { return <SessionOf /> }
     if (!data) return <Loading />
