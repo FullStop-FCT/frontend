@@ -1,5 +1,5 @@
-import styles from '../styles/activity.module.scss'
-import Header from '../../Components/Header'
+import styles from '../../styles/activity.module.scss'
+import Header from '../../../Components/Header'
 
 export default function Activity() {
 
@@ -8,13 +8,13 @@ export default function Activity() {
         <div className={styles.container}>
 
             <div className={styles.header}>
-                <Header/>
+                <Header />
             </div>
 
             <div className={styles.organizer}>
 
                 <div className={styles.org_info}>
-                    <div className={styles.image}/>
+                    <div className={styles.image} />
                     <a href="">Nome</a>
                 </div>
 

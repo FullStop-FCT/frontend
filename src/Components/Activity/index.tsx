@@ -1,9 +1,11 @@
 import styles from './styles.module.scss'
 import { api } from '../../../services/api';
 import Image from 'next/image'
+import Link from 'next/link'
 import useSWR from 'swr';
 
 type AtivitiesProps = {
+  ID: string,
   title: string,
   description: string,
   date: string,
@@ -36,10 +38,6 @@ async function fetcher(path: string): Promise<userProps> {
 
 export default function Activity(activity: AtivitiesProps) {
 
-
-
-
-
   const { data, error } = useSWR(`users/self/${activity.activityOwner}`, fetcher);
   const user: userProps = data;
 
@@ -66,8 +64,8 @@ export default function Activity(activity: AtivitiesProps) {
           />
         </div>
         <div className={styles.username}>
-          <p>{user.name}</p>
-          <p>@{user.username}</p>
+          <Link href={`${user.username}`}><p>{user.name}</p></Link>
+          <Link href={`${user.username}`}><p>@{user.username}</p></Link>
         </div>
       </div>
       <div className={styles.activity}>
@@ -84,7 +82,7 @@ export default function Activity(activity: AtivitiesProps) {
         </div>
       </div>
       <div className={styles.vermaiscontainer}>
-        <p>Ver mais</p>
+        <Link href={`activity/${activity.activityOwner}/activity`}><p>Ver mais</p></Link>
         <div className={styles.vermais}>
         </div>
       </div>

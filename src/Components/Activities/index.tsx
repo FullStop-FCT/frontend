@@ -190,9 +190,6 @@ export default function Activities() {
           startHour: timein,
           endHour: timeout,
           keywords: keywords,
-
-
-
         }}
           validationSchema={validationSchema}
 

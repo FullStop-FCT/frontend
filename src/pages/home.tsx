@@ -29,6 +29,7 @@ type Token = {
 }
 
 type AtivitiesProps = {
+  ID: string,
   title: string,
   description: string,
   date: string,
@@ -140,9 +141,7 @@ export default function Home() {
           {props.map((ativ: AtivitiesProps, index) => {
             return (
 
-
-
-              < Activity {...ativ} />
+              < Activity {...ativ} key={index} />
 
 
 
