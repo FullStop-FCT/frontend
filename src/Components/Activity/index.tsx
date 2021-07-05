@@ -47,7 +47,7 @@ export default function Activity(activity: AtivitiesProps) {
 
   const myLoader = () => {
 
-    { return `https://storage.googleapis.com/imagenshh/${user.image}` }
+    { return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}` }
 
   }
   return (

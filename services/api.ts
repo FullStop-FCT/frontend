@@ -5,6 +5,6 @@ export const api = axios.create({
 })
 
 export const storageProfilePic = axios.create({
-  baseURL: 'https://helpin-hand.ey.r.appspot.com/gcs/imagens-helpin-hand/',
+  baseURL: 'https://helpinhand-318217.ey.r.appspot.com/gcs/helpinhand-318217.appspot.com/',
 })
 

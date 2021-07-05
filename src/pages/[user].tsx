@@ -82,7 +82,7 @@ export default function User() {
     if (!data) return <Loading />
     if (error) { return <SessionOf /> }
     myLoader = () => {
-      return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
+      return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
 
     return (
@@ -152,7 +152,7 @@ export default function User() {
     if (error) { return <SessionOf /> }
     if (!data) return <Loading />
     myLoader = () => {
-      return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
+      return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
 
     return (

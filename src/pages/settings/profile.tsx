@@ -78,7 +78,7 @@ export default function User() {
   if (!data) return <div>loading...</div>
 
   const myLoader = () => {
-    return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
+    return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
   }
 
 

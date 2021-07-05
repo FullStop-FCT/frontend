@@ -125,7 +125,7 @@ export default function EditInfo(user: userProps) {
   const classes = useStyles();
   const token: Token = JSON.parse(Cookies.get('token'));
   const myLoader = () => {
-    return `https://storage.googleapis.com/imagens-helpin-hand/${user.image}.jpg`
+    return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
   }
 
   const photoHandler = (event) => {
@@ -210,8 +210,8 @@ export default function EditInfo(user: userProps) {
                     console.log(error);
                   })*/
 
-                values.image = token.username + Date.now();
-                await storageProfilePic.post(values.image + '.jpg', fd)
+                values.image = token.username + Date.now() + '.jpg';
+                await storageProfilePic.post(values.image, fd)
                   .then(function (response) {
                     console.log(response)
                     console.log('upload')
