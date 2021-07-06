@@ -1,6 +1,5 @@
 .container {
-  color: #fff;
-  background: #E9ECF5;
+  background: var(--whitehh);
   height: 100%;
   width: 100%;
 
@@ -27,15 +26,16 @@
 }
 
 .form {
-  
+  background-color: var(--whitehh);
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-left: 2rem;
   justify-content: space-around;
   input {
-    color: #993955;
-    border: 2px solid #1a1a1a;
+    color: black;
+    border: 2px solid white;
+    background-color: white;
     padding: 0.1rem;
     margin: 0.5rem;
     width: 20rem;
@@ -57,7 +57,7 @@
     align-items: center;
     p{
       color:var(--black)
-      
+
     }
   }
 

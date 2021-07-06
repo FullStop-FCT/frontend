@@ -8,17 +8,13 @@
     background: var(--bluehh);
     width: 20%;
     border-right: 2px solid rgb(192, 189, 189);
-    
+    height: 100%;
   }
 
   .activityContainer{
-    text-align: center;
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-    width: 100%;
-    h1{
-      margin-bottom: 2rem;
-    }
+    margin: auto;
+    width: 60%;
+    
   }
 
   

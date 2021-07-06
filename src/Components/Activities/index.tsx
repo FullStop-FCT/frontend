@@ -139,7 +139,7 @@ export default function Activities() {
     const [field, meta] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
-      <TextField variant="outlined" type="time" label="hora de entrada" value={timein}
+      <TextField variant="outlined" type="time" label="Hora de início" value={timein}
         helperText={errorText} error={!!errorText} onChange={handleTimeIn} InputLabelProps={{
           shrink: true,
         }} />
@@ -150,7 +150,7 @@ export default function Activities() {
     const [field, meta] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
-      <TextField variant="outlined" type="time" label="hora de saída" value={timeout}
+      <TextField variant="outlined" type="time" label="Hora de fim" value={timeout}
         helperText={errorText} error={!!errorText} onChange={handleTimeOut} InputLabelProps={{
           shrink: true,
         }} />
@@ -183,7 +183,7 @@ export default function Activities() {
           description: '',
           date: date,
           location: activityLocation,
-          totalParticipants: 0,
+          totalParticipants: '',
           category: category,
           lat: '',
           lon: '',
@@ -230,7 +230,7 @@ export default function Activities() {
               }
             }
             else {
-              alert('sem location')
+              alert('Sem localização.')
             }
             setSubmitting(false);
             //router.reload()
@@ -241,11 +241,11 @@ export default function Activities() {
           {({ isSubmitting }) => (
             <Form className={styles.form} onKeyDown={onKeyDown}>
               <div className={styles.formtext}>
-                <MyTextField placeholder="title" name="title" type="input" as={TextField} />
-                <Multiline placeholder="description" name="description" type="input"
+                <MyTextField placeholder="Título" name="title" type="input" as={TextField} />
+                <Multiline placeholder="Descrição" name="description" type="input"
                   as={Multiline} />
 
-                <MyTextField placeholder="totalParticipants" name="totalParticipants" type="input" as={TextField} />
+                <MyTextField placeholder="Nº máximo de participantes" name="totalParticipants" type="input" as={TextField} />
                 <FormControl className={classes.formControl}>
                   <Select
                     labelId="demo-controlled-open-select-label"

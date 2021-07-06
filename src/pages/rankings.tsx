@@ -19,6 +19,8 @@ export default function Rankings() {
     return (
         <div className={styles.container}>
 
+
+
             <div className={styles.header}>
                 <Header/>
             </div> 
