@@ -59,16 +59,13 @@ export default function Organizations() {
                     {
                         data.map((organization: userProps, index, array) => {
 
-                            for (var i = 0; i < array.length; i++) {
-                                for (var j = 0; j < 3; j++) {
-                                    return (
-                                        <Orgs {...organization} key={index} />
 
-                                    )
+                            return (
+                                <Orgs {...organization} key={index} />
 
-                                }
+                            )
 
-                            }
+
 
                         })
                     }
