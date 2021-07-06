@@ -29,7 +29,7 @@ type ActivitiesProps = {
     lon: string,
 }
 
-type userProps = {
+type UserProps = {
     birthday: string;
     email: string;
     name: string;
@@ -57,7 +57,7 @@ export default function Activity() {
         return await api.post(path, token).then(response => response.data)
     }
 
-    async function fetcher2(path: string): Promise<userProps> {
+    async function fetcher2(path: string): Promise<UserProps> {
         return await api.get(path).then(response => response.data)
     }
 
@@ -94,15 +94,19 @@ export default function Activity() {
                     </div>
                     <a href="">{activity.activityOwner}</a>
                 </div>
-
-                <div className={styles.details}>
-                    <p> <a className={styles.bold}>{"Data: "}</a>   {activity.date}</p>
-                    <p> <a className={styles.bold}>{"Local: "}</a>  {activity.location}</p>
-                    <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
-                    <p> <a className={styles.bold}>{"Descrição: "}</a>  {activity.description}</p>
-                    <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
+                <div className={styles.detailmap}>
+                    <div className={styles.details}>
+                        <p> <a className={styles.bold}>{"Data: "}</a>   {activity.date}</p>
+                        <p> <a className={styles.bold}>{"Local: "}</a>  {activity.location}</p>
+                        <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
+                        <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
+                        <p className={styles.desc}> <a className={styles.bold}>{"Descrição: "}</a>  {activity.category}</p>
+                    </div>
+                    <MapActivity lat={activity.lat} long={activity.lon} />
                 </div>
-                <MapActivity lat={activity.lat} long={activity.lon} />
+
+
+
             </div>
         </div>
     )
