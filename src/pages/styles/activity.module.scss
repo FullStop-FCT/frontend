@@ -21,10 +21,20 @@
         height: 400px;
         width: 60%;
         overflow:auto; 
+        display: flex;
+        flex-direction: column;
+        
         
         .detailmap{
             display: flex;
             flex-direction: row;
+            justify-content: space-around;
+
+            .map{
+                margin-top: 20px;
+                margin-right: 100px;
+                border-radius: 2rem;
+            }
         }
 
         .org_info {
@@ -52,11 +62,11 @@
         }
         
         .details {
-            margin: auto;
+            
             p {
                 margin:auto;
                 color: black;
-                margin-left: 30px;
+                margin-left: 40px;
                 line-height: 50px;
                 overflow-wrap: break-word;
             }

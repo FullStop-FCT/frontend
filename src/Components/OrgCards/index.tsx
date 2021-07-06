@@ -30,13 +30,32 @@ type Token = {
     expirationData: number
 }
 
-async function follow(orgname) {
-    const token: Token = Cookies.getJSON('token')
-    console.log(orgname)
-    await api.post(`users/follow/${orgname}`, token).then(response => console.log(response.data))
-}
+
+
+
+
 
 export default function Organizations(orgs: userProps) {
+    const [following, setFollowing] = useState(false);
+
+    const token: Token = Cookies.getJSON('token')
+    useEffect(() => {
+        api.post(`users/isfollowing/${orgs.username}`, token).then(response => setFollowing(response.data))
+    }, [])
+
+    async function follow(orgname) {
+        const token: Token = Cookies.getJSON('token')
+        if (!following) {
+            await api.post(`users/follow/${orgname}`, token).then(response => console.log(response.data))
+            setFollowing(true)
+        }
+        else {
+            await api.post(`users/unfollow/${orgname}`, token).then(response => console.log(response.data))
+            setFollowing(false)
+        }
+    }
+
+
     const myLoader = () => {
 
         { return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${orgs.image}` }
@@ -61,7 +80,10 @@ export default function Organizations(orgs: userProps) {
             </div>
             <div className={styles.follow}>
                 <button onClick={() => follow(orgs.username)}>
-                    Seguir
+                    {
+                        following ? 'Seguindo' : 'Seguir'
+
+                    }
                 </button>
             </div>
 

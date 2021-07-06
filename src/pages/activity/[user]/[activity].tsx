@@ -7,6 +7,8 @@ import Loading from '../../../Components/Loading'
 import SessionOf from '../../../Components/SessionOf'
 import Image from 'next/image'
 import MapActivity from '../../../Components/ActivityMap'
+import Link from 'next/link'
+import { format } from 'date-fns'
 type Token = {
     username: string,
     tokenID: string,
@@ -67,11 +69,17 @@ export default function Activity() {
     let { data: user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetcher2);
 
 
+
     if (!activity || !user) return <Loading />
     if (error1 || error2) { return <SessionOf /> }
 
     const myLoader = () => {
         return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
+    }
+
+    const props = {
+        lat: activity.lat,
+        long: activity.lon,
     }
 
     return (
@@ -85,24 +93,28 @@ export default function Activity() {
 
                 <div className={styles.org_info}>
                     <div className={styles.avatar}>
-                        <Image loader={myLoader}
+                        <Link href={`/${activity.activityOwner}`}><a><Image loader={myLoader}
                             src='me.png'
                             placeholder="blur"
                             width={70}
                             height={70}
-                            className={styles.image} />
+                            className={styles.image} /></a></Link>
                     </div>
-                    <a href="">{activity.activityOwner}</a>
+                    <Link href={`/${activity.activityOwner}`}><a>{activity.activityOwner}</a></Link>
                 </div>
                 <div className={styles.detailmap}>
                     <div className={styles.details}>
-                        <p> <a className={styles.bold}>{"Data: "}</a>   {activity.date}</p>
+                        <p><a className={styles.bold}>{"Data: "}</a>{format(new Date(activity.date), "dd/MM/yyyy")}</p>
                         <p> <a className={styles.bold}>{"Local: "}</a>  {activity.location}</p>
                         <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
                         <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
-                        <p className={styles.desc}> <a className={styles.bold}>{"Descrição: "}</a>  {activity.category}</p>
+                        <p className={styles.desc}> <a className={styles.bold}>{"Descrição: "}</a>{activity.description}</p>
                     </div>
-                    <MapActivity lat={activity.lat} long={activity.lon} />
+                    <div className={styles.map}>
+                        <MapActivity {...props} />
+                    </div>
+
+
                 </div>
 
 
