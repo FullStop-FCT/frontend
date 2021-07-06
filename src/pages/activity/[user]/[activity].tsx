@@ -6,7 +6,7 @@ import useSWR from 'swr'
 import Loading from '../../../Components/Loading'
 import SessionOf from '../../../Components/SessionOf'
 import Image from 'next/image'
-
+import MapActivity from '../../../Components/ActivityMap'
 type Token = {
     username: string,
     tokenID: string,
@@ -25,6 +25,8 @@ type ActivitiesProps = {
     totalParticipants: number,
     activityOwner: string,
     category: string
+    lat: string,
+    lon: string,
 }
 
 type userProps = {
@@ -55,22 +57,22 @@ export default function Activity() {
         return await api.post(path, token).then(response => response.data)
     }
 
-    async function fetcher2(path: string): Promise<ActivitiesProps> {
+    async function fetcher2(path: string): Promise<userProps> {
         return await api.get(path).then(response => response.data)
     }
 
     const token: Token = Cookies.getJSON('token');
-  
-    let { data : activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetcher1);
-    let { data : user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetcher2);
+
+    let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetcher1);
+    let { data: user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetcher2);
 
 
     if (!activity || !user) return <Loading />
     if (error1 || error2) { return <SessionOf /> }
-      
+
     const myLoader = () => {
         return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
-      }
+    }
 
     return (
         <div className={styles.container}>
@@ -84,11 +86,11 @@ export default function Activity() {
                 <div className={styles.org_info}>
                     <div className={styles.avatar}>
                         <Image loader={myLoader}
-                                src='me.png'
-                                placeholder="blur"
-                                width={70}
-                                height={70} 
-                                className={styles.image} />
+                            src='me.png'
+                            placeholder="blur"
+                            width={70}
+                            height={70}
+                            className={styles.image} />
                     </div>
                     <a href="">{activity.activityOwner}</a>
                 </div>
@@ -100,6 +102,7 @@ export default function Activity() {
                     <p> <a className={styles.bold}>{"Descrição: "}</a>  {activity.description}</p>
                     <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
                 </div>
+                <MapActivity lat={activity.lat} long={activity.lon} />
             </div>
         </div>
     )

@@ -8,13 +8,7 @@ import usePlacesAutoComplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { TextField, Button } from "@material-ui/core";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox"
+
 import { MapContext } from '../../Context/MapContext'
 import styles from './styles.module.scss'
 import { createContext } from 'use-context-selector'
@@ -41,8 +35,8 @@ const options = {
   zoomControl: true,
 }
 
-export default function MapView() {
-
+export default function MapActivity(lat: string, long: string) {
+  console.log(lat, long)
   //const { location } = activityMapLocation();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -97,56 +91,9 @@ export default function MapView() {
       >
         <Marker position={{ lat: markers.lat, lng: markers.lng }} />
 
-
-
       </GoogleMap>
 
     </div>
   )
 }
 
-function Search({ panTo, inputvalue }) {
-
-  const { ready, value, suggestions: { status, data },
-    setValue, clearSuggestions, } = usePlacesAutoComplete({
-      requestOptions: {
-        location: { lat: () => 38.660046, lng: () => -9.198817, },
-        radius: 200 * 1000
-      },
-    });
-
-  return (
-
-    <div className={styles.search}>
-      <Combobox onSelect={async (address) => {
-        setValue(address, false);
-        //inputvalue(address);
-        clearSuggestions();
-        try {
-          const results = await getGeocode({ address });
-          const { lat, lng } = await getLatLng(results[0])
-
-          panTo({ lat, lng });
-
-          inputvalue(address);
-          console.log(lat, lng)
-        } catch (error) {
-          console.log("error")
-        }
-      }}>
-        <ComboboxInput value={value} onChange={(e) => {
-          setValue(e.target.value);
-          console.log(e.target.value)
-
-          inputvalue(e.target.value);
-        }}
-          disabled={!ready}
-          placeholder="Location" />
-        <ComboboxPopover>
-          <ComboboxList>
-            {status === "OK" && data.map(({ description }) => <ComboboxOption key={description} value={description} />)}
-          </ComboboxList>
-        </ComboboxPopover>
-      </Combobox></div>
-  )
-}
