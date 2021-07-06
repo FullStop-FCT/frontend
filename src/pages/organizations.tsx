@@ -44,7 +44,7 @@ async function fetcher(path: string): Promise<listuserProps> {
 export default function Organizations() {
 
     const { data, error } = useSWR(`users/listorg`, fetcher);
-
+    const token: Token = Cookies.getJSON('token')
     if (error) { return (<div>error</div>) }
     if (!data) return <div>Loading</div>
     console.log(data)
@@ -59,11 +59,12 @@ export default function Organizations() {
                     {
                         data.map((organization: userProps, index, array) => {
 
+                            if (organization.username !== token.username)
+                                return (
 
-                            return (
-                                <Orgs {...organization} key={index} />
+                                    <Orgs {...organization} key={index} />
 
-                            )
+                                )
 
 
 

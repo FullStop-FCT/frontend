@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image'
+import { api } from '../../../services/api';
 
 type userProps = {
     birthday: string;
@@ -20,6 +21,19 @@ type userProps = {
     points: number;
     kind: string;
     image: string;
+}
+type Token = {
+    username: string,
+    tokenID: string,
+    role: string,
+    creationData: number,
+    expirationData: number
+}
+
+async function follow(orgname) {
+    const token: Token = Cookies.getJSON('token')
+    console.log(orgname)
+    await api.post(`users/follow/${orgname}`, token).then(response => console.log(response.data))
 }
 
 export default function Organizations(orgs: userProps) {
@@ -46,7 +60,7 @@ export default function Organizations(orgs: userProps) {
                 <h2>{orgs.username}</h2>
             </div>
             <div className={styles.follow}>
-                <button>
+                <button onClick={() => follow(orgs.username)}>
                     Seguir
                 </button>
             </div>
