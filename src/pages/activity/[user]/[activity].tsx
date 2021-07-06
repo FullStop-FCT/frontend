@@ -113,15 +113,18 @@ export default function Activity() {
                         <p> <a className={styles.bold}>{"Local: "}</a>  {activity.location}</p>
                         <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
                         <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
-                        <p className={styles.desc}> <a className={styles.bold}>{"Descrição: "}</a>{activity.description}</p>
+                        <div className={styles.description}>
+                            <p className={styles.desc}> <a className={styles.bold}>{"Descrição: "}</a>{activity.description}</p>
+
+                        </div>
                     </div>
                     <div className={styles.map}>
                         <MapActivity {...props} />
+                        <button onClick={handleClick}>Participar</button>
                     </div>
 
                 </div>
 
-                <button onClick={handleClick}>Participar</button>
 
 
             </div>

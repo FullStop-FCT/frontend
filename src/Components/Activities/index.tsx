@@ -24,6 +24,7 @@ import ptBr from 'date-fns/locale/pt-BR'
 import format from 'date-fns/format'
 import { StayCurrentLandscapeTwoTone } from '@material-ui/icons';
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
@@ -94,7 +95,7 @@ type Token = {
 
 
 export default function Activities() {
-
+  const router = useRouter();
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
@@ -227,13 +228,15 @@ export default function Activities() {
 
                     console.log(error);
                   })
+                setSubmitting(false);
+                router.push('/home')
               }
             }
             else {
               alert('Sem localização.')
             }
             setSubmitting(false);
-            //router.reload()
+
           }
           }>
 
