@@ -31,10 +31,6 @@ type Token = {
 }
 
 
-
-
-
-
 export default function Organizations(orgs: userProps) {
     const [following, setFollowing] = useState(false);
 

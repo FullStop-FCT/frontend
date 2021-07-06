@@ -65,15 +65,10 @@ export default function Organizations() {
                                     <Orgs {...organization} key={index} />
 
                                 )
-
-
-
                         })
                     }
                 </div>
             </React.Fragment>
-
-
         </div>
     )
 }

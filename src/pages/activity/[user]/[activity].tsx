@@ -9,6 +9,7 @@ import Image from 'next/image'
 import MapActivity from '../../../Components/ActivityMap'
 import Link from 'next/link'
 import { format } from 'date-fns'
+
 type Token = {
     username: string,
     tokenID: string,
@@ -55,20 +56,24 @@ export default function Activity() {
     let activityOwner = path_values[1];
     let activityID = path_values[2];
 
-    async function fetcher1(path: string): Promise<ActivitiesProps> {
+    async function fetchActivity(path: string): Promise<ActivitiesProps> {
         return await api.post(path, token).then(response => response.data)
     }
 
-    async function fetcher2(path: string): Promise<UserProps> {
+    async function fetchUser(path: string): Promise<UserProps> {
         return await api.get(path).then(response => response.data)
     }
 
     const token: Token = Cookies.getJSON('token');
 
-    let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetcher1);
-    let { data: user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetcher2);
+    let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetchActivity);
+    let { data: user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetchUser);
 
 
+    function handleClick() {
+        api.post(`activities/join/${activityID}/${activityOwner}`, token)
+            .then(response => console.log(response.data));
+    }
 
     if (!activity || !user) return <Loading />
     if (error1 || error2) { return <SessionOf /> }
@@ -114,9 +119,9 @@ export default function Activity() {
                         <MapActivity {...props} />
                     </div>
 
-
                 </div>
 
+                <button onClick={handleClick}>Participar</button>
 
 
             </div>
