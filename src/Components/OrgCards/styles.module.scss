@@ -1,0 +1,38 @@
+.cardcontainer{
+  width: 250px;
+  height: 179px;
+  background-color: var(--bluehh);
+  margin-bottom: 10px;
+  margin-left: 100px;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  .avatar{
+    border: 3px solid var(--redhh);
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background-color: rgb(116, 116, 116);
+      margin-top: 10px;
+
+      .image{
+        border-radius: 50%;
+      }
+  }
+
+  
+
+
+  .follow{
+      button{
+        background-color: var(--redhh);
+        color: #fff;
+        border-radius: 2rem;
+        height: 30px;
+        width: 100px;
+        margin-top: 20px;
+      }
+  }
+}

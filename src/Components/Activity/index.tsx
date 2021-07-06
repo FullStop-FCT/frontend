@@ -3,6 +3,7 @@ import { api } from '../../../services/api';
 import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr';
+import { format } from 'date-fns'
 
 type AtivitiesProps = {
   ID: string,
@@ -10,7 +11,8 @@ type AtivitiesProps = {
   description: string,
   date: string,
   location: string,
-  totalParticipants: string,
+  participants: number
+  totalParticipants: number,
   activityOwner: string,
   category: string
 }
@@ -53,31 +55,31 @@ export default function Activity(activity: AtivitiesProps) {
   return (
     <div className={styles.container}>
       <div className={styles.avatarandname}>
-        <div className={styles.userimage}>
+        <Link href={`${user.username}`}><div className={styles.userimage}>
           <Image
             loader={myLoader}
             src='me.png'
             placeholder="blur"
-            width={100}
-            height={80}
+            width={70}
+            height={70}
             className={styles.image}
-          />
-        </div>
+          /></div></Link>
         <div className={styles.username}>
-          <Link href={`${user.username}`}><p>{user.name}</p></Link>
-          <Link href={`${user.username}`}><p>@{user.username}</p></Link>
+          <Link href={`${user.username}`}><p className={styles.name}>{user.name}</p></Link>
+          <Link href={`${user.username}`}><p className={styles.arroba}>  @{user.username}</p></Link>
         </div>
       </div>
       <div className={styles.activity}>
         <h3>{activity.title}</h3>
+
         <div className={styles.activityinfo}>
           <div className={styles.localdate}>
-            <p>{activity.date}</p>
+            <p>{format(new Date(activity.date), "dd/MM/yyyy")}</p>
             <p>{activity.location}</p>
           </div>
           <div className={styles.participants}>
             <h4>Participantes</h4>
-            <p>{activity.totalParticipants}</p>
+            <p>{activity.participants}/{activity.totalParticipants}</p>
           </div>
         </div>
       </div>

@@ -34,7 +34,8 @@ type AtivitiesProps = {
   description: string,
   date: string,
   location: string,
-  totalParticipants: string,
+  participants: number
+  totalParticipants: number,
   activityOwner: string,
   category: string
 }
@@ -45,7 +46,7 @@ type listAtivitiesProps = AtivitiesProps[];
 async function fetcher(path: string): Promise<listAtivitiesProps> {
 
   const token: Token = Cookies.getJSON('token')
-  return await api.post(path, token).then(response => response.data);
+  return await api.post(path, token).then(response => response.data.reverse());
 
 }
 
@@ -78,6 +79,7 @@ export default function Home() {
   }
 
   let props: listAtivitiesProps = data;
+
   console.log(data);
 
   if (error) { return <SessionOf /> }
@@ -138,13 +140,10 @@ export default function Home() {
 
 
         <div>
+
           {props.map((ativ: AtivitiesProps, index) => {
             return (
-
               < Activity {...ativ} key={index} />
-
-
-
             )
           })}
         </div>

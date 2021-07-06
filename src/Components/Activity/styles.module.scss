@@ -12,20 +12,37 @@
     flex-direction: row;
 
     .userimage{
-      width: 60px;
-      min-height: 60px;
-      border: 5px solid var(--redhh);
+      
+      border: 3px solid var(--redhh);
       border-radius: 50%;
       background-color: rgb(114, 113, 113);
       margin-top: 5px;
       margin-left: 10px;
+      height: 70px;
+      width: 70px;
+      cursor: pointer;
+      
+      .image{
+        border-radius: 50%;
+      }
     }
     .username{
       margin-left: 5px;
-      margin-top: 5px;
+      margin-top: 10px;
       p{
+
         text-align: start;
       }
+      .name:hover{
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .arroba{
+        opacity: 0.6;
+        cursor: pointer;
+      }
+      
+      
     }
   }
   .activity{
@@ -33,13 +50,13 @@
     flex-direction: column;
     text-align: center;
     h3{
-      margin-bottom: 10px;
+      margin-top: -15px;
     }
     .activityinfo{
       display: flex;
       flex-direction: row;
       justify-content: space-evenly ;
-     // overflow: hidden;
+      margin-top: 20px;
      overflow:hidden;
      
      text-overflow: clip;
@@ -49,6 +66,7 @@
         background-color: rgb(218, 217, 217);
         border-radius: 1rem;   
         text-align: start;
+        font-size: 13px;
         p{
         
           margin-left: 10px;
@@ -74,6 +92,13 @@
     align-self: flex-end;
     margin-top: 20px;
     margin-right: 2rem;
+    cursor: pointer;
+    
+    p:hover{
+      color: var(--bluehh);
+
+    }
+    
   }
 
 
