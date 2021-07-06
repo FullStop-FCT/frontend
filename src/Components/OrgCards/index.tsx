@@ -1,58 +1,56 @@
 import Header from '../Header';
-import defaultStyles from '../../pages/styles/base.module.scss';
+import styles from './styles.module.scss';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { Button, Card, Image } from 'semantic-ui-react'
+import Image from 'next/image'
 
-type Token = {
-    username: string,
-    tokenID: string,
-    role: string,
-    creationData: number,
-    expirationData: number
-  }
+type userProps = {
+    birthday: string;
+    email: string;
+    name: string;
+    profile: string;
+    phoneNumber: string;
+    mobileNumber: string;
+    address: string;
+    location: string;
+    postalCode: string;
+    gender: string;
+    username: string;
+    points: number;
+    kind: string;
+    image: string;
+}
 
-export default function Organizations() {
+export default function Organizations(orgs: userProps) {
+    const myLoader = () => {
 
-    const token: Token = Cookies.getJSON('token');
+        { return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${orgs.image}` }
 
-    const [orgs, setOrgs] = useState([]);
-
-    useEffect( () => {
-        axios.post('https://helpinhand-318217.ey.r.appspot.com/rest/users/listorg', token)
-            .then(response => { setOrgs(response.data)})
-    }, [])
+    }
 
     return (
 
-        <div className={defaultStyles.Feed}>
+        <div className={styles.cardcontainer}>
+            <div className={styles.avatar}>
+                <Image
+                    loader={myLoader}
+                    src='me.png'
+                    placeholder="blur"
+                    width={70}
+                    height={70}
+                    className={styles.image}
+                />
+            </div>
+            <div className={styles.name}>
+                <h2>{orgs.username}</h2>
+            </div>
+            <div className={styles.follow}>
+                <button>
+                    Seguir
+                </button>
+            </div>
 
-            <Card.Group> 
-            
-                {orgs.map( organization => 
-
-                    <Card key={organization.username}>
-                        <Card.Content >
-                            <Image
-                                floated='right'
-                                size='mini'
-                            />
-                            <Card.Header href="">{organization.name}</Card.Header>
-                            <Card.Meta>X Followers</Card.Meta>
-                            <Card.Description>{organization.following}</Card.Description>
-                        </Card.Content>
-                        <Card.Content extra>
-                            <div className='ui two buttons'>
-                            <Button>Seguir</Button>
-                            </div>
-                        </Card.Content>
-                    </Card>
-                    
-                )}
-
-            </Card.Group>
-            
         </div>
     )
 }
