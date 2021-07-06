@@ -1,10 +1,11 @@
 import React from "react"
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { styles } from "@material-ui/pickers/views/Calendar/Calendar";
 
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html >
         <Head>
           {/* Add fonts, favicon, etc */}
 
@@ -20,7 +21,7 @@ export default class MyDocument extends Document {
         </Head>
         <body>
           <Main />
-          <NextScript />
+          <NextScript/>
         </body>
       </Html>
     );

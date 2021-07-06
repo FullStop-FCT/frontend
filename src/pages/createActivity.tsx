@@ -10,7 +10,6 @@ export default function Create_Activity() {
                 <Header />
             </div>
             <div className={styles.activityContainer}>
-                <h1>Criar Atividade</h1>
                 <Activity />
             </div >
 
