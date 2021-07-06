@@ -17,7 +17,7 @@
         background-color: white;
         border-radius: 15px 15px 15px 15px;
         box-shadow: black;
-        height: 350px;
+        height: 400px;
         width: 60%;
 
 
@@ -27,28 +27,33 @@
             background-color: rgba(242, 209, 209, 1);
             border-radius: 15px 15px 0 0;
 
-            .image {
-                margin: 15px 15px 15px 15px;
-                height: 75px;
-                width: 75px;
-                background-color: #bbb;
-                border-radius: 50%;
+            .avatar {
+                margin: 15px 15px 15px 25px;
                 display: inline-block;
+
+                .image {
+                    border-radius: 50%;
+                }
             }
 
             a {
+                margin-left: 10px;
+                font-weight: bold;
                 color: var(--redhh);
-                font-size: 25px;
+                font-size: 35px;
             }
 
         }
         
         .details {
-            margin-top: 40px;
+            margin: auto;
             p {
                 color: black;
                 margin-left: 30px;
                 line-height: 50px;
+            }
+            .bold {
+                font-weight: bold;
             }
 
         }

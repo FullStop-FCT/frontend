@@ -84,7 +84,7 @@ export default function Activity(activity: AtivitiesProps) {
         </div>
       </div>
       <div className={styles.vermaiscontainer}>
-        <Link href={`activity/${activity.activityOwner}/activity`}><p>Ver mais</p></Link>
+        <Link href={`activity/${activity.activityOwner}/${activity.ID}`}><p>Ver mais</p></Link>
         <div className={styles.vermais}>
         </div>
       </div>
