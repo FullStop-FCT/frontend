@@ -146,7 +146,7 @@ function Search({ panTo, inputvalue }) {
           inputvalue(e.target.value);
         }}
           disabled={!ready}
-          placeholder="Location" />
+          placeholder="Localização" />
         <ComboboxPopover>
           <ComboboxList>
             {status === "OK" && data.map(({ description }) => <ComboboxOption key={description} value={description} />)}

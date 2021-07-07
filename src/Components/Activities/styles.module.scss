@@ -13,12 +13,16 @@
     color: #fff;
     background-color: var(--redhh);
     border: none;
+    justify-content: center;
     text-align: center;
     display: inline-block;
     padding: 0.7rem 2rem;
     border-radius: 35px;
     margin-top: 1.5rem;
     font-size: 0.9rem;
+    height: 50px;
+    width: 200px;
+    
   }
   button:hover {
     background-color: var(--redhh-2);
@@ -32,12 +36,15 @@
   align-items: center;
   margin-left: 2rem;
   justify-content: space-around;
+  
   input {
     color: black;
-    border: 2px solid white;
+
     background-color: white;
+    
     padding: 0.1rem;
     margin: 0.5rem;
+    
     width: 20rem;
     height: 2rem;
   }
@@ -47,7 +54,9 @@
 
  .multiline{
       width: 21.5rem;
-     
+      background-color: #fff;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
   .formtext{
@@ -62,12 +71,18 @@
   }
 
   .mapView {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
     input {
       background-color: #fff;
       color: #993955;
       border: 2px solid #1a1a1a;
       padding: 0.5rem;
       margin-left: -0.3rem;
+     justify-content: center;
+     align-items: center;
      
       width: 20.5rem;
       height: 2.5rem;
@@ -79,6 +94,7 @@
     input:focus {
       outline: none;
     }
+   
   }
 }
 

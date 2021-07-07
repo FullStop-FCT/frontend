@@ -1,12 +1,11 @@
 import { Formik, Form, useField, FieldAttributes } from 'Formik'
 import { TextField, Button, makeStyles } from "@material-ui/core";
 import * as Yup from 'Yup';
-import Head from "next/head";
 import { api } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
 import { MapContext } from '../../Context/MapContext'
 import FormControl from '@material-ui/core/FormControl';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import KeyWord from '../keywords/'
@@ -14,16 +13,7 @@ import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
 import MapView from '../Maps';
 import { useState } from 'react';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-  KeyboardTimePicker
-} from '@material-ui/pickers';
-import ptBr from 'date-fns/locale/pt-BR'
 import format from 'date-fns/format'
-import { StayCurrentLandscapeTwoTone } from '@material-ui/icons';
-import moment from 'moment'
 import { useRouter } from 'next/router'
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
@@ -57,9 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120,
+    minWidth: 340,
     background: 'linear-gradient(45deg, #fff 30%, #fff 90%)',
   },
+
+
 }));
 
 
@@ -97,6 +89,7 @@ type Token = {
 export default function Activities() {
   const router = useRouter();
   const classes = useStyles();
+  const [localerror, setLocalError] = useState(false)
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState("");
   const { keywords } = useContext(AuthContext);
@@ -233,7 +226,8 @@ export default function Activities() {
               }
             }
             else {
-              alert('Sem localização.')
+              //alert('Sem localização.')
+              setLocalError(true)
             }
             setSubmitting(false);
 
@@ -274,31 +268,26 @@ export default function Activities() {
                 </div>
                 <br />
                 <DatePicker
-
-
                   name="date"
                 // variant='outlined'
-
 
                 />
                 <br />
                 <TimeIn
                   name="timein"
-
                 />
                 <br />
                 <TimeOut
                   name="timeout"
-
                 />
-
-
-
               </div>
-
               <div className={styles.mapView}>
+                {
+                  localerror ? <span>Insira uma localizaçao</span> :
+                    <></>
+                }
                 <MapView />
-                <Button disabled={isSubmitting} type="submit">submit</Button>
+                <Button disabled={isSubmitting} type="submit">Criar </Button>
 
               </div>
 
