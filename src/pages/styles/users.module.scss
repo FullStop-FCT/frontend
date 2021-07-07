@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: row;
   height: 100%;
+  
  
   .header {
     background: var(--bluehh);
@@ -55,8 +56,13 @@
       }
       p {
         margin-top: 0.2rem;
-        color: #e2e2e2ce;
-        font: 100 1rem Roboto;
+        color: #000000;
+        font: 400 1rem Roboto;
+      }
+      a{
+        margin-top: 0.2rem;
+        color: #000000;
+        font: 400 1rem Roboto;
       }
     }
 
@@ -88,6 +94,13 @@
   .other {
     width: 15%;
   }
+}
+
+.link{
+  cursor: pointer;
+}
+.link:hover{
+  text-decoration: underline;
 }
 
 .currentpage {

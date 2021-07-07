@@ -9,6 +9,8 @@ import Image from 'next/image'
 import MapActivity from '../../../Components/ActivityMap'
 import Link from 'next/link'
 import { format } from 'date-fns'
+import { useState } from 'react'
+import { useEffect } from 'react'
 
 type Token = {
     username: string,
@@ -56,6 +58,8 @@ export default function Activity() {
     let activityOwner = path_values[1];
     let activityID = path_values[2];
 
+    const [isParticipating, setParticipation] = useState(false);
+
     async function fetchActivity(path: string): Promise<ActivitiesProps> {
         return await api.post(path, token).then(response => response.data)
     }
@@ -69,10 +73,20 @@ export default function Activity() {
     let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetchActivity);
     let { data: user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetchUser);
 
+    useEffect(() => {
+        api.post(`activities/isjoined/${activityID}`, token).then(response => setParticipation(response.data))
+    }, [])
 
-    function handleClick() {
-        api.post(`activities/join/${activityID}/${activityOwner}`, token)
-            .then(response => console.log(response.data));
+    async function handleClick() {
+
+        if (!isParticipating) {
+            await api.post(`activities/join/${activityID}/${activityOwner}`, token);
+            setParticipation(true);
+        }
+        else {
+            await api.post(`activities/leave/${activityID}/${activityOwner}`, token);
+            setParticipation(false);
+        }
     }
 
     if (!activity || !user) return <Loading />
@@ -120,7 +134,9 @@ export default function Activity() {
                     </div>
                     <div className={styles.map}>
                         <MapActivity {...props} />
-                        <button onClick={handleClick}>Participar</button>
+                        <button onClick={handleClick}>
+                            {isParticipating ? "Cancelar" : "Participar"}
+                        </button>
                     </div>
 
                 </div>

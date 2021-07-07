@@ -27,6 +27,8 @@ type userProps = {
   points: number;
   kind: string;
   image: string;
+  followers: number,
+  followings: number,
 
 }
 type Token = {
@@ -50,7 +52,7 @@ async function fetcher(path: string): Promise<userProps> {
 
 export default function User() {
 
-  const { subEdit, setSubEdit, authenticated } = useContext(AuthContext);
+
   const router = useRouter();
 
   const [page, changepage] = useState(1);
@@ -70,7 +72,7 @@ export default function User() {
 
 
   const token: Token = Cookies.getJSON('token')
-  const { data, error } = useSWR(`users/get/${token.username}`, fetcher);
+  const { data, error } = useSWR(`users/user/`, fetcher);
 
   let user: userProps = data;
   console.log(data)

@@ -1,0 +1,111 @@
+.container{
+  background-color: rgb(236, 218, 218);
+  width: 30rem;
+  height: 10rem;
+  border-radius: 2rem;
+  margin: auto;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  .avatarandname{
+    display: flex;
+    flex-direction: row;
+
+    .userimage{
+      
+      border: 3px solid var(--redhh);
+      border-radius: 50%;
+      background-color: rgb(114, 113, 113);
+      margin-top: 5px;
+      margin-left: 10px;
+      height: 70px;
+      width: 70px;
+      cursor: pointer;
+      
+      .image{
+        border-radius: 50%;
+      }
+    }
+    .username{
+      margin-left: 5px;
+      margin-top: 10px;
+      p{
+
+        text-align: start;
+      }
+      .name:hover{
+        cursor: pointer;
+        text-decoration: underline;
+      }
+      .arroba{
+        opacity: 0.6;
+        cursor: pointer;
+      }
+      
+      
+    }
+  }
+  .activity{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    h3{
+      margin-top: -15px;
+    }
+    .activityinfo{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-evenly ;
+      margin-top: 20px;
+     overflow:hidden;
+     
+     text-overflow: clip;
+      .localdate{
+        width: 130px;
+        height: 60px;
+        background-color: rgb(218, 217, 217);
+        border-radius: 1rem;   
+        text-align: start;
+        font-size: 13px;
+        p{
+        
+          margin-left: 10px;
+          margin-top: 7px;
+        }
+      }
+      .participants{
+        width: 130px;
+        height: 60px;
+        background-color: rgb(218, 217, 217);
+        border-radius: 1rem;  
+        h4{
+          margin-top: 10px;
+        
+        }
+      }
+    }
+  }
+
+  .vermaiscontainer{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    margin-top: 20px;
+    margin-right: 2rem;
+    cursor: pointer;
+    
+    p:hover{
+      color: var(--bluehh);
+
+    }
+    
+  }
+
+
+
+
+
+}
+
+
+

@@ -1,11 +1,25 @@
-import styles from './styles.module.scss'
-import { api } from '../../../services/api';
-import Image from 'next/image'
+import Cookies from "js-cookie";
+import useSWR from "swr";
+import { api } from "../../../services/api";
 import Link from 'next/link'
-import useSWR from 'swr';
-import { format } from 'date-fns'
+import Image from 'next/image'
+import styles from './styles.module.scss'
 
-type AtivitiesProps = {
+type activitytodoProps = {
+  title: number,
+  totalParticipants: string,
+  activityOwner: string,
+  ID: string,
+}
+
+type Token = {
+  username: string,
+  tokenID: string,
+  role: string,
+  creationData: number,
+  expirationData: number
+}
+type ActivitiesProps = {
   ID: string,
   title: string,
   description: string,
@@ -15,9 +29,10 @@ type AtivitiesProps = {
   totalParticipants: number,
   activityOwner: string,
   category: string
+  lat: string,
+  lon: string,
 }
-
-type userProps = {
+type UserProps = {
   birthday: string;
   email: string;
   name: string;
@@ -35,19 +50,25 @@ type userProps = {
 }
 
 
-
-async function fetcher(path: string): Promise<userProps> {
-  return await api.get(path).then(response => response.data);
+const token: Token = Cookies.getJSON('token');
+async function fetchActivity(path: string): Promise<ActivitiesProps> {
+  return await api.post(path, token).then(response => response.data)
 }
 
-export default function Activity(activity: AtivitiesProps) {
+async function fetchUser(path: string): Promise<UserProps> {
+  return await api.get(path).then(response => response.data)
+}
+export default function ActivityToDo(activity: activitytodoProps) {
 
-  const { data, error } = useSWR(`users/self/${activity.activityOwner}`, fetcher);
-  const user: userProps = data;
+
+  let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${activity.activityOwner}`, fetchActivity);
+  let { data: user, error: error2 } = useSWR(`users/self/${activity.activityOwner}`, fetchUser);
 
 
-  if (error) { return (<div>error</div>) }
-  if (!data) return <div>Loading</div>
+  if (!activity && !user) return <div>loading</div>
+  if (!user) return <div>loading</div>
+  if (error1 && error2) { return <div>error</div> }
+  if (error1 && error2) { return <div>error</div> }
 
   const myLoader = () => {
 
@@ -75,14 +96,7 @@ export default function Activity(activity: AtivitiesProps) {
         <h3>{activity.title}</h3>
 
         <div className={styles.activityinfo}>
-          <div className={styles.localdate}>
-            <p>{format(new Date(activity.date), "dd/MM/yyyy")}</p>
-            <p>{activity.location}</p>
-          </div>
-          <div className={styles.participants}>
-            <h4>Participantes</h4>
-            <p>{activity.participants}/{activity.totalParticipants}</p>
-          </div>
+
         </div>
       </div>
       <div className={styles.vermaiscontainer}>
@@ -92,16 +106,5 @@ export default function Activity(activity: AtivitiesProps) {
       </div>
     </div>
 
-
-
-
-
   )
-
-
-
-
-
-
 }
-

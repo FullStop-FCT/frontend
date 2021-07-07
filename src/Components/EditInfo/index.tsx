@@ -18,6 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { format } from 'date-fns'
 import Image from 'next/image'
 
+
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
   const [field, meta] = useField<{}>(props);
@@ -83,10 +84,13 @@ type userProps = {
   points: number;
   kind: string;
   image: string;
+  followers: number,
+  followings: number,
 
 }
 
 export default function EditInfo(user: userProps) {
+  const router = useRouter();
   const [gender, setGender] = useState(user.gender);
   const [profile, setProfile] = useState(user.profile)
   const [open, setOpen] = useState(false);
@@ -239,7 +243,7 @@ export default function EditInfo(user: userProps) {
 
 
             setSubmitting(false);
-            //router.reload()
+            router.push(`/${token.username}`)
           }}>
 
 
