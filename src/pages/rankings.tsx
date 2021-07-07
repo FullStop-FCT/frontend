@@ -22,8 +22,8 @@ export default function Rankings() {
 
 
             <div className={styles.header}>
-                <Header/>
-            </div> 
+                <Header />
+            </div>
 
 
             <div className={styles.options}>
@@ -31,13 +31,13 @@ export default function Rankings() {
                     <h1>TOP 25</h1>
                 </div>
                 <div className={styles.imagediv}>
-                
+
                     <div className={styles.image1}>
-                        <a href="/rankings/users"><img src="/individuo.png"></img></a>
+                        <a href="/ranking/users"><img src="/individuo.png"></img></a>
                         <h1>Voluntários</h1>
                     </div>
                     <div className={styles.image2}>
-                        <a href="/rankings/organizations"><img src="/grupo.png"></img></a>
+                        <a href="/ranking/organizations"><img src="/grupo.png"></img></a>
                         <h1>Organizações</h1>
                     </div>
                 </div>
