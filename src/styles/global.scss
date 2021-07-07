@@ -26,7 +26,7 @@ div#__next > div {
 
   --gray: #e2e2e2;
 
-  --bluehh: #5e699b;
+  --bluehh: #A3C3D9;
 
   --redhh : #993955;
 
@@ -107,8 +107,8 @@ button {
 }
 
 .nav-links:hover {
-  background-color: #fff;
-  color: #000;
+  background-color: var(--redhh);
+  color: #fff;
   border-radius: 4px;
   transition: all 0.2s ease-out;
 }

@@ -8,9 +8,22 @@
   .header {
     background: var(--bluehh);
     width: 20%;
+    height: 1000px;
     border-right: 2px solid rgb(192, 189, 189);
   }
 
+  .infobutt{
+      width: 5rem;
+      height: 1.5rem; 
+      background-color: var(--redhh);
+      color: #fff ;
+  }
+  .infobutt:hover{
+    width: 5rem;
+    height: 1.5rem; 
+    background-color: var(--redhh-2);
+    color: #fff;
+}
 
   .banneravatar {
     width: 70%;
@@ -81,18 +94,21 @@
       justify-content: space-around;
 
       button {
-        background-color: #1a1a1a;
-        border: none;
+        background-color: var(--redhh);
+      
         color: #fff;
       }
       button:hover {
-        color: rgba(255, 255, 255, 0.822);
+        color: #fff;
+        background-color: var(--redhh-2);
       }
     }
   }
 
   .other {
     width: 15%;
+    height: 1000px;
+    background-color: var(--bluehh);
   }
 }
 
@@ -108,6 +124,7 @@
   text-align: center;
   color: #fff;
   font-size: 5rem;
+
 }
 @media screen and (max-width: 960px) {
   .container {

@@ -3,17 +3,19 @@
   flex-direction: row;
   justify-content: space-between;
   height: 100%;
+  
 
   .header {
     background: var(--bluehh);
     width: 20%;
+    height: 2000px;
     border-right: 2px solid rgb(192, 189, 189);
   }
  
   .Feed {
     width: 65%;
     height: 100%;
-    background: var(--whitehh);
+    background: #fff;
     display: flex;
     flex-direction: column;
     text-align: center;

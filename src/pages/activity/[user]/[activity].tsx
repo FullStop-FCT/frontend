@@ -134,9 +134,14 @@ export default function Activity() {
                     </div>
                     <div className={styles.map}>
                         <MapActivity {...props} />
-                        <button onClick={handleClick}>
-                            {isParticipating ? "Cancelar" : "Participar"}
-                        </button>
+
+                        {
+                            (!isParticipating === false && activity.participants === activity.totalParticipants) || activity.activityOwner === token.username ?
+                                <></> : <button onClick={handleClick}>
+                                    {isParticipating ? "Cancelar" : "Participar"}
+                                </button>
+                        }
+
                     </div>
 
                 </div>

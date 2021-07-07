@@ -1,5 +1,5 @@
 .container {
-  background: var(--whitehh);
+  
   height: 100%;
   width: 100%;
 
@@ -30,7 +30,9 @@
 }
 
 .form {
-  background-color: var(--whitehh);
+  background-color: var(--bluehh);
+  border-radius: 2rem;
+  height: 600px;
   display: flex;
   flex-direction: row;
   align-items: center;

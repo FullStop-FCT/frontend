@@ -130,7 +130,7 @@ export default function User() {
             <a> Seguidores: {user.followers}</a>
             <br />
             <br />
-            <button onClick={() => router.push('/settings/profile')}>Edit info</button>
+            <button className={styles.infobutt} onClick={() => router.push('/settings/profile')}>Edit info</button>
           </div>
           <div>
             <hr className={styles.line} />
@@ -231,7 +231,7 @@ export default function User() {
             </div>
 
             <div className={styles.currentpage}>
-              <h1>{page}</h1>
+
             </div>
             <div></div>
           </div>

@@ -15,7 +15,7 @@
 
     .organizer {
         margin: auto;
-        background-color: white;
+        background-color: #CCD6EB;
         border-radius: 15px 15px 15px 15px;
         box-shadow: black;
         height: 400px;
@@ -60,13 +60,13 @@
         .org_info {
             display: flex;
             align-items: center;
-            background-color: rgba(242, 209, 209, 1);
+            background-color: var(--bluehh);
             border-radius: 15px 15px 0 0;
 
             .avatar {
                 margin: 15px 15px 15px 25px;
                 display: inline-block;
-
+              
                 .image {
                     border-radius: 50%;
                 }

@@ -23,7 +23,7 @@ export default function NavBar() {
     <div className={styles.Container}>
       <div className={styles.NavbarItems}>
 
-        <h1>Helpin'Hand</h1>
+        <Link href={'/'}><h1>Helpin'Hand</h1></Link>
         <div className={styles.Navbar}>
 
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>

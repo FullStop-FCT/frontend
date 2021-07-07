@@ -1,9 +1,9 @@
 .container1 {
-  background: var(--whitehh);
+  background: #fff;
   display: flex;
   height: 603px;
   width: 100%;
-  margin-bottom: 8rem;
+  margin-bottom: 1rem;
  
 }
 
@@ -16,15 +16,15 @@
   background: var(--bluehh);
   height: 25rem;
   margin: auto;
-  width: 90%;
-  border-radius: 4rem ;
+  width: 100%;
+  
 
   h1 {
-    color: #fff;
+    color: #000;
     margin-bottom: 3rem;
   }
   p {
-    color: #fff;
+    color: #000;
     font-size: 20px;
   }
 
