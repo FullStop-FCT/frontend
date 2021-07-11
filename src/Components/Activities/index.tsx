@@ -64,7 +64,7 @@ const validationSchema = Yup.object({
     .max(50, "O título deve ter entre 10 a 50 caráteres.")
     .required("Obrigatório"),
   description: Yup.string()
-    .min(10, "A descrição deve conter no minímo 100 caráteres.")
+    .min(100, "A descrição deve conter no minímo 100 caráteres.")
     .required("Obrigatório"),
   date: Yup.date().required("Obrigatório"),
   totalParticipants: Yup.number()
