@@ -12,6 +12,7 @@ import useSWR from 'swr'
 import SessionOf from '../../Components/SessionOf'
 import EditInfo from '../../Components/EditInfo'
 import Image from 'next/image'
+
 type userProps = {
   birthday: string;
   email: string;

@@ -94,13 +94,9 @@ export default function Register() {
                 <Button disabled={isSubmitting} type="submit">Inscrever-se</Button>
               </div>
             </Form>
-
-
-
           )
-
-
           }
+          
         </Formik>
       </div>
       <Footer />

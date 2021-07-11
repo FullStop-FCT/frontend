@@ -44,11 +44,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [keywords, setKeywords] = useState([]);
 
 
-
-
-
-
-
   useEffect(() => {
 
     const token = Cookie.get('token');
@@ -77,9 +72,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
 
-
   async function handleLogin(data: { username: string, password: string }) {
-    //const router = useRouter();
 
     await api.post('authentication/login', data
 
@@ -94,7 +87,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         //console.log(response.data.username)
         setAuthenticated(true);
 
-
         router.push(`/${response.data.username}`);
       }
     })
@@ -102,9 +94,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         console.log(error);
         setAuthenticated(false);
       });
-
-
-
   }
 
   if (loading) {

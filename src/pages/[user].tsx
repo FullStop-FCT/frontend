@@ -152,19 +152,15 @@ export default function User() {
                 number === 1 ?
                   <ActivitiesToDoList /> : <></>
 
-
               }
               {
                 number === 2 ?
                   <OwnActivitiesList /> : <></>
 
-
               }
               {
                 number === 3 ?
                   <p>Ainda Nao disponivel</p> : <></>
-
-
               }
 
             </div>
@@ -175,10 +171,9 @@ export default function User() {
 
 
       </div>
-
-
     )
   }
+
   //quando é outro user 
   else {
     let { data, error } = useSWR(`users/self/${username}`, fetcher2);
@@ -239,27 +234,7 @@ export default function User() {
         </div>
         <div className={styles.other}></div>
 
-
       </div>
-
-
     )
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

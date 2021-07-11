@@ -1,7 +1,6 @@
 import styles from "./styles/base.module.scss";
 import { useState } from 'react'
 import Head from "next/head";
-import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import Link from 'next/link';
 import { AuthContext } from '../Context/AuthContext'
@@ -18,6 +17,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
+import Example from "../Components/Nav/nav";
 
 
 type Token = {
@@ -49,6 +49,7 @@ async function fetcher(path: string): Promise<listAtivitiesProps> {
   return await api.post(path, token).then(response => response.data.reverse());
 
 }
+
 
 export default function Home() {
   const { subAtivity, setSubAtivity, authenticated } = useContext(AuthContext);
@@ -85,6 +86,8 @@ export default function Home() {
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
 
+  
+
   return (
 
     <div className={styles.container} >
@@ -93,9 +96,12 @@ export default function Home() {
         <title>Home</title>
       </Head>
 
-      <div className={styles.header} >
+      {/*<div className={styles.header} >
         <Header />
-      </div>
+  </div>*/}
+
+      <Example />
+
       <div className={styles.Feed}>
 
         <div className={styles.searchBar}>

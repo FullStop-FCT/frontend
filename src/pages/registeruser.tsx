@@ -1,14 +1,12 @@
-import { Formik, Field, Form, useField, FieldAttributes } from 'Formik'
-import { TextField, Button, InputBase } from "@material-ui/core";
+import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { TextField, Button} from "@material-ui/core";
 import * as Yup from 'Yup';
-import styles from './styles/register.module.scss'
+import styles from './styles/register.module.scss';
 import Head from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
 import { api } from '../../services/api';
-import axios, { AxiosRequestConfig } from 'axios';
-import { Router } from '@material-ui/icons';
-import { useRouter } from 'next/router'
+import { useState } from 'react';
 
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
@@ -44,68 +42,71 @@ const validationSchema = Yup.object({
 });
 
 
-
 export default function Register() {
-  const router = useRouter();
+
+  const [messageDisplay, setShow] = useState(false);
+
   return (
     <div>
       <Head>
         <title>Register</title>
       </Head>
       <NavBar />
-      <div className={styles.register}>
-        <h1>Inscreva-se</h1>
-        <Formik initialValues={{
-          username: '',
-          name: '',
-          email: '',
-          password: '',
-          confirmation: '',
 
-        }}
-          validationSchema={validationSchema}
+      {!messageDisplay ? 
 
-          //resetform
-          onSubmit={async (values, { setSubmitting }) => {
+        <div className={styles.register}>
+          <h1>Registar</h1>
+          <Formik initialValues={{
+            username: '',
+            name: '',
+            email: '',
+            password: '',
+            confirmation: '',
 
-            console.log("submitting");
-            setSubmitting(true);
-            await api.post('users/insert', values
-            ).then(function (response) {
-              console.log(JSON.stringify(response.data));
-            })
-              .catch(function (error) {
-                console.log(error);
-              });
+          }}
+            validationSchema={validationSchema}
 
-            setSubmitting(false);
-            console.log("submitted");
-            router.push("/login")
-          }}>
-
-          {({ isSubmitting }) => (
-            <Form className={styles.form}  >
-              <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
-              <MyTextField placeholder="first name" name="name" type="input" as={TextField} />
-              <MyTextField placeholder="email" name="email" type="input" as={TextField} />
-              <MyTextField placeholder="password" name="password" type="password" as={TextField} />
-              <MyTextField placeholder="confirm password" name="confirmation" type="password" as={TextField} />
-              <div>
-                <Button disabled={isSubmitting} type="submit">Inscrever-se</Button>
-              </div>
-            </Form>
+            onSubmit={async (values, { setSubmitting }) => {
 
 
+              setSubmitting(true);
 
-          )
+              await api.post('users/insert', values
+              ).then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+                .catch(function (error) {
+                  console.log(error);
+                });
 
+              setShow(true);
+              setSubmitting(false);
+            }}>
 
-          }
-        </Formik>
-      </div>
+            {({ isSubmitting }) => (
+              <Form className={styles.form}  >
+                <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} /> <br/>
+                <MyTextField placeholder="Primeiro nome" name="name" type="input" as={TextField} /> <br/>
+                <MyTextField placeholder="Email" name="email" type="input" as={TextField} /> <br/>
+                <MyTextField placeholder="Password" name="password" type="password" as={TextField} /> <br/>
+                <MyTextField placeholder="Confirmar Password" name="confirmation" type="password" as={TextField} /> <br/>
+                <div> 
+                  <Button disabled={isSubmitting} type="submit">Submeter</Button>
+                </div>
+              </Form>
+            )}
+
+          </Formik>
+        </div>
+
+        : 
+
+        <div className={styles.register}>
+          <a>Irá receber um email de confirmação para poder iniciar sessão e começar a voluntariar-se.</a>
+        </div>
+      }
       <Footer />
     </div>
-
   );
-
 }
