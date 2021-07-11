@@ -17,7 +17,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
-import Example from "../Components/Nav/nav";
 
 
 type Token = {
@@ -86,7 +85,10 @@ export default function Home() {
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
 
-  
+  const styleLink = document.createElement("link");
+  styleLink.rel = "stylesheet";
+  styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
+  document.head.appendChild(styleLink);
 
   return (
 
@@ -96,11 +98,9 @@ export default function Home() {
         <title>Home</title>
       </Head>
 
-      {/*<div className={styles.header} >
+      <div className={styles.header} >
         <Header />
-  </div>*/}
-
-      <Example />
+      </div>
 
       <div className={styles.Feed}>
 

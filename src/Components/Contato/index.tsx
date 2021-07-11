@@ -75,25 +75,17 @@ export default function Contato() {
           onSubmit={async (values, { setSubmitting, resetForm }) => {
             setLoading(true);
             setSubmitting(true);
-            setTimeout(function () {
 
-              console.log(values)
-              console.log("submitting");
-
-              fetch('/api/mail', {
-                method: 'post',
-                body: JSON.stringify(values)
-              });
-              
-              console.log('')
-              setSubmitting(false);
-              setLoading(false)
-              resetForm();
-            }, 3000);
-
-
+            fetch('/api/mail', {
+              method: 'post',
+              body: JSON.stringify(values)
+            });
+            
+            console.log('')
+            setSubmitting(false);
+            setLoading(false)
+            resetForm();
           }}>
-
 
           {({ isSubmitting }) => (
             <Form className={styles.form} id="form"  >

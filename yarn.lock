@@ -553,7 +553,7 @@
 
 "@sendgrid/client@^7.4.3":
   version "7.4.3"
-  resolved "https://registry.npmjs.org/@sendgrid/client/-/client-7.4.3.tgz"
+  resolved "https://registry.yarnpkg.com/@sendgrid/client/-/client-7.4.3.tgz#bc71aae05de2cd9aa607f4eb1d886711d09f9595"
   integrity sha512-tTaHx893w5iqG0sVtUnMyRchuwYF95k4UOkmov1MouMIeMUbNvbalITo7cG7YSXUTY9rT2t4eBY6HcEBCVeqfg==
   dependencies:
     "@sendgrid/helpers" "^7.4.3"

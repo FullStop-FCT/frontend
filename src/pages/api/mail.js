@@ -12,8 +12,6 @@ export default (req, res) => {
         Mensagem: ${body.mensagem}
         `;
 
-    console.log(message);
-
     const data = {
         to: 'fullstophh@gmail.com',
         from: 'HelpinHand@fullstop.website',

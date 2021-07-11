@@ -8,7 +8,6 @@ import Footer from '../Components/Footer'
 import { api } from '../../services/api';
 import { useState } from 'react';
 
-
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
@@ -41,7 +40,6 @@ const validationSchema = Yup.object({
 
 });
 
-
 export default function Register() {
 
   const [messageDisplay, setShow] = useState(false);
@@ -69,7 +67,6 @@ export default function Register() {
 
             onSubmit={async (values, { setSubmitting }) => {
 
-
               setSubmitting(true);
 
               await api.post('users/insert', values
@@ -81,6 +78,7 @@ export default function Register() {
                 });
 
               setShow(true);
+
               setSubmitting(false);
             }}>
 
