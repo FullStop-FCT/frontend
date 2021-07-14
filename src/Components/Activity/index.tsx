@@ -91,17 +91,6 @@ export default function Activity(activity: AtivitiesProps) {
         </div>
       </div>
     </div>
-
-
-
-
-
   )
-
-
-
-
-
-
 }
 

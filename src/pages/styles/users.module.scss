@@ -77,6 +77,19 @@
         color: #000000;
         font: 400 1rem Roboto;
       }
+      
+      .certificate_button {
+        margin-left: 10px;
+        width: 9rem;
+        height: 1.5rem; 
+        background-color: var(--redhh);
+        color: #fff ;
+      }
+      .certificate_button:hover{
+        height: 1.5rem; 
+        background-color: var(--redhh-2);
+        color: #fff;
+      }
     }
 
     .line {

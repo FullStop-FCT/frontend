@@ -24,16 +24,7 @@ export default function Login() {
 
       </div>
 
-
-
       <Footer />
     </div>
-
-
-
-
-
-
   )
-
 }

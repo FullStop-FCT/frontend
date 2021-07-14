@@ -1,4 +1,4 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { Formik, Form, useFormik, useField, FieldAttributes } from 'Formik';
 import { TextField, Button} from "@material-ui/core";
 import * as Yup from 'Yup';
 import styles from './styles/register.module.scss';
@@ -20,34 +20,53 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...prop
   )
 }
 
-const validationSchema = Yup.object({
-  username: Yup.string()
-    .matches(/^(\S+$)/, "Não pode conter espaços")
-    .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
-    .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
-    .required("Obrigatório"),
-  name: Yup.string().required("Obrigatório"),
-  email: Yup.string()
-    .email("Por favor insira um email válido.")
-    .required("Obrigatório"),
-  password: Yup.string()
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-      "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
-    .required("Obrigatório"),
-  confirmation: Yup.string()
-    .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
-    .required("Obrigatório"),
-
-});
-
 export default function Register() {
 
   const [messageDisplay, setShow] = useState(false);
+  const[username, setUsername] = useState("");
+  const[email, setEmail] = useState("");
+
+  const validationSchema = Yup.object({
+    username: Yup.string()
+      .matches(/^(\S+$)/, "Não pode conter espaços")
+      .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
+      .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
+      .required("Obrigatório"),
+    name: Yup.string().required("Obrigatório"),
+    email: Yup.string()
+      .email("Por favor insira um email válido.")
+      .required("Obrigatório"),
+
+    password: Yup.string()
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+        "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
+      .required("Obrigatório"),
+    confirmation: Yup.string()
+      .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
+      .required("Obrigatório"),
+  
+  });
+
+  let isUserNameValid : boolean = true;
+  let isEmailValid: boolean = true;
+
+  function checkUser(formVal, fetchedVal) {
+    
+    if(formVal === fetchedVal)
+      isUserNameValid = false;
+
+  }
+
+  function checkEmail(formVal, fetchedVal) {
+    
+    if(formVal == fetchedVal)
+      isEmailValid = false;
+  }
 
   return (
     <div>
       <Head>
-        <title>Register</title>
+        <title>Registar</title>
       </Head>
       <NavBar />
 
@@ -67,26 +86,63 @@ export default function Register() {
 
             onSubmit={async (values, { setSubmitting }) => {
 
-              setSubmitting(true);
-
-              await api.post('users/insert', values
-              ).then(function (response) {
-                console.log(JSON.stringify(response.data));
-              })
+              await api.get(`users/self/${values.username}`)
+                .then(response => checkUser(values.username, response.data.username))
                 .catch(function (error) {
-                  console.log(error);
-                });
+                  isUserNameValid = true;
+              });   
 
-              setShow(true);
+              /*await api.get(``)
+                .then(response => checkEmail(values.email, response.data.email))
+                .catch(function (error) {
+                  isUserNameValid = true;
+              }); */
+              
+              if(isUserNameValid && isEmailValid) {
 
-              setSubmitting(false);
+                isUserNameValid=true;
+                setSubmitting(true);
+
+                await api.post('users/insert', values
+                ).then(function (response) {
+                  console.log(JSON.stringify(response.data));
+                })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+
+                setShow(true);
+
+                setSubmitting(false);
+              }
             }}>
 
             {({ isSubmitting }) => (
               <Form className={styles.form}  >
-                <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} /> <br/>
+
+                {
+                  !isUserNameValid ? 
+                  
+                    <a className={styles.erro}>Este nome de utilizador já está em uso, por favor escolha outro.</a>
+               
+                  : 
+
+                  null
+                }
+                
+                <MyTextField placeholder="Nome de utilizador" id="username" name="username" type="input" as={TextField} /> <br/>
                 <MyTextField placeholder="Primeiro nome" name="name" type="input" as={TextField} /> <br/>
-                <MyTextField placeholder="Email" name="email" type="input" as={TextField} /> <br/>
+
+                {
+                  !isEmailValid ? 
+                  
+                    <a className={styles.erro}>Este email já está associado a uma conta, por favor escolha outro.</a>
+               
+                  : 
+
+                  null
+                }
+                <MyTextField placeholder="Email" name="email" type="input" as={TextField}/> <br/>
                 <MyTextField placeholder="Password" name="password" type="password" as={TextField} /> <br/>
                 <MyTextField placeholder="Confirmar Password" name="confirmation" type="password" as={TextField} /> <br/>
                 <div> 

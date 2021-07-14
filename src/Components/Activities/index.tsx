@@ -56,15 +56,13 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-
-
 const validationSchema = Yup.object({
   title: Yup.string()
     .min(10, "O título deve ter entre 10 a 50 caráteres.")
     .max(50, "O título deve ter entre 10 a 50 caráteres.")
     .required("Obrigatório"),
   description: Yup.string()
-    .min(100, "A descrição deve conter no minímo 100 caráteres.")
+    .min(50, "A descrição deve conter no minímo 100 caráteres.")
     .required("Obrigatório"),
   date: Yup.date().required("Obrigatório"),
   totalParticipants: Yup.number()
@@ -75,7 +73,6 @@ const validationSchema = Yup.object({
 });
 
 
-
 type Token = {
   username: string,
   tokenID: string,
@@ -83,7 +80,6 @@ type Token = {
   creationData: number,
   expirationData: number
 }
-
 
 
 export default function Activities() {
@@ -204,6 +200,9 @@ export default function Activities() {
             values.keywords = keywords;
             values.category = category;
 
+            console.log(values.startHour)
+            console.log(values.endHour)
+            console.log(values.startHour < values.endHour)
 
             if (category == "") {
               values.category = "Outros"
@@ -280,6 +279,11 @@ export default function Activities() {
                 <TimeOut
                   name="timeout"
                 />
+                {/*<input type="time" id="appt" name="appt"
+                  min="09:00" max="18:00" required></input>
+
+                <input type="time" id="appt" name="appt"
+                  min="09:00" max="18:00" required></input>*/}
               </div>
               <div className={styles.mapView}>
                 {
@@ -296,13 +300,7 @@ export default function Activities() {
 
               </div>
             </Form>
-
-
-
-
           )
-
-
           }
         </Formik>
       </div>

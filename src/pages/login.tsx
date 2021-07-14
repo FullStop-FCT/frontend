@@ -31,9 +31,8 @@ const validationSchema = Yup.object({
   lastName: Yup.string(),
 });
 
-
-
 export default function Login() {
+
   const router = useRouter();
   useEffect(() => {
     const token = Cookies.get('token');

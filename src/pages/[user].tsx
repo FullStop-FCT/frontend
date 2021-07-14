@@ -1,6 +1,6 @@
 import styles from './styles/users.module.scss'
 import Head from "next/head"
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { atividades } from '../Components/atividades';
 import { AuthContext } from '../Context/AuthContext';
 import React, { useContext } from 'react'
@@ -17,6 +17,7 @@ import OwnActivitiesList from '../Components/OwnActivitiesList';
 import { GoLocation } from 'react-icons/go'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import Link from 'next/link';
+
 type userProps = {
   birthday: string;
   email: string;
@@ -131,6 +132,7 @@ export default function User() {
             <br />
             <br />
             <button className={styles.infobutt} onClick={() => router.push('/settings/profile')}>Edit info</button>
+            <Link href='/certificate'><button className={styles.certificate_button} >Pedir Certificado</button></Link>
           </div>
           <div>
             <hr className={styles.line} />

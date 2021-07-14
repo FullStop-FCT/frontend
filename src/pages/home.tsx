@@ -2,22 +2,18 @@ import styles from "./styles/base.module.scss";
 import { useState } from 'react'
 import Head from "next/head";
 import Header from '../Components/Header';
-import Link from 'next/link';
-import { AuthContext } from '../Context/AuthContext'
-import React, { useContext, useEffect } from 'react'
-import Cookies from 'js-cookie'
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { AuthContext } from '../Context/AuthContext';
+import React, { useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { api } from "../../services/api";
-import useSWR from 'swr'
+import useSWR from 'swr';
 import { useRouter } from 'next/router'
-import SessionOf from '../Components/SessionOf'
-import MapView from "../Components/Maps";
+import SessionOf from '../Components/SessionOf';
 import SearchIcon from '@material-ui/icons/Search';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
-
 
 type Token = {
   username: string,
@@ -84,11 +80,6 @@ export default function Home() {
 
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
-
-  const styleLink = document.createElement("link");
-  styleLink.rel = "stylesheet";
-  styleLink.href = "https://cdn.jsdelivr.net/npm/semantic-ui/dist/semantic.min.css";
-  document.head.appendChild(styleLink);
 
   return (
 
