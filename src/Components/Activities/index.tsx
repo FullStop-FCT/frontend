@@ -5,7 +5,7 @@ import { api } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
 import { MapContext } from '../../Context/MapContext'
 import FormControl from '@material-ui/core/FormControl';
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import KeyWord from '../keywords/'
@@ -13,8 +13,12 @@ import Cookies from 'js-cookie';
 import styles from './styles.module.scss'
 import MapView from '../Maps';
 import { useState } from 'react';
-import format from 'date-fns/format'
-import { useRouter } from 'next/router'
+import format from 'date-fns/format';
+import { useRouter } from 'next/router';
+import { BiInfoCircle } from "react-icons/bi";
+import { Popup } from 'semantic-ui-react'
+
+
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
@@ -95,8 +99,8 @@ export default function Activities() {
   const token: Token = JSON.parse(Cookies.get('token'));
 
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
-  const [timein, setTimeIn] = useState(format(new Date(), "HH:mm"));
-  const [timeout, setTimeOut] = useState(format(new Date(), "HH:mm"));
+  const [timeIn, setTimeIn] = useState(format(new Date(), "HH:mm"));
+  const [timeOut, setTimeOut] = useState(format(new Date(), "HH:mm"));
 
   const handleChange = (event) => {
     setCategory(event.target.value);
@@ -114,56 +118,14 @@ export default function Activities() {
   const handleOpen = () => {
     setOpen(true);
   };
-  const DatePicker: React.FC<FieldAttributes<{}>> = ({ type, ...props }) => {
-    const [field, meta] = useField<{}>(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-      <TextField variant="outlined" type="date" label="Data" value={date}
-        helperText={errorText} error={!!errorText} onChange={handleDateChange} InputLabelProps={{
-          shrink: true,
-        }} />
-    )
-  }
 
-  const TimeIn: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
-    const [field, meta] = useField<{}>(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-      <TextField variant="outlined" type="time" label="Hora de início" value={timein}
-        helperText={errorText} error={!!errorText} onChange={handleTimeIn} InputLabelProps={{
-          shrink: true,
-        }} />
-    )
-  }
+  var today : any = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000);
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
 
-  const TimeOut: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
-    const [field, meta] = useField<{}>(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-      <TextField variant="outlined" type="time" label="Hora de fim" value={timeout}
-        helperText={errorText} error={!!errorText} onChange={handleTimeOut} InputLabelProps={{
-          shrink: true,
-        }} />
-    )
-  }
+  today = yyyy + '-' + mm + '-' + dd;
 
-
-
-  const handleDateChange = (event) => {
-
-    setDate(format(new Date(event.target.value), "yyyy-MM-dd"))
-    console.log(date)
-
-  };
-
-  const handleTimeIn = (event) => {
-    setTimeIn(event.target.value)
-    console.log(timein)
-  }
-
-  const handleTimeOut = (event) => {
-    setTimeOut(event.target.value)
-  }
   return (
     <div className={styles.container}>
       <div>
@@ -177,8 +139,8 @@ export default function Activities() {
           category: category,
           lat: '',
           lon: '',
-          startHour: timein,
-          endHour: timeout,
+          startHour: timeIn,
+          endHour: timeOut,
           keywords: keywords,
         }}
           validationSchema={validationSchema}
@@ -195,14 +157,10 @@ export default function Activities() {
             values.lat = markers.lat + '';
             values.lon = markers.lng + '';
             values.date = date;
-            values.startHour = timein;
-            values.endHour = timeout;
+            values.startHour = timeIn;
+            values.endHour = timeOut;
             values.keywords = keywords;
             values.category = category;
-
-            console.log(values.startHour)
-            console.log(values.endHour)
-            console.log(values.startHour < values.endHour)
 
             if (category == "") {
               values.category = "Outros"
@@ -236,6 +194,7 @@ export default function Activities() {
 
           {({ isSubmitting }) => (
             <Form className={styles.form} onKeyDown={onKeyDown}>
+              
               <div className={styles.formtext}>
                 <MyTextField placeholder="Título" name="title" type="input" as={TextField} />
                 <Multiline placeholder="Descrição" name="description" type="input"
@@ -265,25 +224,29 @@ export default function Activities() {
                 <div>
                   <KeyWord />
                 </div>
-                <br />
-                <DatePicker
-                  name="date"
-                // variant='outlined'
 
-                />
                 <br />
-                <TimeIn
-                  name="timein"
-                />
-                <br />
-                <TimeOut
-                  name="timeout"
-                />
-                {/*<input type="time" id="appt" name="appt"
-                  min="09:00" max="18:00" required></input>
 
-                <input type="time" id="appt" name="appt"
-                  min="09:00" max="18:00" required></input>*/}
+                <div className={styles.iconRow}>
+
+                  <Popup content={<div className={styles.info}><a className={styles.infoText}>Todas as atividades precisam de ser agendadas com pelo menos dois dias de antecedência.</a></div>} 
+                    trigger={
+                      <div className={styles.icon}>
+                        <BiInfoCircle size="1.5em" />
+                      </div>} 
+                  />
+
+                <input type="date" className={styles.date} min={today} onChange={event => console.log(event.target.value)}/>
+                </div>
+
+                <br />
+
+                <input onChange={e => setTimeIn(e.target.value)} type="time" required />    
+
+                <br />
+
+                <input onChange={e => setTimeOut(e.target.value)} type="time" min={timeIn} required/>
+                
               </div>
               <div className={styles.mapView}>
                 {
