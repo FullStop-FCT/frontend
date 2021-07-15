@@ -14,7 +14,7 @@
   border-radius: 4rem;
 
   h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     color: var(--redhh);
     margin-bottom: 1rem;
   }
@@ -50,11 +50,24 @@
   input::placeholder {
     color: #000;
   }
+<<<<<<< HEAD
   
   .footer {
     position: relative;
     bottom: 0;
   }
+=======
+
+  .link {
+    color:rgb(0, 0, 0);
+    
+  }
+
+  .link:hover {
+    color:var(--redhh);
+  }
+
+>>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
  
 }
 

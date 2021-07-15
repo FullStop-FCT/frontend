@@ -2,10 +2,8 @@ import Orgs from '../Components/OrgCards';
 import Header from '../Components/Header';
 import styles from './styles/organizations.module.scss'
 import useSWR from 'swr';
-import { FaCreativeCommonsShare } from 'react-icons/fa';
 import { api } from '../../services/api';
 import Cookies from 'js-cookie';
-import Grid from '@material-ui/core/Grid';
 import React from 'react';
 
 type userProps = {
@@ -54,7 +52,8 @@ export default function Organizations() {
             <div className={styles.header}>
                 <Header />
             </div>
-            <React.Fragment>
+
+            
                 <div className={styles.orgs}>
                     {
                         data.map((organization: userProps, index, array) => {
@@ -68,7 +67,7 @@ export default function Organizations() {
                         })
                     }
                 </div>
-            </React.Fragment>
+            
         </div>
     )
 }

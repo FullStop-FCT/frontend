@@ -3,7 +3,7 @@
   background: var(--bluehh);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content:center;
   align-items: center;
   text-align: center;
   margin: auto;
@@ -14,9 +14,16 @@
   border-radius: 4rem;
 
   h1 {
-    font-size: 2rem;
+    font-size: 3rem;
     color: var(--redhh);
     margin-bottom: 1rem;
+  }
+
+  a {
+    line-height: 150%;
+    font-size: 1.5rem;
+    color: var(--redhh);
+    padding: 0 5px 0 5px;
   }
 
   button {
@@ -40,6 +47,11 @@
   flex-direction: column;
   width: 60%;
   text-align: center;
+
+  .erro {
+    color: rgb(250, 64, 64);
+    font-size: 13px;
+  }
 
   input {
     color: rgb(0, 0, 0);

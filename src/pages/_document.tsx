@@ -1,6 +1,5 @@
 import React from "react"
 import Document, { Html, Head, Main, NextScript } from 'next/document';
-import { styles } from "@material-ui/pickers/views/Calendar/Calendar";
 
 export default class MyDocument extends Document {
   render() {

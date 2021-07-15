@@ -1,15 +1,12 @@
-import { Formik, Field, Form, useField, FieldAttributes } from 'Formik'
-import { TextField, Button, InputBase } from "@material-ui/core";
+import { Formik, Form, useFormik, useField, FieldAttributes } from 'Formik';
+import { TextField, Button} from "@material-ui/core";
 import * as Yup from 'Yup';
-import styles from './styles/register.module.scss'
+import styles from './styles/register.module.scss';
 import Head from "next/head";
 import NavBar from '../Components/NavBar'
 import Footer from '../Components/Footer'
 import { api } from '../../services/api';
-import axios, { AxiosRequestConfig } from 'axios';
-import { Router } from '@material-ui/icons';
-import { useRouter } from 'next/router'
-
+import { useState } from 'react';
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -23,89 +20,147 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...prop
   )
 }
 
-const validationSchema = Yup.object({
-  username: Yup.string()
-    .matches(/^(\S+$)/, "Não pode conter espaços")
-    .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
-    .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
-    .required("Obrigatório"),
-  name: Yup.string().required("Obrigatório"),
-  email: Yup.string()
-    .email("Por favor insira um email válido.")
-    .required("Obrigatório"),
-  password: Yup.string()
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-      "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
-    .required("Obrigatório"),
-  confirmation: Yup.string()
-    .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
-    .required("Obrigatório"),
-
-});
-
-
-
 export default function Register() {
-  const router = useRouter();
+
+  const [messageDisplay, setShow] = useState(false);
+  const[username, setUsername] = useState("");
+  const[email, setEmail] = useState("");
+
+  const validationSchema = Yup.object({
+    username: Yup.string()
+      .matches(/^(\S+$)/, "Não pode conter espaços")
+      .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
+      .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
+      .required("Obrigatório"),
+    name: Yup.string().required("Obrigatório"),
+    email: Yup.string()
+      .email("Por favor insira um email válido.")
+      .required("Obrigatório"),
+
+    password: Yup.string()
+      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+        "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
+      .required("Obrigatório"),
+    confirmation: Yup.string()
+      .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
+      .required("Obrigatório"),
+  
+  });
+
+  let isUserNameValid : boolean = true;
+  let isEmailValid: boolean = true;
+
+  function checkUser(formVal, fetchedVal) {
+    
+    if(formVal === fetchedVal)
+      isUserNameValid = false;
+
+  }
+
+  function checkEmail(formVal, fetchedVal) {
+    
+    if(formVal == fetchedVal)
+      isEmailValid = false;
+  }
+
   return (
     <div>
       <Head>
-        <title>Register</title>
+        <title>Registar</title>
       </Head>
       <NavBar />
-      <div className={styles.register}>
-        <h1>Inscreva-se</h1>
-        <Formik initialValues={{
-          username: '',
-          name: '',
-          email: '',
-          password: '',
-          confirmation: '',
 
-        }}
-          validationSchema={validationSchema}
+      {!messageDisplay ? 
 
-          //resetform
-          onSubmit={async (values, { setSubmitting }) => {
+        <div className={styles.register}>
+          <h1>Registar</h1>
+          <Formik initialValues={{
+            username: '',
+            name: '',
+            email: '',
+            password: '',
+            confirmation: '',
 
-            console.log("submitting");
-            setSubmitting(true);
-            await api.post('users/insert', values
-            ).then(function (response) {
-              console.log(JSON.stringify(response.data));
-            })
-              .catch(function (error) {
-                console.log(error);
-              });
+          }}
+            validationSchema={validationSchema}
 
-            setSubmitting(false);
-            console.log("submitted");
-            router.push("/login")
-          }}>
+            onSubmit={async (values, { setSubmitting }) => {
 
-          {({ isSubmitting }) => (
-            <Form className={styles.form}  >
-              <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
-              <MyTextField placeholder="first name" name="name" type="input" as={TextField} />
-              <MyTextField placeholder="email" name="email" type="input" as={TextField} />
-              <MyTextField placeholder="password" name="password" type="password" as={TextField} />
-              <MyTextField placeholder="confirm password" name="confirmation" type="password" as={TextField} />
-              <div>
-                <Button disabled={isSubmitting} type="submit">Inscrever-se</Button>
-              </div>
-            </Form>
+              await api.get(`users/self/${values.username}`)
+                .then(response => checkUser(values.username, response.data.username))
+                .catch(function (error) {
+                  isUserNameValid = true;
+              });   
 
+              /*await api.get(``)
+                .then(response => checkEmail(values.email, response.data.email))
+                .catch(function (error) {
+                  isUserNameValid = true;
+              }); */
+              
+              if(isUserNameValid && isEmailValid) {
 
+                isUserNameValid=true;
+                setSubmitting(true);
 
-          )
+                await api.post('users/insert', values
+                ).then(function (response) {
+                  console.log(JSON.stringify(response.data));
+                })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
 
+                setShow(true);
 
-          }
-        </Formik>
-      </div>
+                setSubmitting(false);
+              }
+            }}>
+
+            {({ isSubmitting }) => (
+              <Form className={styles.form}  >
+
+                {
+                  !isUserNameValid ? 
+                  
+                    <a className={styles.erro}>Este nome de utilizador já está em uso, por favor escolha outro.</a>
+               
+                  : 
+
+                  null
+                }
+                
+                <MyTextField placeholder="Nome de utilizador" id="username" name="username" type="input" as={TextField} /> <br/>
+                <MyTextField placeholder="Primeiro nome" name="name" type="input" as={TextField} /> <br/>
+
+                {
+                  !isEmailValid ? 
+                  
+                    <a className={styles.erro}>Este email já está associado a uma conta, por favor escolha outro.</a>
+               
+                  : 
+
+                  null
+                }
+                <MyTextField placeholder="Email" name="email" type="input" as={TextField}/> <br/>
+                <MyTextField placeholder="Password" name="password" type="password" as={TextField} /> <br/>
+                <MyTextField placeholder="Confirmar Password" name="confirmation" type="password" as={TextField} /> <br/>
+                <div> 
+                  <Button disabled={isSubmitting} type="submit">Submeter</Button>
+                </div>
+              </Form>
+            )}
+
+          </Formik>
+        </div>
+
+        : 
+
+        <div className={styles.register}>
+          <a>Irá receber um email de confirmação para poder iniciar sessão e começar a voluntariar-se.</a>
+        </div>
+      }
       <Footer />
     </div>
-
   );
-
 }

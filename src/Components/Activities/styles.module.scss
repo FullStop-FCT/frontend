@@ -38,6 +38,20 @@
   align-items: center;
   margin-left: 2rem;
   justify-content: space-around;
+
+  .iconRow {
+    display:flex;
+    align-items: center;
+
+    .date {
+      width: 292px;
+    }
+     
+    .icon:hover {
+      color:#1a1a1a;
+    }
+
+  }
   
   input {
     color: black;
@@ -70,6 +84,7 @@
       color:var(--black)
 
     }
+
   }
 
   .mapView {
@@ -102,4 +117,21 @@
 
 .tags{
   background-color: aqua;
+}
+
+.info {
+  font-size: 20px;
+  display:flex;
+  align-items: center;
+  width: 350px;
+  height: 180px;
+  border-style: solid;
+  border-radius: 5px;
+  background-color: var(--redhh);
+  box-shadow: 5px 5px 5px  #3d3c3c;
+
+  .infoText {
+    color:black;
+    padding: 20px 20px 20px 20px;
+  }
 }

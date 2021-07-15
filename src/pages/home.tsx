@@ -1,24 +1,19 @@
 import styles from "./styles/base.module.scss";
 import { useState } from 'react'
 import Head from "next/head";
-import Footer from '../Components/Footer';
 import Header from '../Components/Header';
-import Link from 'next/link';
-import { AuthContext } from '../Context/AuthContext'
-import React, { useContext, useEffect } from 'react'
-import Cookies from 'js-cookie'
-import { GetServerSideProps, GetServerSidePropsContext } from "next";
+import { AuthContext } from '../Context/AuthContext';
+import React, { useContext, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { api } from "../../services/api";
-import useSWR from 'swr'
+import useSWR from 'swr';
 import { useRouter } from 'next/router'
-import SessionOf from '../Components/SessionOf'
-import MapView from "../Components/Maps";
+import SessionOf from '../Components/SessionOf';
 import SearchIcon from '@material-ui/icons/Search';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
-
 
 type Token = {
   username: string,
@@ -49,6 +44,7 @@ async function fetcher(path: string): Promise<listAtivitiesProps> {
   return await api.post(path, token).then(response => response.data.reverse());
 
 }
+
 
 export default function Home() {
   const { subAtivity, setSubAtivity, authenticated } = useContext(AuthContext);
@@ -96,6 +92,7 @@ export default function Home() {
       <div className={styles.header} >
         <Header />
       </div>
+
       <div className={styles.Feed}>
 
         <div className={styles.searchBar}>

@@ -1,38 +1,55 @@
 .cardcontainer{
-  width: 250px;
-  height: 179px;
-  background-color: var(--bluehh);
-  margin-bottom: 10px;
-  margin-left: 100px;
-  border-radius: 2rem;
+  width: 300px;
+  height: 420px;
+  border-radius: 1rem;
+  background-color: rgb(231, 217, 195);
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  .avatar{
-    border: 3px solid var(--redhh);
-      width: 70px;
-      height: 70px;
+  box-shadow: 5px 5px 5px  #928f8f;
+
+  .avatarbackground {
+    background-color: aquamarine;
+    width: 100%;
+    height: 200px;
+    border-radius: 1rem 1rem 0 0;
+    background: rgb(41, 39, 77);
+
+
+    .avatar{
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       background-color: rgb(116, 116, 116);
-      margin-top: 10px;
-
-      .image{
-        border-radius: 50%;
-      }
+      margin: 155px auto 0 auto;
+      
+        .image{
+          border-radius: 50%;
+          width: 90px;
+          height: 90px;
+        }
+    }
   }
 
-  
+  .buttons {
+    display: flex;
+    flex-direction: columns;
+    height: 400px;
 
+    .follow_button{
+        button{
+          background-color: var(--redhh);
+          color: #fff;
+          border-radius: 2rem;
+          height: 30px;
+          width: 100px;
+          margin-top: 20px;
+        }
+    }
 
-  .follow{
-      button{
-        background-color: var(--redhh);
-        color: #fff;
-        border-radius: 2rem;
-        height: 30px;
-        width: 100px;
-        margin-top: 20px;
-      }
+    .message_button {
+
+    }
   }
 }

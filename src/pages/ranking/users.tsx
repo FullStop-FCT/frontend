@@ -2,7 +2,7 @@ import Header from '../../Components/Header';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import styles from '../styles/rankingtables.module.scss';
+import styles from './rankingtables.module.scss';
 
 type Token = {
     username: string,

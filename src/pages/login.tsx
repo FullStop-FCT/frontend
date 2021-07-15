@@ -1,15 +1,15 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'Formik';
 import { TextField, Button } from "@material-ui/core";
 import * as Yup from 'Yup';
-import styles from './styles/login.module.scss'
+import styles from './styles/login.module.scss';
 import Head from "next/head";
-import NavBar from '../Components/NavBar'
-import Footer from '../Components/Footer'
-import { api } from '../../services/api';
-import { AuthContext } from '../Context/AuthContext'
-import React, { useContext, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import NavBar from '../Components/NavBar';
+import Footer from '../Components/Footer';
+import { AuthContext } from '../Context/AuthContext';
+import React, { useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -31,11 +31,8 @@ const validationSchema = Yup.object({
   lastName: Yup.string(),
 });
 
-
-
-
-
 export default function Login() {
+
   const router = useRouter();
   useEffect(() => {
     const token = Cookies.get('token');
@@ -61,6 +58,7 @@ export default function Login() {
           }}
             validationSchema={validationSchema}
 
+<<<<<<< HEAD
             //resetform
             onSubmit={async (values, { setSubmitting }) => {
               console.log("submitting");
@@ -71,11 +69,19 @@ export default function Login() {
 
               console.log("submitted");
               //console.log(user)
+=======
+          onSubmit={async (values, { setSubmitting }) => {
+
+            setSubmitting(true);
+
+            handleLogin(values);
+>>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
 
               setSubmitting(false);
             }}>
 
 
+<<<<<<< HEAD
             {({ isSubmitting }) => (
               <Form className={styles.form}  >
                 <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
@@ -98,6 +104,24 @@ export default function Login() {
         <div className={styles.footer}>
           <Footer />
         </div>
+=======
+          {({ isSubmitting }) => (
+            <Form className={styles.form}  >
+              <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
+              <br />
+              <MyTextField placeholder="Password" name="password" type="password" as={TextField} />
+              <br />
+
+              <Link href="/forgot-password"><a className={styles.link}>Esqueceu-se da password?</a></Link>
+              <div>
+                <Button disabled={isSubmitting} type="submit">Login</Button>
+              </div>
+            </Form>
+
+          )
+          }
+        </Formik>
+>>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
       </div>
     </div>
 

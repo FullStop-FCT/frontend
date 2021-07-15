@@ -32,6 +32,7 @@ type Token = {
 
 
 export default function Organizations(orgs: userProps) {
+
     const [following, setFollowing] = useState(false);
 
     const token: Token = Cookies.getJSON('token')
@@ -61,28 +62,39 @@ export default function Organizations(orgs: userProps) {
     return (
 
         <div className={styles.cardcontainer}>
-            <div className={styles.avatar}>
-                <Image
-                    loader={myLoader}
-                    src='me.png'
-                    placeholder="blur"
-                    width={70}
-                    height={70}
-                    className={styles.image}
-                />
-            </div>
-            <div className={styles.name}>
-                <h2>{orgs.username}</h2>
-            </div>
-            <div className={styles.follow}>
-                <button onClick={() => follow(orgs.username)}>
-                    {
-                        following ? 'Seguindo' : 'Seguir'
+            <div className={styles.avatarbackground}>
 
-                    }
-                </button>
+                <div className={styles.avatar}>
+                    <Image
+                        loader={myLoader}
+                        src='me.png'
+                        placeholder="blur"
+                        width={70}
+                        height={70}
+                        className={styles.image}
+                    />
+                </div>
             </div>
 
+            <div className={styles.buttons}>
+                <div className={styles.follow_button}>
+                    <h2>{orgs.username}</h2>
+                </div>
+                <div className={styles.follow}>
+                    <button onClick={() => follow(orgs.username)}>
+                        {
+                            following ? 'Seguindo' : 'Seguir'
+
+                        }
+                    </button>
+                </div>
+
+                <div className={styles.message_button}>
+                    <button onClick={() => true}>               {/* TODO -----> Editar o onclick para enviar mensagem */}
+                        Enviar Mensagem
+                    </button>
+                </div>
+            </div>           
         </div>
     )
 }
