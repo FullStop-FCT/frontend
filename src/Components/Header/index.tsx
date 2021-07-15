@@ -8,6 +8,7 @@ import Cookies from 'js-cookie'
 import { FaHandHoldingHeart } from 'react-icons/fa'
 import { IoCreateSharp, IoNotifications, IoHome, IoTrophySharp, IoPersonSharp } from 'react-icons/io5'
 import { BsFillPeopleFill } from "react-icons/bs";
+import { useRouter } from 'next/router';
 export default function NavBar() {
 
 
@@ -18,7 +19,9 @@ export default function NavBar() {
     setState(!state)
   }
 
+  const router = useRouter();
 
+  let username = window.location.pathname.replace('/', '')
   return (
     <div className={styles.Container}>
       <div className={styles.NavbarItems}>
@@ -29,7 +32,7 @@ export default function NavBar() {
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
           <Link href={`/${Token}`}>
-            <div className={styles.topics}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
+            <div className={username == `${Token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
 
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 

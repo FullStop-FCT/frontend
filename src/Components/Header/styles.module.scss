@@ -54,21 +54,23 @@
        
       }
 
-      .topics::after{
-        color: var(--redhh);
-        background-color: var(--redhh);
-        opacity:0.5;
-        border-radius: 10px;
-        
-        
-        
-        a{
-          color: var(--bluehh)
-         
-        }
-        
-      }
+    
       
+    }
+
+    .linkactive{
+      color: #fff;
+      background-color: var(--redhh);
+      opacity:0.5;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      
+      
+      span{
+        color: var(--bluehh)
+       
+      }
+
     }
 
     

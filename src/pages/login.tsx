@@ -47,54 +47,58 @@ export default function Login() {
   const { authenticated, handleLogin } = useContext(AuthContext);
   return (
     <div>
-      <Head>
-        <title>Login</title>
-      </Head>
-      <NavBar />
-      <div className={styles.login}>
-        <h1>Login</h1>
-        <Formik initialValues={{
-          username: '',
-          password: ''
+      <div>
+        <Head>
+          <title>Login</title>
+        </Head>
+        <NavBar />
+        <div className={styles.login}>
+          <h1>Login</h1>
+          <Formik initialValues={{
+            username: '',
+            password: ''
 
-        }}
-          validationSchema={validationSchema}
+          }}
+            validationSchema={validationSchema}
 
-          //resetform
-          onSubmit={async (values, { setSubmitting }) => {
-            console.log("submitting");
-            setSubmitting(true);
+            //resetform
+            onSubmit={async (values, { setSubmitting }) => {
+              console.log("submitting");
+              setSubmitting(true);
 
-            handleLogin(values);
-            console.log(authenticated);
+              handleLogin(values);
+              console.log(authenticated);
 
-            console.log("submitted");
-            //console.log(user)
+              console.log("submitted");
+              //console.log(user)
 
-            setSubmitting(false);
-          }}>
-
-
-          {({ isSubmitting }) => (
-            <Form className={styles.form}  >
-              <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
-              <br />
-              <MyTextField placeholder="password" name="password" type="password" as={TextField} />
-
-              <div>
-                <Button disabled={isSubmitting} type="submit">Login</Button>
-              </div>
-            </Form>
+              setSubmitting(false);
+            }}>
 
 
+            {({ isSubmitting }) => (
+              <Form className={styles.form}  >
+                <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
+                <br />
+                <MyTextField placeholder="password" name="password" type="password" as={TextField} />
 
-          )
+                <div>
+                  <Button disabled={isSubmitting} type="submit">Login</Button>
+                </div>
+              </Form>
 
 
-          }
-        </Formik>
+
+            )
+
+
+            }
+          </Formik>
+        </div>
+        <div className={styles.footer}>
+          <Footer />
+        </div>
       </div>
-      <Footer />
     </div>
 
   );
