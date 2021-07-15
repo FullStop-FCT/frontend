@@ -1,19 +1,15 @@
 .NavbarItems {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  font-size: 1.2rem;
   margin-top: 2rem;
-  align-items: center;
   height: 100%;
 
   h1 {
-    font-size: 2.5rem;
+    font-size: 3.2rem;
     color: var(--redhh);
-    justify-self: start;
     cursor: pointer;
     margin-top: 2rem;
-     
+    padding-left: 3rem;
   }
 
   .Navbar {
@@ -24,34 +20,55 @@
     margin-top: 2rem;
     top: 15%;
     font-size: 1.7rem;
-    
+    width:100%;
+
+    .logout{
+      display: flex;
+      align-content: center;
+
+      button {
+        margin:auto;
+        color: #fff;
+        background: var(--redhh);
+        width: 8rem;
+        height: 2rem;
+        border-radius: 2rem;
+        margin-top: 4rem;
+      }
+      button:hover {
+        background: var(--redhh-2);
+      }
+    }
 
     .topics{
-      margin-bottom: 1.5rem;
       cursor: pointer;   
+      padding-left: 3rem;
+     
 
       .links{
         color: var(--black);
-        
+        display:flex;
+        align-items: center;
+        padding-bottom: 15px;
+        padding-top: 15px;
+
+        .linkname {
+          font-size: 30px;
+          padding-left: 10px;
+        }
+
       }
       .links:active{
         color: var(--bluehh);
-          
       }
-    
     }
 
     .topics:hover{
-      color: #fff;
-      background-color: var(--redhh);
+      background-color: rgb(4, 51, 90);
       opacity:0.5;
-      border-radius: 10px;
-      
-      
-      
+    
       span{
-        color: var(--bluehh)
-       
+        color: var(--bluehh);
       }
 
       .topics::after{
@@ -59,8 +76,6 @@
         background-color: var(--redhh);
         opacity:0.5;
         border-radius: 10px;
-        
-        
         
         a{
           color: var(--bluehh)
@@ -73,17 +88,7 @@
 
     
   }
-  button {
-    
-    color: #fff;
-    background: var(--redhh);
-    width: 5rem;
-    height: 2rem;
-    border-radius: 2rem;
-  }
-  button:hover {
-    background: var(--redhh-2);
-  }
+  
 }
 
 @media screen and (max-width: 960px) {

@@ -52,7 +52,8 @@ export default function Organizations() {
             <div className={styles.header}>
                 <Header />
             </div>
-            <React.Fragment>
+
+            
                 <div className={styles.orgs}>
                     {
                         data.map((organization: userProps, index, array) => {
@@ -66,7 +67,7 @@ export default function Organizations() {
                         })
                     }
                 </div>
-            </React.Fragment>
+            
         </div>
     )
 }
