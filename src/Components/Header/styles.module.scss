@@ -13,21 +13,20 @@
   }
 
   .Navbar {
-    
     flex-direction: column;
     text-align: start;
     height: 100%;
     margin-top: 2rem;
     top: 15%;
     font-size: 1.7rem;
-    width:100%;
+    width: 100%;
 
-    .logout{
+    .logout {
       display: flex;
       align-content: center;
 
       button {
-        margin:auto;
+        margin: auto;
         color: #fff;
         background: var(--redhh);
         width: 8rem;
@@ -40,14 +39,13 @@
       }
     }
 
-    .topics{
-      cursor: pointer;   
+    .topics {
+      cursor: pointer;
       padding-left: 3rem;
-     
 
-      .links{
+      .links {
         color: var(--black);
-        display:flex;
+        display: flex;
         align-items: center;
         padding-bottom: 15px;
         padding-top: 15px;
@@ -56,65 +54,43 @@
           font-size: 30px;
           padding-left: 10px;
         }
-
       }
-      .links:active{
+      .links:active {
         color: var(--bluehh);
       }
     }
 
-    .topics:hover{
+    .topics:hover {
       background-color: rgb(4, 51, 90);
-      opacity:0.5;
-    
-      span{
+      opacity: 0.5;
+
+      span {
         color: var(--bluehh);
       }
 
-<<<<<<< HEAD
-    
-      
-    }
-
-    .linkactive{
-      color: #fff;
-      background-color: var(--redhh);
-      opacity:0.5;
-      border-radius: 10px;
-      margin-bottom: 1.5rem;
-      
-=======
-      .topics::after{
+      .topics::after {
         color: var(--redhh);
         background-color: var(--redhh);
-        opacity:0.5;
+        opacity: 0.5;
         border-radius: 10px;
-        
-        a{
-          color: var(--bluehh)
-         
+
+        a {
+          color: var(--bluehh);
         }
-        
-      }
->>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
-      
-      span{
-        color: var(--bluehh)
-       
       }
 
+      span {
+        color: var(--bluehh);
+      }
     }
-
-    
   }
-  
 }
 
 @media screen and (max-width: 960px) {
-  .linkname{
+  .linkname {
     display: none;
   }
-  .topics{
+  .topics {
     text-align: center;
   }
 }

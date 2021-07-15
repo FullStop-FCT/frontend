@@ -6,26 +6,13 @@ import Cookies from 'js-cookie'
 import { FaHandHoldingHeart } from 'react-icons/fa'
 import { IoCreateSharp, IoLogOutSharp, IoHome, IoTrophySharp, IoPersonSharp } from 'react-icons/io5'
 import { BsFillPeopleFill } from "react-icons/bs";
-<<<<<<< HEAD
-import { useRouter } from 'next/router';
-export default function NavBar() {
-=======
->>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
 
 
 export default function NavBar() {
 
   const { handleLogout } = useContext(AuthContext);
   const Token = Cookies.get('user')
-<<<<<<< HEAD
-  const handleClick = () => {
-    setState(!state)
-  }
-
-  const router = useRouter();
-=======
   
->>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
 
   let username = window.location.pathname.replace('/', '')
   return (
