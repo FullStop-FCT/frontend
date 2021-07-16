@@ -8,19 +8,20 @@ import Footer from '../Components/Footer'
 import { api } from '../../services/api';
 import { useState } from 'react';
 
-const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
-  const [field, meta] = useField<{}>(props);
-  const errorText = meta.error && meta.touched ? meta.error : "";
-  return (
-    <TextField variant="outlined" type={type}
-      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} InputLabelProps={{
-        className: styles.form
-
-      }} />
-  )
-}
 
 export default function Register() {
+  const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
+    const [field, meta] = useField<{}>(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+    return (
+      <TextField variant="outlined" type={type}
+        size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} onClick={() => setIsUserNameValid(true) } InputLabelProps={{
+          className: styles.form 
+  
+        }} />
+    )
+  }
+  
 
   const [messageDisplay, setShow] = useState(false);
   const[username, setUsername] = useState("");
@@ -90,11 +91,11 @@ export default function Register() {
             validationSchema={validationSchema}
 
             onSubmit={async (values, { setSubmitting }) => {
-              let data;
+              let data = '';
               await api.get(`users/self/${values.username}`)
-                .then(response => data = response.data)
+                .then(response => data = response.data.username)
                 .catch(function (error) {
-                  console.log(error);
+                 
               });   
               //checkUser(values.username, data.username)
              
@@ -104,7 +105,7 @@ export default function Register() {
                   isUserNameValid = true;
               }); */
               console.log(data)
-              if(data.username !== values.username) {
+              if(data !== values.username) {
                 setSubmitting(true);
 
                 await api.post('users/insert', values

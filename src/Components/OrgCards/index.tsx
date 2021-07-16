@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image'
 import { api } from '../../../services/api';
-import { BsFillPersonFill } from "react-icons/bs";
-import { IoLocationSharp } from "react-icons/io5";
 
 type userProps = {
     birthday: string;
@@ -61,43 +59,41 @@ export default function Organizations(orgs: userProps) {
 
     }
 
-    console.log("orgs" + orgs)
     return (
 
         <div className={styles.cardcontainer}>
-            
-            <div className={styles.avatar_background}>
+            <div className={styles.avatarbackground}>
 
                 <div className={styles.avatar}>
                     <Image
                         loader={myLoader}
                         src='me.png'
                         placeholder="blur"
-                        width={100}
-                        height={100}
+                        width={70}
+                        height={70}
                         className={styles.image}
                     />
                 </div>
             </div>
 
-            <h2 className={styles.org_name}>{orgs.username}</h2>
-
-            <div className={styles.info}>
-                <a className={styles.info_text}><BsFillPersonFill className={styles.icon}/>{orgs.followers}</a> 
-                <br/>
-                <a className={styles.info_text}><IoLocationSharp className={styles.icon}/>{orgs.location}</a>
-            </div>
-
             <div className={styles.buttons}>
-
-
-                <h1 className={styles.follow_button}>
-                    {
+                <div className={styles.follow_button}>
+                    <h2>{orgs.username}</h2>
+                </div>
+                <div className={styles.follow}>
+                    <button onClick={() => follow(orgs.username)}>
+                        {
                             following ? 'Seguindo' : 'Seguir'
-                    }
-                </h1>
-                <h1 className={styles.message_button}>Contatar</h1>
-                
+
+                        }
+                    </button>
+                </div>
+
+                <div className={styles.message_button}>
+                    <button onClick={() => true}>               {/* TODO -----> Editar o onclick para enviar mensagem */}
+                        Enviar Mensagem
+                    </button>
+                </div>
             </div>           
         </div>
     )
