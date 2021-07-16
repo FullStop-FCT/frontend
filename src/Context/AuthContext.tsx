@@ -53,6 +53,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
     else {
       setAuthenticated(false);
+      router.push("/login")
     }
     setLoading(false);
 

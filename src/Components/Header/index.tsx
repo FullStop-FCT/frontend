@@ -14,6 +14,7 @@ export default function NavBar() {
   const Token = Cookies.get('user')
   
 
+  let username = window.location.pathname.replace('/', '')
   return (
     <div className={styles.Container}>
       <div className={styles.NavbarItems}>
@@ -24,7 +25,7 @@ export default function NavBar() {
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
           <Link href={`/${Token}`}>
-            <div className={styles.topics}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
+            <div className={username == `${Token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
 
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 
