@@ -81,11 +81,11 @@ export default function Register() {
         <div className={styles.register}>
           <h1>Registar</h1>
           <Formik initialValues={{
-            username: 'fredcv',
-            name: 'asdasd',
-            email: 'asdasd@gmail.com',
-            password: 'Fred1234',
-            confirmation: 'Fred1234',
+            username: '',
+            name: '',
+            email: '',
+            password: '',
+            confirmation: '',
 
           }}
             validationSchema={validationSchema}
