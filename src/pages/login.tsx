@@ -58,53 +58,16 @@ export default function Login() {
           }}
             validationSchema={validationSchema}
 
-<<<<<<< HEAD
-            //resetform
-            onSubmit={async (values, { setSubmitting }) => {
-              console.log("submitting");
-              setSubmitting(true);
-
-              handleLogin(values);
-              console.log(authenticated);
-
-              console.log("submitted");
-              //console.log(user)
-=======
           onSubmit={async (values, { setSubmitting }) => {
 
             setSubmitting(true);
 
             handleLogin(values);
->>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
 
               setSubmitting(false);
             }}>
 
 
-<<<<<<< HEAD
-            {({ isSubmitting }) => (
-              <Form className={styles.form}  >
-                <MyTextField className={styles.input} placeholder="username" name="username" type="input" as={TextField} />
-                <br />
-                <MyTextField placeholder="password" name="password" type="password" as={TextField} />
-
-                <div>
-                  <Button disabled={isSubmitting} type="submit">Login</Button>
-                </div>
-              </Form>
-
-
-
-            )
-
-
-            }
-          </Formik>
-        </div>
-        <div className={styles.footer}>
-          <Footer />
-        </div>
-=======
           {({ isSubmitting }) => (
             <Form className={styles.form}  >
               <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
@@ -121,8 +84,8 @@ export default function Login() {
           )
           }
         </Formik>
->>>>>>> a477930ed467bae6145b017c1bd5774c88482d8d
       </div>
+    </div>
     </div>
 
   );

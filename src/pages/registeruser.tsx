@@ -8,23 +8,27 @@ import Footer from '../Components/Footer'
 import { api } from '../../services/api';
 import { useState } from 'react';
 
-const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
-  const [field, meta] = useField<{}>(props);
-  const errorText = meta.error && meta.touched ? meta.error : "";
-  return (
-    <TextField variant="outlined" type={type}
-      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} InputLabelProps={{
-        className: styles.form
-
-      }} />
-  )
-}
 
 export default function Register() {
+  const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
+    const [field, meta] = useField<{}>(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+    return (
+      <TextField variant="outlined" type={type}
+        size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} onClick={() => setIsUserNameValid(true) } InputLabelProps={{
+          className: styles.form 
+  
+        }} />
+    )
+  }
+  
 
   const [messageDisplay, setShow] = useState(false);
   const[username, setUsername] = useState("");
   const[email, setEmail] = useState("");
+  const [isUserNameValid, setIsUserNameValid] = useState(true);
+  const[isEmailValid, setIsEmailValid] = useState(true);
+  let uservalid: boolean = true;
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -47,20 +51,22 @@ export default function Register() {
   
   });
 
-  let isUserNameValid : boolean = true;
-  let isEmailValid: boolean = true;
+  
 
-  function checkUser(formVal, fetchedVal) {
+   const checkUser = async (formVal, fetchedVal) => {
     
-    if(formVal === fetchedVal)
-      isUserNameValid = false;
+    if(formVal === fetchedVal){
+      setIsUserNameValid(false);
+      console.log(isUserNameValid)
+
+    }
 
   }
 
   function checkEmail(formVal, fetchedVal) {
     
     if(formVal == fetchedVal)
-      isEmailValid = false;
+      setIsEmailValid(false);
   }
 
   return (
@@ -75,32 +81,31 @@ export default function Register() {
         <div className={styles.register}>
           <h1>Registar</h1>
           <Formik initialValues={{
-            username: '',
-            name: '',
-            email: '',
-            password: '',
-            confirmation: '',
+            username: 'fredcv',
+            name: 'asdasd',
+            email: 'asdasd@gmail.com',
+            password: 'Fred1234',
+            confirmation: 'Fred1234',
 
           }}
             validationSchema={validationSchema}
 
             onSubmit={async (values, { setSubmitting }) => {
-
+              let data = '';
               await api.get(`users/self/${values.username}`)
-                .then(response => checkUser(values.username, response.data.username))
+                .then(response => data = response.data.username)
                 .catch(function (error) {
-                  isUserNameValid = true;
+                 
               });   
-
+              //checkUser(values.username, data.username)
+             
               /*await api.get(``)
                 .then(response => checkEmail(values.email, response.data.email))
                 .catch(function (error) {
                   isUserNameValid = true;
               }); */
-              
-              if(isUserNameValid && isEmailValid) {
-
-                isUserNameValid=true;
+              console.log(data)
+              if(data !== values.username) {
                 setSubmitting(true);
 
                 await api.post('users/insert', values
@@ -109,11 +114,15 @@ export default function Register() {
                 })
                   .catch(function (error) {
                     console.log(error);
+
                   });
 
                 setShow(true);
 
                 setSubmitting(false);
+              }
+              else{
+                setIsUserNameValid(false);
               }
             }}>
 
@@ -129,7 +138,7 @@ export default function Register() {
                
                   : 
 
-                  null
+                  <></>
                 }
 
                 <br/>
@@ -144,7 +153,7 @@ export default function Register() {
                
                   : 
 
-                  null
+                  <></>
                 }
                 
                 <br/>
