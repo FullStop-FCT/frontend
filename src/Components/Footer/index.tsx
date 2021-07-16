@@ -18,31 +18,6 @@ export default function Footer()  {
       </div>
       <p>Copyright ©  FullStop 2021</p>
   
-     
-
-
-
-
-
-
-
-
-
-
      </footer>
-
-
-
-
-
-
-
-
   )
-
-
-
-
-
-
 }
