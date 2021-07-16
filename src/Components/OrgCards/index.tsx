@@ -33,9 +33,15 @@ type Token = {
 }
 
 
+
+
 export default function Organizations(orgs: userProps) {
 
     const [following, setFollowing] = useState(false);
+
+    useEffect( () => {
+        console.log("following" + following)
+    }, [following])
 
     const token: Token = Cookies.getJSON('token')
     useEffect(() => {
@@ -91,7 +97,7 @@ export default function Organizations(orgs: userProps) {
             <div className={styles.buttons}>
 
 
-                <h1 className={styles.follow_button}>
+                <h1 onClick={() => follow(orgs.username)}className={styles.follow_button}>
                     {
                             following ? 'Seguindo' : 'Seguir'
                     }
