@@ -119,7 +119,9 @@ export default function Register() {
 
             {({ isSubmitting }) => (
               <Form className={styles.form}  >
-
+                
+                <MyTextField placeholder="Nome de utilizador" id="username" name="username" type="input" as={TextField} /> 
+                
                 {
                   !isUserNameValid ? 
                   
@@ -129,10 +131,12 @@ export default function Register() {
 
                   null
                 }
-                
-                <MyTextField placeholder="Nome de utilizador" id="username" name="username" type="input" as={TextField} /> <br/>
-                <MyTextField placeholder="Primeiro nome" name="name" type="input" as={TextField} /> <br/>
 
+                <br/>
+                <MyTextField placeholder="Primeiro nome" name="name" type="input" as={TextField} /> <br/>
+                
+                <MyTextField placeholder="Email" name="email" type="input" as={TextField}/> 
+                
                 {
                   !isEmailValid ? 
                   
@@ -142,7 +146,8 @@ export default function Register() {
 
                   null
                 }
-                <MyTextField placeholder="Email" name="email" type="input" as={TextField}/> <br/>
+                
+                <br/>
                 <MyTextField placeholder="Password" name="password" type="password" as={TextField} /> <br/>
                 <MyTextField placeholder="Confirmar Password" name="confirmation" type="password" as={TextField} /> <br/>
                 <div> 
