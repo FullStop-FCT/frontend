@@ -5,31 +5,9 @@ import useSWR from 'swr';
 import { api } from '../../services/api';
 import Cookies from 'js-cookie';
 import React from 'react';
+import {Token,userProps,listuserProps} from '../types';
+import jwt_decode from "jwt-decode"
 
-type userProps = {
-    birthday: string;
-    email: string;
-    name: string;
-    profile: string;
-    phoneNumber: string;
-    mobileNumber: string;
-    address: string;
-    location: string;
-    postalCode: string;
-    gender: string;
-    username: string;
-    points: number;
-    kind: string;
-    image: string;
-}
-type Token = {
-    username: string,
-    tokenID: string,
-    role: string,
-    creationData: number,
-    expirationData: number
-}
-type listuserProps = userProps[];
 
 async function fetcher(path: string): Promise<listuserProps> {
     const token: Token = Cookies.getJSON('token')
@@ -42,7 +20,8 @@ async function fetcher(path: string): Promise<listuserProps> {
 export default function Organizations() {
 
     const { data, error } = useSWR(`users/listorg`, fetcher);
-    const token: Token = Cookies.getJSON('token')
+    const token: Token = jwt_decode(Cookies.getJSON('token'));
+    
     if (error) { return (<div>error</div>) }
     if (!data) return <div>Loading</div>
     console.log(data)
@@ -58,7 +37,7 @@ export default function Organizations() {
                     {
                         data.map((organization: userProps, index, array) => {
 
-                            if (organization.username !== token.username)
+                            if (organization.username !== token.iss)
                                 return (
 
                                     <Orgs {...organization} key={index} />

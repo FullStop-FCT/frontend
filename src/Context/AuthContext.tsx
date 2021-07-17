@@ -6,7 +6,7 @@ import { addDays, milliseconds } from 'date-fns'
 import Loading from '../Components/Loading'
 import { IoLogOutSharp } from 'react-icons/io5';
 import KeyWord from '../Components/keywords';
-
+import jwt_decode from "jwt-decode"
 type data = {
   username: string;
   password: string;
@@ -27,6 +27,14 @@ type AuthContextData = {
   setSubEdit: (state: boolean) => void;
   keywords: string[];
   setKeywords: (string) => void;
+}
+
+type token = {
+  exp: number,
+  iat: number,
+  image: string,
+  iss: string,
+  role: string
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -53,21 +61,19 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
     else {
       setAuthenticated(false);
-     
+      router.push('/login')
     }
     setLoading(false);
 
   }, []);
 
 
-  const logOut = () => {
-
-  }
+  
   async function handleLogout() {
     setAuthenticated(false);
 
     Cookie.remove('token');
-    Cookie.remove('user');
+    //Cookie.remove('user');
     window.location.href = '/';
 
   }
@@ -75,20 +81,21 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function handleLogin(data: { username: string, password: string }) {
 
-    await api.post('authentication/login', data
+    await api.post('/authentication/loginJWT', data
 
     ).then(function (response) {
 
       if (response.data) {
         console.log(response)
         Cookie.set('token', JSON.stringify(response.data));
-        Cookie.set('user', response.data.username)
+       
         //add date-fns
         //api.defaults.headers.Authorization = `Bearer ${response.data.tokenID}`;
         //console.log(response.data.username)
         setAuthenticated(true);
-
-        router.push(`/${response.data.username}`);
+        var decoded: token = jwt_decode(response.data);
+        console.log(decoded.iss)
+        router.push(`/${decoded.iss}`);
       }
     })
       .catch(function (error) {

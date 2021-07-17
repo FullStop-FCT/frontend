@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 
+
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
   const errorText = meta.error && meta.touched ? meta.error : "";
@@ -37,7 +38,7 @@ export default function Login() {
   useEffect(() => {
     const token = Cookies.get('token');
     if (token) {
-      router.push(`/${Cookies.get('user')}`)
+     // router.push(`/${Cookies.get('user')}`)
     }
   })
 

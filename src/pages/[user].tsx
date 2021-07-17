@@ -17,48 +17,37 @@ import OwnActivitiesList from '../Components/OwnActivitiesList';
 import { GoLocation } from 'react-icons/go'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import Link from 'next/link';
+import jwt_decode from "jwt-decode"
+import {Token,userProps} from '../types';
 
-type userProps = {
-  birthday: string;
-  email: string;
-  name: string;
-  profile: string;
-  phoneNumber: string;
-  mobileNumber: string;
-  address: string;
-  location: string;
-  postalCode: string;
-  gender: string;
-  username: string;
-  points: number;
-  kind: string;
-  image: string;
-  followers: number,
-  followings: number,
-}
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
+
 
 
 async function fetcher(path: string): Promise<userProps> {
 
   const token: Token = Cookies.getJSON('token')
-  return await api.post(path, token).then(response => response.data);
+  let config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  return await api.get(path,config).then(response => response.data);
 
 }
 
 async function fetcher2(path: string): Promise<userProps> {
-  return await api.get(path).then(response => response.data);
+  const token: Token = Cookies.getJSON('token')
+  let config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  return await api.get(path,config).then(response => response.data);
 }
 
 export default function User() {
 
-  const { subEdit, setSubEdit, authenticated } = useContext(AuthContext);
+
   const router = useRouter();
   const [listativities, setListativities] = useState([])
   const [page, changepage] = useState(1);
@@ -77,22 +66,29 @@ export default function User() {
       changepage(3);
     }
   }
-  console.log(window.location.pathname)
+ 
   let username = window.location.pathname.replace('/', '')
-  console.log(username)
-  const token: Token = Cookies.getJSON('token')
+ 
+  const token: Token = jwt_decode(Cookies.getJSON('token'));
+  
+  if(!token){
+    window.location.href = '/login';
+  }
+  
+
   var myLoader = null;
   let user: userProps = null;
 
 
 
-  if (username === token.username) {
-    let { data, error } = useSWR(`users/user/`, fetcher);
+  if (username === token.iss) {
+    let { data, error } = useSWR(`users/user`, fetcher);
     user = data;
-    console.log(user);
+ 
+   
     if (!data) return <Loading />
     if (error) { return <SessionOf /> }
-    myLoader = () => {
+    const  myLoader = () => {
       return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
 
@@ -100,7 +96,7 @@ export default function User() {
 
       <div className={styles.container}>
         <Head>
-          <title>{token.username}</title>
+          <title>{token.iss}</title>
         </Head>
 
         <div className={styles.header}>
@@ -127,7 +123,7 @@ export default function User() {
             <p><GoLocation /> {user.location}</p>
             <p><AiOutlineMail /> {user.email}</p>
             <p><AiOutlinePhone /> {user.phoneNumber}</p>
-            <Link href={`following/${token.username}`}><a className={styles.link}>Seguindo: {user.followings}</a></Link>
+            <Link href={`following/${token.iss}`}><a className={styles.link}>Seguindo: {user.followings}</a></Link>
             <a> Seguidores: {user.followers}</a>
             <br />
             <br />
@@ -178,7 +174,7 @@ export default function User() {
 
   //quando é outro user 
   else {
-    let { data, error } = useSWR(`users/self/${username}`, fetcher2);
+    let { data, error } = useSWR(`users/get/${username}`, fetcher2);
     user = data;
     if (error) { return <SessionOf /> }
     if (!data) return <Loading />
@@ -190,7 +186,7 @@ export default function User() {
 
       <div className={styles.container}>
         <Head>
-          <title>{token.username}</title>
+          <title>{token.iss}</title>
         </Head>
 
         <div className={styles.header}>
