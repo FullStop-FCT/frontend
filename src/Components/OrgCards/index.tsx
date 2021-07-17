@@ -7,30 +7,8 @@ import Image from 'next/image'
 import { api } from '../../../services/api';
 import { BsFillPersonFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
+import { userProps, Token } from "../../types"
 
-type userProps = {
-    birthday: string;
-    email: string;
-    name: string;
-    profile: string;
-    phoneNumber: string;
-    mobileNumber: string;
-    address: string;
-    location: string;
-    postalCode: string;
-    gender: string;
-    username: string;
-    points: number;
-    kind: string;
-    image: string;
-}
-type Token = {
-    username: string,
-    tokenID: string,
-    role: string,
-    creationData: number,
-    expirationData: number
-}
 
 
 
@@ -44,18 +22,28 @@ export default function Organizations(orgs: userProps) {
     }, [following])
 
     const token: Token = Cookies.getJSON('token')
+    const config = {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      }
     useEffect(() => {
-        api.post(`users/isfollowing/${orgs.username}`, token).then(response => setFollowing(response.data))
+        api.get(`users/isfollowing/${orgs.username}`, config).then(response => setFollowing(response.data))
     }, [])
 
     async function follow(orgname) {
         const token: Token = Cookies.getJSON('token')
+        const config = {
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          }
         if (!following) {
-            await api.post(`users/follow/${orgname}`, token).then(response => console.log(response.data))
+            await api.get(`users/follow/${orgname}`, config).then(response => console.log(response.data))
             setFollowing(true)
         }
         else {
-            await api.post(`users/unfollow/${orgname}`, token).then(response => console.log(response.data))
+            await api.get(`users/unfollow/${orgname}`, config).then(response => console.log(response.data))
             setFollowing(false)
         }
     }

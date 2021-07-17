@@ -10,8 +10,14 @@ import jwt_decode from "jwt-decode"
 
 
 async function fetcher(path: string): Promise<listuserProps> {
+    
     const token: Token = Cookies.getJSON('token')
-    return await api.post(path, token).then(response => response.data)
+    const config = {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      }
+    return await api.get(path, config).then(response => response.data)
 }
 
 
@@ -19,9 +25,9 @@ async function fetcher(path: string): Promise<listuserProps> {
 
 export default function Organizations() {
 
-    const { data, error } = useSWR(`users/listorg`, fetcher);
     const token: Token = jwt_decode(Cookies.getJSON('token'));
-    
+    const { data, error } = useSWR(`users/listorg`, fetcher);
+    console.log(data)
     if (error) { return (<div>error</div>) }
     if (!data) return <div>Loading</div>
     console.log(data)
