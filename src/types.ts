@@ -28,3 +28,19 @@ export type userProps = {
 }
 
 export type listuserProps = userProps[];
+
+
+export type AtivitiesProps = {
+  ID: string,
+  title: string,
+  description: string,
+  date: string,
+  location: string,
+  participants: number
+  totalParticipants: number,
+  activityOwner: string,
+  category: string
+  lat: string,
+  lon: string,
+}
+export type listAtivitiesProps = AtivitiesProps[];

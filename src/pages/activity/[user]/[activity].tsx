@@ -11,45 +11,10 @@ import Link from 'next/link'
 import { format } from 'date-fns'
 import { useState } from 'react'
 import { useEffect } from 'react'
+import { Token,AtivitiesProps,userProps } from '../../../types'
 
-type Token = {
-    username: string,
-    tokenID: string,
-    role: string,
-    creationData: number,
-    expirationData: number
-}
 
-type ActivitiesProps = {
-    ID: string,
-    title: string,
-    description: string,
-    date: string,
-    location: string,
-    participants: number
-    totalParticipants: number,
-    activityOwner: string,
-    category: string
-    lat: string,
-    lon: string,
-}
 
-type UserProps = {
-    birthday: string;
-    email: string;
-    name: string;
-    profile: string;
-    phoneNumber: string;
-    mobileNumber: string;
-    address: string;
-    location: string;
-    postalCode: string;
-    gender: string;
-    username: string;
-    points: number;
-    kind: string;
-    image: string;
-}
 
 export default function Activity() {
 
@@ -60,31 +25,38 @@ export default function Activity() {
 
     const [isParticipating, setParticipation] = useState(false);
 
-    async function fetchActivity(path: string): Promise<ActivitiesProps> {
-        return await api.post(path, token).then(response => response.data)
+    async function fetchActivity(path: string): Promise<AtivitiesProps> {
+ 
+        return await api.get(path, config).then(response => response.data)
     }
 
-    async function fetchUser(path: string): Promise<UserProps> {
-        return await api.get(path).then(response => response.data)
+    async function fetchUser(path: string): Promise<userProps> {
+        
+        return await api.get(path,config).then(response => response.data)
     }
 
     const token: Token = Cookies.getJSON('token');
-
+    const config = {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      }
     let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetchActivity);
-    let { data: user, error: error2 } = useSWR(`users/self/${activityOwner}`, fetchUser);
+    let { data: user, error: error2 } = useSWR(`users/get/${activityOwner}`, fetchUser);
 
     useEffect(() => {
-        api.post(`activities/isjoined/${activityID}`, token).then(response => setParticipation(response.data))
+
+        api.get(`activities/isjoined/${activityID}`, config).then(response => setParticipation(response.data))
     }, [])
 
     async function handleClick() {
 
         if (!isParticipating) {
-            await api.post(`activities/join/${activityID}/${activityOwner}`, token);
+            await api.post(`activities/join/${activityID}/${activityOwner}`, config);
             setParticipation(true);
         }
         else {
-            await api.post(`activities/leave/${activityID}/${activityOwner}`, token);
+            await api.post(`activities/leave/${activityID}/${activityOwner}`, config);
             setParticipation(false);
         }
     }
@@ -136,7 +108,7 @@ export default function Activity() {
                         <MapActivity {...props} />
 
                         {
-                            (!isParticipating === false && activity.participants === activity.totalParticipants) || activity.activityOwner === token.username ?
+                            (!isParticipating === false && activity.participants === activity.totalParticipants) || activity.activityOwner === token.iss ?
                                 <></> : <button onClick={handleClick}>
                                     {isParticipating ? "Cancelar" : "Participar"}
                                 </button>

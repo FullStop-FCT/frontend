@@ -4,55 +4,30 @@ import Image from 'next/image'
 import Link from 'next/link'
 import useSWR from 'swr';
 import { format } from 'date-fns'
-
-type AtivitiesProps = {
-  ID: string,
-  title: string,
-  description: string,
-  date: string,
-  location: string,
-  participants: number
-  totalParticipants: number,
-  activityOwner: string,
-  category: string
-}
-
-type userProps = {
-  birthday: string;
-  email: string;
-  name: string;
-  profile: string;
-  phoneNumber: string;
-  mobileNumber: string;
-  address: string;
-  location: string;
-  postalCode: string;
-  gender: string;
-  username: string;
-  points: number;
-  kind: string;
-  image: string;
-}
-
+import { AtivitiesProps, Token, userProps } from '../../types';
+import Cookies from 'js-cookie';
 
 
 async function fetcher(path: string): Promise<userProps> {
-  return await api.get(path).then(response => response.data);
+  const token: Token = Cookies.getJSON('token')
+  let config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  return await api.get(path,config).then(response => response.data);
 }
 
 export default function Activity(activity: AtivitiesProps) {
 
-  const { data, error } = useSWR(`users/self/${activity.activityOwner}`, fetcher);
+  const { data, error } = useSWR(`users/get/${activity.activityOwner}`, fetcher);
   const user: userProps = data;
-
 
   if (error) { return (<div>error</div>) }
   if (!data) return <div>Loading</div>
 
   const myLoader = () => {
-
     { return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}` }
-
   }
   return (
     <div className={styles.container}>

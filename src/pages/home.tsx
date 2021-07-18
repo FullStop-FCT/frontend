@@ -14,34 +14,18 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
+import { Token, listAtivitiesProps, AtivitiesProps } from "../types";
 
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
-
-type AtivitiesProps = {
-  ID: string,
-  title: string,
-  description: string,
-  date: string,
-  location: string,
-  participants: number
-  totalParticipants: number,
-  activityOwner: string,
-  category: string
-}
-
-type listAtivitiesProps = AtivitiesProps[];
 
 //await api.post('activities/list',token)
 async function fetcher(path: string): Promise<listAtivitiesProps> {
-
   const token: Token = Cookies.getJSON('token')
-  return await api.post(path, token).then(response => response.data.reverse());
+  let config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  return await api.get(path, config).then(response => response.data.reverse());
 
 }
 
@@ -76,7 +60,7 @@ export default function Home() {
 
   let props: listAtivitiesProps = data;
 
-  console.log(data);
+  console.log(error);
 
   if (error) { return <SessionOf /> }
   if (!data) return <div>loading...</div>
