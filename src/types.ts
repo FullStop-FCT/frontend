@@ -43,4 +43,14 @@ export type AtivitiesProps = {
   lat: string,
   lon: string,
 }
+
 export type listAtivitiesProps = AtivitiesProps[];
+
+export type activitytodoProps = {
+  title: number,
+  totalParticipants: string,
+  activityOwner: string,
+  ID: string,
+}
+
+export type listAtivitiesTodoProps = activitytodoProps[];

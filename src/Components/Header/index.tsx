@@ -6,12 +6,13 @@ import Cookies from 'js-cookie'
 import { FaHandHoldingHeart } from 'react-icons/fa'
 import { IoCreateSharp, IoLogOutSharp, IoHome, IoTrophySharp, IoPersonSharp } from 'react-icons/io5'
 import { BsFillPeopleFill } from "react-icons/bs";
-
+import  {Token } from '../../types'
+import jwt_decode from "jwt-decode"
 
 export default function NavBar() {
 
   const { handleLogout } = useContext(AuthContext);
-  const Token = Cookies.get('user')
+  const Token: Token = jwt_decode(Cookies.getJSON('token'))
   
 
   let username = window.location.pathname.replace('/', '')
@@ -24,7 +25,7 @@ export default function NavBar() {
 
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
-          <Link href={`/${Token}`}>
+          <Link href={`/${Token.iss}`}>
             <div className={username == `${Token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
 
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>

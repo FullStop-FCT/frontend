@@ -17,6 +17,7 @@ import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { format } from 'date-fns'
 import Image from 'next/image'
+import { Token, userProps } from '../../types';
 
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
@@ -44,15 +45,6 @@ const validationSchema = Yup.object({
 
 });
 
-
-
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
@@ -69,25 +61,7 @@ const useStyles = makeStyles((theme) => ({
     background: 'linear-gradient(45deg, #fff 30%, #fff 90%)',
   },
 }));
-type userProps = {
-  birthday: string;
-  email: string;
-  name: string;
-  profile: string;
-  phoneNumber: string;
-  mobileNumber: string;
-  address: string;
-  location: string;
-  postalCode: string;
-  gender: string;
-  username: string;
-  points: number;
-  kind: string;
-  image: string;
-  followers: number,
-  followings: number,
 
-}
 
 export default function EditInfo(user: userProps) {
   const router = useRouter();
@@ -191,9 +165,7 @@ export default function EditInfo(user: userProps) {
 
             console.log("submitting");
             setSubmitting(true);
-            const config = {
-              headers: { 'Content-Type': 'application/json' }
-            }
+            
             values.profile = profile
             values.gender = gender
             values.birthday = birthday
@@ -214,7 +186,7 @@ export default function EditInfo(user: userProps) {
                     console.log(error);
                   })*/
 
-                values.image = token.username + Date.now() + '.jpg';
+                values.image = token.iss + Date.now() + '.jpg';
                 await storageProfilePic.post(values.image, fd)
                   .then(function (response) {
                     console.log(response)
@@ -224,8 +196,16 @@ export default function EditInfo(user: userProps) {
                     console.log(error);
                   })
               }
-              let request = JSON.stringify({ token: { ...(token) }, userData: { ...values } })
-              await api.patch('users/update', request, config)
+              let request = JSON.stringify({ userData: { ...values } })
+              const config = {
+                headers: { 
+                  'Authorization': 'Bearer ' + token,
+                  'Content-Type': 'application/json' },
+
+                data: request
+                  
+              }
+              await api.patch('users/update',config)
                 .then(function (response) {
                   // setSubAtivity(!subAtivity)
                   console.log(response.data)
@@ -243,7 +223,7 @@ export default function EditInfo(user: userProps) {
 
 
             setSubmitting(false);
-            router.push(`/${token.username}`)
+            router.push(`/${token.iss}`)
           }}>
 
 

@@ -13,7 +13,6 @@ import Link from 'next/link';
 import { Token } from '../types';
 import jwt_decode from "jwt-decode"
 
-
 //TODO
 
 //VERIFICAR SE CONTA ESTA DESATIVADA NO LOGINS

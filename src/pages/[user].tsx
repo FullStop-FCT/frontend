@@ -28,18 +28,17 @@ export default function User() {
  
   let username = window.location.pathname.replace('/', '')
   
-  let token: Token = null;
-
+  let token: Token = null
   try{ 
     token = jwt_decode(Cookies.getJSON('token'));
   }
   catch(error){ 
     window.location.href = '/login';
   }
-
+  
+  
   var myLoader = null;
   let user: userProps = null;
-
 
   if (username == token.iss && token.role == 'USER') {
     return (

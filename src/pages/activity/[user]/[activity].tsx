@@ -52,7 +52,7 @@ export default function Activity() {
     async function handleClick() {
 
         if (!isParticipating) {
-            await api.post(`activities/join/${activityID}/${activityOwner}`, config);
+            await api.post(`activities/join/${activityID}/${activityOwner}`, config).catch(error => console.log(error));
             setParticipation(true);
         }
         else {

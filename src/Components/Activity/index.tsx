@@ -24,7 +24,7 @@ export default function Activity(activity: AtivitiesProps) {
   const user: userProps = data;
 
   if (error) { return (<div>error</div>) }
-  if (!data) return <div>Loading</div>
+  if (!data) return <></>
 
   const myLoader = () => {
     { return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}` }

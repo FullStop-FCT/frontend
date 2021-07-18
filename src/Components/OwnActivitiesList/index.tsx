@@ -3,28 +3,23 @@ import useSWR from "swr";
 import { api } from "../../../services/api";
 import ActivityToDo from '../Activitytodo'
 import ActivityCreated from '../ActivityCreated'
+import { Token, activitytodoProps,listAtivitiesTodoProps } from "../../types";
 
 
 
-type listAtivitiesProps = activitytodoProps[];
 
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
 
-type activitytodoProps = {
-  title: number,
-  totalParticipants: string,
-  activityOwner: string,
-  ID: string,
-}
+
+
 async function fetcher(path: string) {
   const token: Token = Cookies.getJSON('token')
-  return await api.post(path, token).then(response => response.data);
+  let config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  
+  return await api.get(path, config).then(response => response.data);
 }
 
 export default function OwnActivitiesList() {
@@ -33,7 +28,7 @@ export default function OwnActivitiesList() {
   if (!data) return <div>loading</div>
   if (error) { return <div>error</div> }
 
-  let activities: listAtivitiesProps = data;
+  let activities: listAtivitiesTodoProps = data;
   console.log(activities)
   return (
     <div>

@@ -17,6 +17,7 @@ import format from 'date-fns/format';
 import { useRouter } from 'next/router';
 import { BiInfoCircle } from "react-icons/bi";
 import { Popup } from 'semantic-ui-react'
+import { Token } from '../../types';
 
 
 
@@ -77,13 +78,7 @@ const validationSchema = Yup.object({
 });
 
 
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
+
 
 
 export default function Activities() {
@@ -96,7 +91,7 @@ export default function Activities() {
   const { authenticated } = useContext(AuthContext);
   const { activityLocation, markers } = useContext(MapContext
   )
-  const token: Token = JSON.parse(Cookies.get('token'));
+  const token: Token = Cookies.getJSON('token')
 
   const [date, setDate] = useState(format(new Date(), "yyyy-MM-dd"));
   const [timeIn, setTimeIn] = useState(format(new Date(), "HH:mm"));
@@ -149,9 +144,7 @@ export default function Activities() {
           onSubmit={async (values, { setSubmitting }) => {
             console.log("submitting");
             setSubmitting(true);
-            const config = {
-              headers: { 'Content-Type': 'application/json' }
-            }
+            
 
             values.location = activityLocation;
             values.lat = markers.lat + '';
@@ -165,21 +158,29 @@ export default function Activities() {
             if (category == "") {
               values.category = "Outros"
             }
-            const request = JSON.stringify({ token: { ...(token) }, activityData: { ...values } })
-            console.log(request)
+            const request = JSON.stringify({ activityData: { ...values } })
+
+            const config = {
+              headers: { 
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json' },
+              data: request
+              
+            };
+            console.log(config)
             console.log(authenticated)
             if (values.location !== "") {
               if (authenticated) {
-                await api.post('activities/insert', request, config)
+                await api.post('activities/insert',config)
                   .then(function (response) {
-                    // setSubAtivity(!subAtivity)
+                   
                     console.log(response.data)
                   }).catch(function (error) {
 
                     console.log(error);
                   })
                 setSubmitting(false);
-                router.push('/home')
+                //router.push('/home')
               }
             }
             else {
