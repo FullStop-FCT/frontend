@@ -105,7 +105,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }
 
   if (loading) {
-    return <Loading />
+    return <> </>
   }
 
   return (

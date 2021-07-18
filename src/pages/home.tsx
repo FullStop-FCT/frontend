@@ -15,6 +15,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
 import { Token, listAtivitiesProps, AtivitiesProps } from "../types";
+import Loading from "../Components/Loading";
 
 
 //await api.post('activities/list',token)
@@ -63,7 +64,7 @@ export default function Home() {
   console.log(error);
 
   if (error) { return <SessionOf /> }
-  if (!data) return <div>loading...</div>
+  if (!data) return  <></>
 
   return (
 
@@ -120,15 +121,12 @@ export default function Home() {
         </div>
 
 
-
-        <div>
-
-          {props.map((ativ: AtivitiesProps, index) => {
-            return (
-              < Activity {...ativ} key={index} />
-            )
-          })}
-        </div>
+      {props.map((ativ: AtivitiesProps, index) => {
+      return (
+    < Activity {...ativ} key={index} />
+        )
+      })}
+     
 
       </div>
 

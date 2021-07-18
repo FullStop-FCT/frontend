@@ -12,39 +12,18 @@ import useSWR from 'swr'
 import SessionOf from '../../Components/SessionOf'
 import EditInfo from '../../Components/EditInfo'
 import Image from 'next/image'
-
-type userProps = {
-  birthday: string;
-  email: string;
-  name: string;
-  profile: string;
-  phoneNumber: string;
-  mobileNumber: string;
-  address: string;
-  location: string;
-  postalCode: string;
-  gender: string;
-  username: string;
-  points: number;
-  kind: string;
-  image: string;
-  followers: number,
-  followings: number,
-
-}
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
+import { Token, userProps } from '../../types';
 
 
 async function fetcher(path: string): Promise<userProps> {
 
   const token: Token = Cookies.getJSON('token')
-  return await api.post(path, token).then(response => response.data);
+  let config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  return await api.get(path, config).then(response => response.data);
 
 }
 
@@ -142,7 +121,7 @@ export default function User() {
       </div>
       <div className={styles.settingsTitle}>
         <h1 >Edit user</h1>
-        <button onClick={() => router.push(`/${token.username}`)}><p>&#10006;</p></button>
+        <button onClick={() => router.push(`/${token.iss}`)}><p>&#10006;</p></button>
       </div>
       <div className={styles.settings}>
         <EditInfo {...user} />

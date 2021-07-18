@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import React from 'react';
 import {Token,userProps,listuserProps} from '../types';
 import jwt_decode from "jwt-decode"
+import Loading from '../Components/Loading';
 
 
 async function fetcher(path: string): Promise<listuserProps> {
@@ -29,7 +30,7 @@ export default function Organizations() {
     const { data, error } = useSWR(`users/listorg`, fetcher);
     console.log(data)
     if (error) { return (<div>error</div>) }
-    if (!data) return <div>Loading</div>
+    if (!data) return <Loading />
     console.log(data)
 
     return (
@@ -37,17 +38,13 @@ export default function Organizations() {
             <div className={styles.header}>
                 <Header />
             </div>
-
-            
                 <div className={styles.orgs}>
                     {
                         data.map((organization: userProps, index, array) => {
 
                             if (organization.username !== token.iss)
                                 return (
-
                                     <Orgs {...organization} key={index} />
-
                                 )
                         })
                     }

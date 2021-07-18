@@ -39,11 +39,11 @@ export default function Organizations(orgs: userProps) {
             }
           }
         if (!following) {
-            await api.get(`users/follow/${orgname}`, config).then(response => console.log(response.data))
+            await api.post(`users/follow/${orgname}`, config).then(response => console.log(response.data))
             setFollowing(true)
         }
         else {
-            await api.get(`users/unfollow/${orgname}`, config).then(response => console.log(response.data))
+            await api.post(`users/unfollow/${orgname}`, config).then(response => console.log(response.data))
             setFollowing(false)
         }
     }
