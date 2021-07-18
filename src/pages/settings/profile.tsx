@@ -49,8 +49,6 @@ async function fetcher(path: string): Promise<userProps> {
 }
 
 
-
-
 export default function User() {
 
 
@@ -150,11 +148,7 @@ export default function User() {
 
       </div>
 
-
-
-
     </div>
-
 
   )
 

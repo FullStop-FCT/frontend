@@ -21,8 +21,6 @@ async function fetcher(path: string): Promise<listuserProps> {
 }
 
 
-
-
 export default function Organizations() {
 
     const token: Token = jwt_decode(Cookies.getJSON('token'));

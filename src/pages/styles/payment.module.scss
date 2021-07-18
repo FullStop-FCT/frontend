@@ -10,4 +10,13 @@
       border-right: 2px solid rgb(192, 189, 189);
       
     }
+
+    .certificate {
+      margin: auto;
+
+      .image {
+        height: 400px;
+        width: 400px;
+      }
+    }
 }
