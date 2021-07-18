@@ -81,7 +81,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   async function handleLogin(data: { username: string, password: string }) {
 
-    await api.post('/authentication/loginJWT', data
+    await api.post('/authentication/login', data
 
     ).then(function (response) {
 
