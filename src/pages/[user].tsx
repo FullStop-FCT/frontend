@@ -47,7 +47,6 @@ async function fetcher2(path: string): Promise<userProps> {
 
 export default function User() {
 
-
   const router = useRouter();
   const [listativities, setListativities] = useState([])
   const [page, changepage] = useState(1);
