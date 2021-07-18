@@ -42,9 +42,6 @@ export default function NavBar() {
             </span>
           </div>
 
-          {/*<div className={styles.logout}>
-            <button onClick={() => handleLogout()}>Logout</button>
-          </div>*/}
         </div>
       </div>
     </div >
