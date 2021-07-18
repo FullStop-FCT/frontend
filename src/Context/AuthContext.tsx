@@ -55,13 +55,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   useEffect(() => {
 
     const token = Cookie.get('token');
-    if (token) {
-      setAuthenticated(true);
-
+    if (!token) {
+      setAuthenticated(false);
+ 
     }
     else {
-      setAuthenticated(false);
-      router.push('/login')
+      setAuthenticated(true);
+
     }
     setLoading(false);
 
@@ -87,7 +87,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       if (response.data) {
         console.log(response)
-        Cookie.set('token', JSON.stringify(response.data));
+        Cookie.set('token', JSON.stringify(response.data),{ expires: 1 });
        
         //add date-fns
         //api.defaults.headers.Authorization = `Bearer ${response.data.tokenID}`;

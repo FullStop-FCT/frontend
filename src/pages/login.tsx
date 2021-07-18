@@ -10,7 +10,13 @@ import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
+import { Token } from '../types';
+import jwt_decode from "jwt-decode"
 
+
+//TODO
+
+//VERIFICAR SE CONTA ESTA DESATIVADA NO LOGINS
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -33,14 +39,20 @@ const validationSchema = Yup.object({
 });
 
 export default function Login() {
-
-  const router = useRouter();
-  useEffect(() => {
-    const token = Cookies.get('token');
-    if (token) {
-     // router.push(`/${Cookies.get('user')}`)
+  let token: Token = null
+  
+    let getJwt = Cookies.getJSON('token');
+    if(getJwt){ 
+      token = jwt_decode(Cookies.getJSON('token'));
     }
-  })
+    const router = useRouter();
+    useEffect(() => {
+      if (token) {
+       router.push(`/${token.iss}`)
+      }
+    })
+  
+  
 
   const { authenticated, handleLogin } = useContext(AuthContext);
   return (
@@ -63,7 +75,7 @@ export default function Login() {
 
             setSubmitting(true);
 
-            handleLogin(values);
+           await handleLogin(values);
 
             setSubmitting(false);
             }}>

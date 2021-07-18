@@ -67,12 +67,16 @@ export default function User() {
   }
  
   let username = window.location.pathname.replace('/', '')
- 
-  const token: Token = jwt_decode(Cookies.getJSON('token'));
   
-  if(!token){
+  let token: Token = null
+  try{ 
+    token = jwt_decode(Cookies.getJSON('token'));
+  }
+  catch(error){ 
     window.location.href = '/login';
   }
+  
+  
   
 
   var myLoader = null;
@@ -86,7 +90,7 @@ export default function User() {
  
    
     if (!data) return <Loading />
-    if (error) { return <SessionOf /> }
+    if (error) {  window.location.href = '/login'; }
     const  myLoader = () => {
       return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
