@@ -34,6 +34,8 @@ async function fetcher(path: string): Promise<userProps> {
 
 
 export default function Profile() {
+
+  const router = useRouter();
   
   const [page, changepage] = useState(1);
   const [number, setNumber] = useState(1);
@@ -106,16 +108,22 @@ export default function Profile() {
               <p><span>@{user.username}</span></p><br />
 
               {(role == 'USER') ?
-                <button >Denunciar</button>
+                <button onClick={ () => router.push(`/${username}/report`)}>Denunciar</button>
                 :
-                null
-              }
-
-              {(role !== 'USER') ?
                 <div>
                   <button>Suspender Conta</button>
                   <br/>
                   <button>Eliminar Conta</button>
+                </div>
+              }
+
+              {(role == 'ADMIN') ?  //TODO -> Falta fazer a verifcao se ja e BO ou Admin para nao aparecerem sempre os dois botoes 
+                                    //Ou para aparecerem botoes para despromover
+                                    //talvez seja melhor meter isto na parte da listagem de users
+                <div>               
+                  <button>Promover para BO</button>
+                  <br/>
+                  <button>Promover para Admin</button>
                 </div>
                 :
                 null

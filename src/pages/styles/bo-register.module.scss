@@ -1,0 +1,75 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+
+    .header{
+        background: var(--bluehh);
+        width: 20%;
+        border-right: 2px solid rgb(192, 189, 189);
+    }
+
+    .register {
+        color: #fff;
+        background: var(--bluehh);
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items: center;
+        text-align: center;
+        margin: auto;
+        width: 25rem;
+        height: 45rem;
+        border-radius: 4rem;
+    
+        h1 {
+        font-size: 3rem;
+        color: var(--redhh);
+        margin-bottom: 1rem;
+        }
+    
+        a {
+        line-height: 150%;
+        font-size: 1.5rem;
+        color: var(--redhh);
+        padding: 0 5px 0 5px;
+        }
+    
+        button {
+        color: #fff;
+        background-color: var(--redhh);
+        border: none;
+        text-align: center;
+        display: inline-block;
+        padding: 0.7rem 2rem;
+        border-radius: 35px;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        }
+        button:hover {
+        background-color: var(--redhh-2);
+        }
+    }
+    .form {
+        background: var(--bluehh);
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        text-align: center;
+    
+        .erro {
+        color: rgb(250, 64, 64);
+        font-size: 13px;
+        }
+    
+        input {
+        color: rgb(0, 0, 0);
+        border: 2px solid var(--bluehh);
+        padding: 0.2rem;
+        margin: 0.5rem;
+        }
+        input::placeholder {
+        color: #000;
+        }
+    }
+}

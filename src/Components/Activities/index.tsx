@@ -78,9 +78,6 @@ const validationSchema = Yup.object({
 });
 
 
-
-
-
 export default function Activities() {
   const router = useRouter();
   const classes = useStyles();
@@ -145,7 +142,6 @@ export default function Activities() {
             console.log("submitting");
             setSubmitting(true);
             
-
             values.location = activityLocation;
             values.lat = markers.lat + '';
             values.lon = markers.lng + '';
@@ -235,7 +231,7 @@ export default function Activities() {
                       </div>} 
                   />
 
-                <input type="date" className={styles.date} min={today} onChange={event => console.log(event.target.value)}/>
+                <input type="date" className={styles.date} min={today}/>
                 </div>
 
                 <br />
@@ -256,19 +252,11 @@ export default function Activities() {
                 <Button disabled={isSubmitting} type="submit">Criar </Button>
 
               </div>
-
-
-              <div>
-
-              </div>
             </Form>
           )
           }
         </Formik>
       </div>
-
     </div >
-
   );
-
 }
