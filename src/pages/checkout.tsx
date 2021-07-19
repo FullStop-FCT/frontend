@@ -18,7 +18,7 @@ async function fetcher(path: string) {
   
   await api.post(path, decoded_token.iss, config).then(response => window.location.href = response.data).catch(error => console.log(error));
 
-}
+} 
 
 const ProductDisplay = () => (
   <section>
@@ -41,8 +41,6 @@ const ProductDisplay = () => (
 
 
 export default function App() {
-
-
   return  (
     <ProductDisplay />
   );
