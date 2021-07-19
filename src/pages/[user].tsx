@@ -24,7 +24,7 @@ export default function User() {
   var myLoader = null;
   let user: userProps = null;
 
-  if (username == token.iss && token.role == 'USER') {
+  if (username == token.iss) {
     return (
       <div>
         <UserOwnProfile/>
@@ -32,12 +32,7 @@ export default function User() {
     )
   }
 
-  else if (username == token.iss && token.role !== 'USER') {
-    router.push('/home');
-  }
-
-
-  else if (username !== token.iss) {
+  else {
     return (
       <div>
         <OtherUserProfile/>

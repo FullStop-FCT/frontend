@@ -4,16 +4,17 @@ import { AuthContext } from '../../Context/AuthContext'
 import React, { useContext } from 'react'
 import Cookies from 'js-cookie'
 import { FaHandHoldingHeart } from 'react-icons/fa'
-import { IoCreateSharp, IoLogOutSharp, IoHome, IoTrophySharp, IoPersonSharp } from 'react-icons/io5'
+import { IoCreateSharp, IoLogOutSharp, IoHome, IoTrophySharp, IoPersonSharp, IoMail } from 'react-icons/io5'
 import { BsFillPeopleFill } from "react-icons/bs";
-import  {Token } from '../../types'
-import jwt_decode from "jwt-decode"
+import  {Token } from '../../types';
+import jwt_decode from 'jwt-decode';
 
 export default function NavBar() {
 
   const { handleLogout } = useContext(AuthContext);
-  const Token: Token = jwt_decode(Cookies.getJSON('token'))
-  
+  const token: Token = jwt_decode(Cookies.getJSON('token'))
+
+  const role = token.role;
 
   let username = window.location.pathname.replace('/', '')
   return (
@@ -25,8 +26,8 @@ export default function NavBar() {
 
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
-          <Link href={`/${Token.iss}`}>
-            <div className={username == `${Token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
+          <Link href={`/${token.iss}`}>
+            <div className={username == `${token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div></Link>
 
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 
@@ -36,13 +37,37 @@ export default function NavBar() {
 
           <Link href={'/rankings'}><div className={styles.topics}><span className={styles.links}><IoTrophySharp /><a className={styles.linkname}> Rankings</a></span></div></Link>
 
+          <Link href={'/inbox'}><div className={styles.topics}><span className={styles.links}><IoMail /><a className={styles.linkname}> Mensagens</a></span></div></Link>
+
+          { (role == 'BO' || role == 'ADMIN') ?
+
+              <div>
+                <Link href={'/global-users'}><div className={styles.topics}><span className={styles.links}><a className={styles.linkname}> Utilizadores </a></span></div></Link>
+
+                <Link href={'/create-org'}><div className={styles.topics}><span className={styles.links}><a className={styles.linkname}> Criar Organização</a></span></div></Link>
+              </div>
+
+            :
+
+            (role == 'ADMIN') ?
+
+              <div>
+                <Link href={'/bo-users'}><div className={styles.topics}><span className={styles.links}><a className={styles.linkname}> BO Staff</a></span></div></Link>
+
+                <Link href={'/create-bo'}><div className={styles.topics}><span className={styles.links}><a className={styles.linkname}> Criar Utilizador</a></span></div></Link>
+              </div>
+
+            :
+
+              null
+          }
+
           <div className={styles.topics}>
             <span className={styles.links}>
               <IoLogOutSharp />
               <a onClick={() => handleLogout()} className={styles.linkname}> Logout</a>
             </span>
           </div>
-
         </div>
       </div>
     </div >

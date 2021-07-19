@@ -1,0 +1,21 @@
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    h1 {
+        font-size: 100px;
+    }
+
+    .link{
+        margin-top: 15px;
+        font-size: 30px;
+        text-decoration: underline;
+    }
+    .link:hover {
+        color: rgb(47, 183, 218);
+    }
+}
+

@@ -22,13 +22,9 @@ export default function Register() {
     )
   }
   
-
   const [messageDisplay, setShow] = useState(false);
-  const[username, setUsername] = useState("");
-  const[email, setEmail] = useState("");
   const [isUserNameValid, setIsUserNameValid] = useState(true);
   const[isEmailValid, setIsEmailValid] = useState(true);
-  let uservalid: boolean = true;
 
   const validationSchema = Yup.object({
     username: Yup.string()
@@ -50,24 +46,6 @@ export default function Register() {
       .required("Obrigatório"),
   
   });
-
-  
-
-   const checkUser = async (formVal, fetchedVal) => {
-    
-    if(formVal === fetchedVal){
-      setIsUserNameValid(false);
-      console.log(isUserNameValid)
-
-    }
-
-  }
-
-  function checkEmail(formVal, fetchedVal) {
-    
-    if(formVal == fetchedVal)
-      setIsEmailValid(false);
-  }
 
   return (
     <div>
@@ -97,13 +75,7 @@ export default function Register() {
                 .catch(function (error) {
                  
               });   
-              //checkUser(values.username, data.username)
-             
-              /*await api.get(``)
-                .then(response => checkEmail(values.email, response.data.email))
-                .catch(function (error) {
-                  isUserNameValid = true;
-              }); */
+
               console.log(data)
               if(data !== values.username) {
                 setSubmitting(true);
