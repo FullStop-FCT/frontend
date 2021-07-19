@@ -79,21 +79,20 @@ export default function Register() {
                 .catch(function (error) {
                   error = error.response.data;
                 });
-              
 
               if (error == 'username') 
                 setIsUserNameValid(false);
               
-              else if (error )
+              else if (error == 'email')
+                setIsEmailValid(false);
               
-              
-              if(data !== values.username) {
+              else {
                 setSubmitting(true);
 
-              await api.post('users/insert', values
-              ).then(function (response) {
-                console.log(JSON.stringify(response.data));
-              })
+                await api.post('users/insert', values
+                ).then(function (response) {
+                  console.log(JSON.stringify(response.data));
+                })
                 .catch(function (error) {
                   console.log(error);
 
@@ -102,9 +101,6 @@ export default function Register() {
                 setShow(true);
 
                 setSubmitting(false);
-              }
-              else{
-                setIsUserNameValid(false);
               }
             }}>
 
