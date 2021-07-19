@@ -2,7 +2,6 @@ import Header from '../Components/Header'
 import styles from './styles/payment.module.scss';
 import { useState, useEffect } from "react";
 
-
 const ProductDisplay = () => (
     <div className={styles.container}>
 
