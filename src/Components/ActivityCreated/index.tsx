@@ -6,15 +6,18 @@ import Image from 'next/image'
 import styles from './styles.module.scss'
 import { format } from "date-fns";
 import { activitytodoProps, AtivitiesProps, Token, userProps } from "../../types";
+import jwt_decode from 'jwt-decode'
 
 
 
 
 
+const token = Cookies.getJSON('token');
+let decodedToken: Token = null;
 
-const token: Token = Cookies.getJSON('token');
 async function fetchActivity(path: string): Promise<AtivitiesProps> {
-  let config = {
+  const token = Cookies.getJSON('token');
+    let config = {
     headers: {
       'Authorization': 'Bearer ' + token
     }
@@ -33,10 +36,10 @@ async function fetchUser(path: string): Promise<userProps> {
 }
 export default function ActivityCreated(activity: activitytodoProps) {
 
-
-  let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${token.iss}`, fetchActivity);
-  let { data: user, error: error2 } = useSWR(`users/get/${token.iss}`, fetchUser);
-  if (!activity || !user) return <div>loading</div>
+  decodedToken= jwt_decode(Cookies.getJSON('token'));
+  let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${decodedToken.iss}`, fetchActivity);
+  let { data: user, error: error2 } = useSWR(`users/get/${decodedToken.iss}`, fetchUser);
+  if (!act || !user) return <div>loading</div>
   if (error1 || error2) { return <div>error</div> }
 
   const myLoader = () => {
