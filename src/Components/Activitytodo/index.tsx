@@ -4,68 +4,31 @@ import { api } from "../../../services/api";
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './styles.module.scss'
-
-type activitytodoProps = {
-  title: number,
-  totalParticipants: string,
-  activityOwner: string,
-  ID: string,
-}
-
-type Token = {
-  username: string,
-  tokenID: string,
-  role: string,
-  creationData: number,
-  expirationData: number
-}
-type ActivitiesProps = {
-  ID: string,
-  title: string,
-  description: string,
-  date: string,
-  location: string,
-  participants: number
-  totalParticipants: number,
-  activityOwner: string,
-  category: string
-  lat: string,
-  lon: string,
-}
-type UserProps = {
-  birthday: string;
-  email: string;
-  name: string;
-  profile: string;
-  phoneNumber: string;
-  mobileNumber: string;
-  address: string;
-  location: string;
-  postalCode: string;
-  gender: string;
-  username: string;
-  points: number;
-  kind: string;
-  image: string;
-}
+import { activitytodoProps, AtivitiesProps, Token, userProps } from "../../types";
 
 
 const token: Token = Cookies.getJSON('token');
-async function fetchActivity(path: string): Promise<ActivitiesProps> {
-  return await api.post(path, token).then(response => response.data)
+const config = {
+  headers: {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json'
+  }
+}
+async function fetchActivity(path: string): Promise<AtivitiesProps> {
+  return await api.get(path, config).then(response => response.data)
 }
 
-async function fetchUser(path: string): Promise<UserProps> {
-  return await api.get(path).then(response => response.data)
+async function fetchUser(path: string): Promise<userProps> {
+  return await api.get(path,config).then(response => response.data)
 }
 export default function ActivityToDo(activity: activitytodoProps) {
 
 
   let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${activity.activityOwner}`, fetchActivity);
-  let { data: user, error: error2 } = useSWR(`users/self/${activity.activityOwner}`, fetchUser);
+  let { data: user, error: error2 } = useSWR(`users/get/${activity.activityOwner}`, fetchUser);
 
 
-  if (!activity && !user) return <div>loading</div>
+  if (!act && !user) return <div>loading</div>
   if (!user) return <div>loading</div>
   if (error1 && error2) { return <div>error</div> }
   if (error1 && error2) { return <div>error</div> }
