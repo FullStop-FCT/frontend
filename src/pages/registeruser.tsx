@@ -69,25 +69,35 @@ export default function Register() {
             validationSchema={validationSchema}
 
             onSubmit={async (values, { setSubmitting }) => {
-              let data = '';
-              await api.get(`users/self/${values.username}`)
-                .then(response => data = response.data.username)
-                .catch(function (error) {
-                 
-              });   
 
-              console.log(data)
+              let error = '';
+
+              await api.post('users/insert', values
+              ).then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+                .catch(function (error) {
+                  error = error.response.data;
+                });
+              
+
+              if (error == 'username') 
+                setIsUserNameValid(false);
+              
+              else if (error )
+              
+              
               if(data !== values.username) {
                 setSubmitting(true);
 
-                await api.post('users/insert', values
-                ).then(function (response) {
-                  console.log(JSON.stringify(response.data));
-                })
-                  .catch(function (error) {
-                    console.log(error);
+              await api.post('users/insert', values
+              ).then(function (response) {
+                console.log(JSON.stringify(response.data));
+              })
+                .catch(function (error) {
+                  console.log(error);
 
-                  });
+                });
 
                 setShow(true);
 
