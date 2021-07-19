@@ -108,17 +108,11 @@ export default function Profile() {
               {(role == 'USER') ?
                 <button >Denunciar</button>
                 :
-                null
-              }
-
-              {(role !== 'USER') ?
                 <div>
                   <button>Suspender Conta</button>
                   <br/>
                   <button>Eliminar Conta</button>
-                </div>
-                :
-                null
+              </div>
               }
   
             </div>
