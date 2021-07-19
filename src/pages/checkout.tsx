@@ -15,8 +15,7 @@ async function fetcher(path: string) {
   }
 
   let decoded_token: Token = jwt_decode(token);
-  console.log(decoded_token.iss)
-  let externallink: string = '';
+  
   await api.post(path, decoded_token.iss, config).then(response => window.location.href = response.data).catch(error => console.log(error));
 
 }
