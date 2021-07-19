@@ -8,42 +8,44 @@ import { api } from '../../../services/api';
 import { BsFillPersonFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { userProps, Token } from "../../types"
-
+import jwt_decode from "jwt-decode"
 
 
 
 
 export default function Organizations(orgs: userProps) {
 
-    const [following, setFollowing] = useState(false);
+    const [following, setFollowing] = useState<boolean>();
 
     useEffect( () => {
         console.log("following" + following)
     }, [following])
 
-    const token: Token = Cookies.getJSON('token')
+    const token = Cookies.getJSON('token')
     const config = {
         headers: {
           'Authorization': 'Bearer ' + token
         }
       }
+    let decodedToken: Token = jwt_decode(Cookies.getJSON('token'));
     useEffect(() => {
-        api.get(`users/isfollowing/${orgs.username}`, config).then(response => setFollowing(response.data))
+        api.get(`users/isfollowing/${orgs.username}` ,config).then(response => setFollowing(response.data))
     }, [])
 
     async function follow(orgname) {
         const token: Token = Cookies.getJSON('token')
         const config = {
             headers: {
-              'Authorization': 'Bearer ' + token
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json'
             }
           }
         if (!following) {
-            await api.post(`users/follow/${orgname}`, config).then(response => console.log(response.data))
+            await api.post(`users/follow/${orgname}`, decodedToken.iss,config).then(response => console.log(response.data))
             setFollowing(true)
         }
         else {
-            await api.post(`users/unfollow/${orgname}`, config).then(response => console.log(response.data))
+            await api.post(`users/unfollow/${orgname}`, decodedToken.iss,config).then(response => console.log(response.data))
             setFollowing(false)
         }
     }

@@ -18,13 +18,14 @@ async function fetcher(path: string): Promise<listuserProps> {
           'Authorization': 'Bearer ' + token
         }
       }
+    
     return await api.get(path, config).then(response => response.data)
 }
 
 
 export default function Organizations() {
 
-    const token: Token = jwt_decode(Cookies.getJSON('token'));
+    const decodedToken: Token = jwt_decode(Cookies.getJSON('token'));
     const { data, error } = useSWR(`users/listorg`, fetcher);
     console.log(data)
     if (error) { return (<div>error</div>) }
@@ -40,7 +41,7 @@ export default function Organizations() {
                     {
                         data.map((organization: userProps, index, array) => {
 
-                            if (organization.username !== token.iss)
+                            if (organization.username !== decodedToken.iss)
                                 return (
                                     <Orgs {...organization} key={index} />
                                 )

@@ -14,14 +14,13 @@ async function fetcher(path: string) {
     }
   }
 
-  const decoded_token: Token = jwt_decode(token);
+  let decoded_token: Token = jwt_decode(token);
+  
+  await api.post(path, decoded_token.iss, config).then(response => window.location.href = response.data).catch(error => console.log(error));
 
-  return await api.post(path, decoded_token.iss, config).then(response => response.data.reverse()).catch(error => console.log(error));
-
-}
+} 
 
 const ProductDisplay = () => (
-
   <section>
     <div className="product">
       <img
@@ -33,41 +32,16 @@ const ProductDisplay = () => (
         <h5>$20.00</h5>
       </div>
     </div>
-    <form onSubmit={() => fetcher('create-checkout-session')}>
-      <button type="submit">
+      <button type="submit" onClick={ () => fetcher('create-checkout-session')}>
         Checkout
       </button>
-    </form>
   </section>
 );
 
-const Message = ({ message }) => (
-  <section>
-    <p>{message}</p>
-  </section>
-);
+
 
 export default function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
-
-    if (query.get("success")) {
-      setMessage("Order placed! You will receive an email confirmation.");
-    }
-
-    if (query.get("canceled")) {
-      setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
-      );
-    }
-  }, []);
-
-  return message ? (
-    <Message message={message} />
-  ) : (
+  return  (
     <ProductDisplay />
   );
 }
