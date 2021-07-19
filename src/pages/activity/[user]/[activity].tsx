@@ -12,7 +12,7 @@ import { format } from 'date-fns'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Token,AtivitiesProps,userProps } from '../../../types'
-
+import jwt_decode from 'jwt-decode'
 
 
 
@@ -35,10 +35,11 @@ export default function Activity() {
         return await api.get(path,config).then(response => response.data)
     }
 
-    const token: Token = Cookies.getJSON('token');
+    const token = Cookies.getJSON('token');
     const config = {
         headers: {
-          'Authorization': 'Bearer ' + token
+          'Authorization': 'Bearer ' + token ,
+          'Content-Type': 'application/json'
         }
       }
     let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetchActivity);
@@ -50,13 +51,15 @@ export default function Activity() {
     }, [])
 
     async function handleClick() {
-
+        let decodetoken: Token = jwt_decode(token);
+        let user =  decodetoken.iss;
+        console.log(decodetoken.iss)
         if (!isParticipating) {
-            await api.post(`activities/join/${activityID}/${activityOwner}`, config).catch(error => console.log(error));
+            await api.post(`activities/join/${activityID}/${activityOwner}`,user,config).catch(error => console.log(error));
             setParticipation(true);
         }
         else {
-            await api.post(`activities/leave/${activityID}/${activityOwner}`, config);
+            await api.post(`activities/leave/${activityID}/${activityOwner}`,user,config);
             setParticipation(false);
         }
     }
@@ -120,3 +123,4 @@ export default function Activity() {
         </div>
     )
 }
+

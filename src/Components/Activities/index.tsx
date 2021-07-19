@@ -158,23 +158,21 @@ export default function Activities() {
 
             const config = {
               headers: { 
-              'Authorization': 'Bearer ' + token,
-              'Content-Type': 'application/json' },
-              data: request
+              'Authorization': 'Bearer ' + token ,
+              'Content-Type': 'application/json' }
+            
               
             };
-            console.log(config)
+            console.log()
             console.log(authenticated)
             if (values.location !== "") {
               if (authenticated) {
-                await api.post('activities/insert',config)
-                  .then(function (response) {
-                   
+                await api.post('activities/insert',request,config)
+                  .then(response => 
                     console.log(response.data)
-                  }).catch(function (error) {
-
-                    console.log(error);
-                  })
+                  ).catch( (error) => 
+                    console.log('error ' +error)
+                  )
                 setSubmitting(false);
                 //router.push('/home')
               }
