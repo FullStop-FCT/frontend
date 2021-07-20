@@ -32,7 +32,6 @@ type marker = {
 }
 export default function MapView() {
   let npoints = 3;
-  const [markers,setMarkers] = useState<marker[]>([]);
   const [points, setPoints] = useState([]);
   //const { location } = activityMapLocation();
   const { isLoaded, loadError } = useLoadScript({
