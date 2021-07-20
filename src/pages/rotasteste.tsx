@@ -28,10 +28,12 @@ const options = {
 type marker = {
   lat: number,
   lng: number,
-  time: any
+
 }
 export default function MapView() {
+  let npoints = 3;
   const [markers,setMarkers] = useState<marker[]>([]);
+  const [points, setPoints] = useState([]);
   //const { location } = activityMapLocation();
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -40,26 +42,21 @@ export default function MapView() {
   //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
  
   const onMapClick = (event) => {
-
-    setMarkers((current) => [
-      ...current,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      } ,
+    setPoints((current) =>[
+      ...current, 
+      {location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}
     ]
+    )
+    console.log(points)
+  
+    if(points.length == npoints){
+      setPoints([
+        {location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}
+      ])
     
-    );
-    if(markers.length == 2){
-      setMarkers([{
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      }]);
     }
     console.log(event.latLng.lat(), event.latLng.lng());
-    console.log(markers)
+    console.log(points)
   };
 
   const mapRef = useRef(null);
@@ -97,23 +94,23 @@ export default function MapView() {
         onLoad={onMapLoad}
       >
         {
-          markers.length === 2 ? <></> :
-          markers.map((marker) => (
-            <Marker key={marker.time.toISOString()} 
-            position={{ lat: marker.lat, lng: marker.lng }} />
+          points.length === npoints ? <></> :
+          points.map((point,index) => (
+            <Marker key={index} 
+            position={{lat: point.location.lat, lng: point.location.lng}} />
 
           ))
         }
 
 {
-              markers.length !== 2  ? <></> : (
+              points.length !== npoints  ? <></> : (
                 <DirectionsService
                   // required
                   options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
-                    destination: `${markers[0].lat}, ${markers[0].lng}`,
-                    origin: `${markers[1].lat}, ${markers[1].lng}`,
-                    travelMode: 'WALKING'
-                  
+                    origin: points[0],
+                    destination: points[2],
+                    travelMode: 'WALKING',
+                    waypoints: points,
                   }}
                   // required
                   callback={directionsCallback}
@@ -126,7 +123,7 @@ export default function MapView() {
             }
 
             {
-               markers.length !== 2 || response === null  ? <></> : (
+               points.length !== npoints || response === null  ? <></> : (
                 <DirectionsRenderer
                   // required
                   options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
