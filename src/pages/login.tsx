@@ -15,7 +15,7 @@ import jwt_decode from "jwt-decode";
 
 //TODO
 
-//VERIFICAR SE CONTA ESTA DESATIVADA NO LOGINS
+//VERIFICAR SE CONTA ESTA DESATIVADA NO LOGIN
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
