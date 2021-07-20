@@ -248,6 +248,9 @@ export default function Activities() {
                   localerror ? <span>Insira uma localizaçao</span> :
                     <></>
                 }
+
+
+                
                 <MapView />
                 <Button disabled={isSubmitting} type="submit">Criar </Button>
 
