@@ -57,7 +57,7 @@ export default function Register() {
       {!messageDisplay ? 
 
         <div className={styles.register}>
-          <h1>Registar</h1>
+          <h1>Registar Utilizador</h1>
           <Formik initialValues={{
             username: '',
             name: '',
