@@ -44,6 +44,18 @@ const options = {
 export default function MapView() {
 
   //const { location } = activityMapLocation();
+
+  const handleCheckBox = (event) => {
+    const target = event.target;
+
+    console.log('')
+  }
+
+
+
+
+
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -86,11 +98,11 @@ export default function MapView() {
   if (!isLoaded) return <div>Loading...</div>
   return (
     <div>
-
       <Search panTo={panTo} inputvalue={inputvalue} />
 
 
 
+      Criar Rota<input name="routes" type="checkbox"  onChange={handleCheckBox}/>
 
       <GoogleMap mapContainerStyle={mapContainerStyle}
         zoom={9}
