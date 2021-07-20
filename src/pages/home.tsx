@@ -17,16 +17,18 @@ import Activity from '../Components/Activity'
 import { Token, listAtivitiesProps, AtivitiesProps } from "../types";
 import Loading from "../Components/Loading";
 
+let cs;
 
 //await api.post('activities/list',token)
 async function fetcher(path: string): Promise<listAtivitiesProps> {
   const token: Token = Cookies.getJSON('token')
   let config = {
     headers: {
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
     }
   }
-  return await api.get(path, config).then(response => response.data.reverse());
+  return await api.post(path, null, config).then(response => response.data.results);
 
 }
 
@@ -51,17 +53,15 @@ export default function Home() {
 
 
 
-  const { data, error } = useSWR('activities/list', fetcher);
+  const { data, error } = useSWR('/activities/listCursor', fetcher);
+
   const [val, setVal] = useState("");
 
   const handleVal = (e) => {
     setVal(e.target.value)
-    console.log(val)
   }
 
   let props: listAtivitiesProps = data;
-
-  console.log(error);
 
   if (error) { return <SessionOf /> }
   if (!data) return  <></>
@@ -167,9 +167,7 @@ export default function Home() {
         />
         <br />
       </div>
-
     </div>
-
   )
 }
 
