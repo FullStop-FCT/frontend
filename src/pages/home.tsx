@@ -27,7 +27,7 @@ export default function Home() {
 
   let res : listAtivitiesCursorProps  = null;
   //let listactivities: listAtivitiesProps = null;
-  const [listativities, setListativities] = useState<listAtivitiesProps>(null);
+  const [listativities, setListativities] = useState<listAtivitiesProps>([]);
 
   const [cursor, setCursor] = useState<string>(null);
 
@@ -74,7 +74,12 @@ export default function Home() {
  function fetchData() {
   console.log('segundo fetch')
      api.post(path, cursor, config).then( (response) => {
+
       res = response.data;
+      if(res.results.length ===0 ){
+        setEndlist(false);
+        return;
+      }
       console.log(response.data.results)
       setListativities((current) => 
         current.concat(response.data.results.reverse())   
@@ -109,7 +114,7 @@ export default function Home() {
         <InfiniteScroll
           dataLength={listativities.length * 5} //This is important field to render the next data
           next={fetchData}
-          hasMore={true}
+          hasMore={endlist}
           loader={<h4>Loading...</h4>}
           //scrollableTarget="target"
           endMessage={
