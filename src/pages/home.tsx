@@ -10,30 +10,32 @@ import useSWR from 'swr';
 import { useRouter } from 'next/router'
 import SessionOf from '../Components/SessionOf';
 import SearchIcon from '@material-ui/icons/Search';
-import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
 import { Token, listAtivitiesProps, AtivitiesProps } from "../types";
 import Loading from "../Components/Loading";
+import InfiniteScroll from "react-infinite-scroll-component";
 
-let cs;
 
-//await api.post('activities/list',token)
-async function fetcher(path: string): Promise<listAtivitiesProps> {
-  const token: Token = Cookies.getJSON('token')
-  let config = {
+
+export default function Home() {
+
+  
+  let cursor: string = null;
+  const path: string = '/activities/listCursor';
+
+  let res = null;
+
+  const token: Token = Cookies.getJSON('token');
+
+  const config = {
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json'
     }
   }
-  return await api.post(path, null, config).then(response => response.data.results);
 
-}
-
-
-export default function Home() {
   const { subAtivity, setSubAtivity, authenticated } = useContext(AuthContext);
 
   const router = useRouter();
@@ -43,7 +45,7 @@ export default function Home() {
     }
   }, [])
 
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     checkedA: true,
   });
 
@@ -51,20 +53,43 @@ export default function Home() {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-
-
-  const { data, error } = useSWR('/activities/listCursor', fetcher);
-
   const [val, setVal] = useState("");
 
   const handleVal = (e) => {
     setVal(e.target.value)
   }
 
-  let props: listAtivitiesProps = data;
+  const {data, error} = useSWR(path, fetcher);
 
-  if (error) { return <SessionOf /> }
-  if (!data) return  <></>
+  console.log(error);
+
+  async function fetcher(path) {
+
+    console.log("entrou");
+    return await api.post(path, cursor, config).then( function(response) {
+      res = response.data.results.reverse();
+      console.log("res" + res);
+      cursor = response.data.cursorString;
+      console.log(cursor);});
+  }
+
+
+
+  async function fetchData() {
+
+    console.log("enoutr 2")
+
+
+    return await api.post(path, cursor, config).then( function(response) {
+      
+      res = response.data.results.reverse();
+      console.log("res" + res);
+      cursor = response.data.cursorString;
+      console.log(cursor);});
+  }
+
+
+ 
 
   return (
 
@@ -83,50 +108,23 @@ export default function Home() {
         <div className={styles.searchBar}>
           <button><SearchIcon fontSize="large" ></SearchIcon></button>
           <input className={styles.formP} name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
-
-          <LocationOnIcon fontSize="large"></LocationOnIcon>
-          <select className={styles.select} name="distrito" id="Portugal">
-            <option value="Portugal">Portugal</option>
-            <option value="Aveiro">Aveiro</option>
-            <option value="Beja">Beja</option>
-            <option value="Braga">Braga</option>
-            <option value="Bragança">Bragança</option>
-            <option value="Castelo Branco">Castelo Branco</option>
-            <option value="Coimbra">Coimbra</option>
-            <option value="Évora">Évora</option>
-            <option value="Faro">Faro</option>
-            <option value="Guarda">Guarda</option>
-            <option value="Leiria">Leiria</option>
-            <option value="Lisboa">Lisboa</option>
-            <option value="Portalegre">Portalegre</option>
-            <option value="Porto">Porto</option>
-            <option value="Santarém">Santarém</option>
-            <option value="Setúbal">Setúbal</option>
-            <option value="Viana do Castelo">Viana do Castelo</option>
-            <option value="Vila Real">Vila Real</option>
-            <option value="Viseu">Viseu</option>
-            <option value="Ilha da Madeira">Ilha da Madeira</option>
-            <option value="Ilha de Porto Santo">Ilha de Porto Santo</option>
-            <option value="Ilha de Santa Maria">Ilha de Santa Maria</option>
-            <option value="Ilha de São Miguel">Ilha de São Miguel</option>
-            <option value="Ilha Terceira">Ilha Terceira</option>
-            <option value="Ilha da Graciosa">Ilha da Graciosa</option>
-            <option value="Ilha de São Jorge">Ilha de São Jorge</option>
-            <option value="Ilha do Pico">Ilha do Pico</option>
-            <option value="Ilha do Faial">Ilha do Faial</option>
-            <option value="Ilha das Flores">Ilha das Flores</option>
-            <option value="Ilha do Corvo">Ilha do Corvo</option>
-          </select>
-
         </div>
 
 
-      {props.map((ativ: AtivitiesProps, index) => {
-      return (
-    < Activity {...ativ} key={index} />
-        )
-      })}
-     
+        <InfiniteScroll
+          dataLength={5} //This is important field to render the next data
+          next={fetchData}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+        >
+          {res.map((ativ, index) => < Activity {...ativ} key={index} /> )}
+        </InfiniteScroll>
+
 
       </div>
 
