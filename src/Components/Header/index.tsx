@@ -48,8 +48,11 @@ export default function NavBar() {
               </div>
 
             :
+            
+            null
+          }
 
-            (role == 'ADMIN') ?
+          {  (role == 'ADMIN') ?
 
               <div>
                 <Link href={'/bo-users'}><div className={styles.topics}><span className={styles.links}><a className={styles.linkname}> BO Staff</a></span></div></Link>
