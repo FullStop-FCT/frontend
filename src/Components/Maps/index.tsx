@@ -1,4 +1,4 @@
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
+import { GoogleMap, useLoadScript, Marker,DirectionsService, DirectionsRenderer} from "@react-google-maps/api"
 import { Libraries } from "@react-google-maps/api/dist/utils/make-load-script-url";
 import { formatRelative } from "date-fns"
 import { useCallback, useRef, useState, useContext } from "react";
@@ -44,16 +44,75 @@ const options = {
 export default function MapView() {
 
   //const { location } = activityMapLocation();
+  const [routes, setRoutes] = useState(false);
+  const [response, setResponse] = useState(null);
+  const [points, setPoints] = useState([]);
+  const [render,setRender] = useState(false);
+  //var npoints = 4;
+  const[npoints,setNPoints] = useState<number>(0);
+  const handleNPoints = useCallback( (event) => {
+    setRender(false);
+      setNPoints(event.target.value)
+      console.log(npoints);
+      setPoints([])
+      setResponse(null);
+      //console.log(event.target.value);
+      console.log(npoints);
+    
+  },[npoints]
+    
+  )  
+
+  const onMapClickPoints = (event) => {
+    if(npoints > 1){
+      console.log(npoints)
+      if(points.length === npoints-1){
+        console.log('render')
+        setRender(true);
+      }
+      if(points.length > npoints-1){
+        //setResponse(null);
+        setRender(false);
+        setPoints([{location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}])
+      
+      }else{
+        setPoints((current) =>[
+          ...current, 
+          {location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}
+        ]
+        )
+      }
+      
+      console.log(points)
+      //console.log(points.length)
+     
+    }
+   
+    console.log(event.latLng.lat(), event.latLng.lng());
+    console.log(points)
+  };
+
+
 
   const handleCheckBox = (event) => {
-    const target = event.target;
-
-    console.log('')
+    !routes ? 
+    setRoutes(true) : setRoutes(false)
+    
+    console.log(routes)
   }
+  const directionsCallback = (response) => {
+    
 
-
-
-
+    if (response !== null) {
+      if (response.status === "OK") {
+       
+        setResponse(response)
+        
+      } else {
+        console.log("response: ", response);
+      }
+    }
+  };
 
 
   const { isLoaded, loadError } = useLoadScript({
@@ -99,24 +158,85 @@ export default function MapView() {
   return (
     <div>
       <Search panTo={panTo} inputvalue={inputvalue} />
+      <label>
+      Criar Rota: <input name="routes"  type="checkbox" checked={routes} onChange={handleCheckBox}/>
+      </label>
 
-
-
-      Criar Rota<input name="routes" type="checkbox"  onChange={handleCheckBox}/>
-
-      <GoogleMap mapContainerStyle={mapContainerStyle}
+      {
+        routes ? <input name="npoints" id="npoints" type="text" placeholder="Numero de pontos no mapa" onChange={handleNPoints}></input> : <></>
+      }
+      
+      {
+        !routes ? 
+        <GoogleMap mapContainerStyle={mapContainerStyle}
         zoom={9}
         center={center}
         options={options}
         onClick={onMapClick
         }
-        onLoad={onMapLoad}
-      >
+          onLoad={onMapLoad}
+        >
         <Marker position={{ lat: markers.lat, lng: markers.lng }} />
 
 
 
+      </GoogleMap> : <GoogleMap mapContainerStyle={mapContainerStyle}
+        zoom={9}
+        center={center}
+        options={options}
+        onClick={onMapClickPoints
+        }
+        onLoad={onMapLoad}
+      >
+        {
+         
+         render ? <></> : (points.map((point,index) => (
+          <Marker key={index} 
+          position={{lat: point.location.lat, lng: point.location.lng}} />
+
+        )))
+          
+        }
+
+{
+              !render  ? <></> :(
+                <DirectionsService
+                  // required
+                  options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+                    origin: points[0],
+                    destination: points[points.length-1],
+                    travelMode: 'WALKING',
+                    waypoints: points,
+                  }}
+                  // required
+                  callback={directionsCallback}
+                  // optional
+                 
+                  // optional
+                 
+                />
+              )
+            }
+
+            {
+                !render || response === null  ? <></> : (
+                <DirectionsRenderer
+                  // required
+                  options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+                    directions: response,
+                  }}
+                  // optional
+            
+                />
+              )
+            }
+
+
+
+
       </GoogleMap>
+      }
+     
 
     </div>
   )
