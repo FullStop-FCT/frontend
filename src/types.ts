@@ -42,9 +42,18 @@ export type AtivitiesProps = {
   category: string
   lat: string,
   lon: string,
+  startHour: string,
+  endHour: string,
+  keywords: string[],
 }
 
 export type listAtivitiesProps = AtivitiesProps[];
+
+export type listAtivitiesCursorProps = {
+  results : listAtivitiesProps,
+  cursorString : string,
+}
+
 
 export type activitytodoProps = {
   title: number,
