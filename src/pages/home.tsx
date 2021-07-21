@@ -13,21 +13,26 @@ import SearchIcon from '@material-ui/icons/Search';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
-import { Token, listAtivitiesProps, AtivitiesProps } from "../types";
+import { Token, listAtivitiesCursorProps, listAtivitiesProps, AtivitiesProps} from "../types";
 import Loading from "../Components/Loading";
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 
 
 export default function Home() {
 
   
-  let cursor: string = null;
-  const path: string = '/activities/listCursor';
+  //let cursor: string = null;
+  const path: string = 'activities/listCursor';
 
-  let res = null;
+  let res : listAtivitiesCursorProps  = null;
+  //let listactivities: listAtivitiesProps = null;
+  const [listativities, setListativities] = useState<listAtivitiesProps>(null);
 
-  const token: Token = Cookies.getJSON('token');
+  const [cursor, setCursor] = useState<string>(null);
+
+  const [endlist, setEndlist] = useState<boolean>(true);
+  const token = Cookies.getJSON('token');
 
   const config = {
     headers: {
@@ -35,15 +40,6 @@ export default function Home() {
       'Content-Type': 'application/json'
     }
   }
-
-  const { subAtivity, setSubAtivity, authenticated } = useContext(AuthContext);
-
-  const router = useRouter();
-  useEffect(() => {
-    if (!authenticated) {
-      router.push('/login')
-    }
-  }, [])
 
   const [state, setState] = useState({
     checkedA: true,
@@ -59,37 +55,34 @@ export default function Home() {
     setVal(e.target.value)
   }
 
-  const {data, error} = useSWR(path, fetcher);
-
-  console.log(error);
-
-  async function fetcher(path) {
-
-    console.log("entrou");
-    return await api.post(path, cursor, config).then( function(response) {
-      res = response.data.results.reverse();
-      console.log("res" + res);
-      cursor = response.data.cursorString;
-      console.log(cursor);});
-  }
-
-
-
-  async function fetchData() {
-
-    console.log("enoutr 2")
-
-
-    return await api.post(path, cursor, config).then( function(response) {
+  useEffect(() => {
+    async function fetch(path){
+      console.log("primeiro fetch");
+      await api.post(path, cursor, config).then( function(response) { 
+       res = response.data;
+       setCursor(response.data.cursorString);
+       setListativities(response.data.results.reverse());
       
-      res = response.data.results.reverse();
-      console.log("res" + res);
-      cursor = response.data.cursorString;
+       console.log('primeriro fetch' ,listativities)
+      console.log(cursor);});
+    }
+    fetch(path);
+      
+  }  
+  , [])
+  
+ function fetchData() {
+  console.log('segundo fetch')
+     api.post(path, cursor, config).then( (response) => {
+      res = response.data;
+      console.log(response.data.results)
+      setListativities((current) => 
+        current.concat(response.data.results.reverse())   
+    )
+    setCursor(response.data.cursorString)
       console.log(cursor);});
   }
 
-
- 
 
   return (
 
@@ -103,27 +96,43 @@ export default function Home() {
         <Header />
       </div>
 
-      <div className={styles.Feed}>
+      <div id="target" className={styles.Feed}>
 
-        <div className={styles.searchBar}>
+          <div className={styles.searchBar}>
           <button><SearchIcon fontSize="large" ></SearchIcon></button>
           <input className={styles.formP} name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
-        </div>
+          </div>
 
+        {
 
+    
         <InfiniteScroll
-          dataLength={5} //This is important field to render the next data
+          dataLength={listativities.length * 5} //This is important field to render the next data
           next={fetchData}
           hasMore={true}
           loader={<h4>Loading...</h4>}
+          //scrollableTarget="target"
           endMessage={
-            <p style={{ textAlign: 'center' }}>
-              <b>Yay! You have seen it all</b>
-            </p>
+          <p style={{ textAlign: 'center' }}>
+          <b>Yay! You have seen it all</b>
+          </p>
           }
         >
-          {res.map((ativ, index) => < Activity {...ativ} key={index} /> )}
-        </InfiniteScroll>
+          {
+          
+          !listativities ? <></> :
+
+          listativities.map((ativ, index) => < Activity {...ativ} key={index} /> )
+          
+          }
+             
+
+              
+          
+          
+          </InfiniteScroll>
+          }
+        
 
 
       </div>
