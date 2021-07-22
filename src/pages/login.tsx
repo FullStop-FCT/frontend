@@ -4,18 +4,13 @@ import * as Yup from 'Yup';
 import styles from './styles/login.module.scss';
 import Head from "next/head";
 import NavBar from '../Components/NavBar';
-import Footer from '../Components/Footer';
 import { AuthContext } from '../Context/AuthContext';
-import React, { useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { Token } from '../types';
 import jwt_decode from "jwt-decode";
-
-//TODO
-
-//VERIFICAR SE CONTA ESTA DESATIVADA NO LOGIN
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -38,22 +33,27 @@ const validationSchema = Yup.object({
 });
 
 export default function Login() {
+
   let token: Token = null
   
-    let getJwt = Cookies.getJSON('token');
-    if(getJwt){ 
-      token = jwt_decode(Cookies.getJSON('token'));
-    }
-    const router = useRouter();
-    useEffect(() => {
-      if (token) {
-       router.push(`/${token.iss}`)
-      }
-    })
-  
-  
+  let getJwt = Cookies.getJSON('token');
 
-  const { authenticated, handleLogin } = useContext(AuthContext);
+  if (getJwt)
+    token = jwt_decode(Cookies.getJSON('token'));
+
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (token) {
+      router.push(`/${token.iss}`)
+    }
+  })  
+
+  const { authenticated, handleLogin, error } = useContext(AuthContext);
+
+  const[emailError, setEmailError] = useState(false);
+
   return (
     <div>
       <div>
@@ -61,45 +61,62 @@ export default function Login() {
           <title>Login</title>
         </Head>
         <NavBar />
-        <div className={styles.login}>
-          <h1>Login</h1>
-          <Formik initialValues={{
-            username: '',
-            password: ''
 
-          }}
-            validationSchema={validationSchema}
+        
 
-          onSubmit={async (values, { setSubmitting }) => {
+          <div className={styles.login}>
 
-            setSubmitting(true);
+            {!emailError ? 
+              <>
+                <h1>Login</h1>
+                <Formik initialValues={{
+                  username: '',
+                  password: ''
 
-            await handleLogin(values);
+                }}
+                  validationSchema={validationSchema}
 
-            setSubmitting(false);
-            }}>
+                  onSubmit={async (values, { setSubmitting }) => {
+
+                  setSubmitting(true);
+
+                  await handleLogin(values);
+
+                  console.log(error);
+
+                  if(error == 'email')
+                    setEmailError(true);
+
+                  setSubmitting(false);
+                  }}>
 
 
-          {({ isSubmitting }) => (
-            <Form className={styles.form}  >
-              <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
-              <br />
-              <MyTextField placeholder="Password" name="password" type="password" as={TextField} />
-              <br />
+                {({ isSubmitting }) => (
+                  <Form className={styles.form}  >
 
-              <Link href="/forgot-password"><a className={styles.link}>Esqueceu-se da password?</a></Link>
-              <div>
-                <Button disabled={isSubmitting} type="submit">Login</Button>
-              </div>
-            </Form>
+                    <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
+                    <br />
+                    <MyTextField placeholder="Password" name="password" type="password" as={TextField} />
+                    <br />
 
-          )
-          }
-        </Formik>
-      </div>
+                    <Link href="/forgot-password"><a className={styles.link}>Esqueceu-se da password?</a></Link>
+                    <div>
+                      <Button disabled={isSubmitting} type="submit">Login</Button>
+                    </div>
+                  </Form>
+
+                  )
+                }
+              </Formik>
+            </>
+          
+            :
+
+            <a>Por favor confirme o seu email. Caso não o encontre, verifique a sua caixa de spam. </a>
+
+            }
+        </div>
     </div>
-    </div>
-
+  </div>
   );
-
 }

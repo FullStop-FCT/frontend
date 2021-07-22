@@ -27,6 +27,8 @@ type AuthContextData = {
   setSubEdit: (state: boolean) => void;
   keywords: string[];
   setKeywords: (string) => void;
+  error: string;
+  setError: (string) => void;
 }
 
 type token = {
@@ -50,6 +52,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [subAtivity, setSubAtivity] = useState(false);
   const [subEdit, setSubEdit] = useState(false);
   const [keywords, setKeywords] = useState([]);
+  const [error, setError] = useState("");
 
 
   useEffect(() => {
@@ -99,7 +102,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       }
     })
       .catch(function (error) {
-        console.log(error);
+        setError(error.response.data);
         setAuthenticated(false);
       });
   }
@@ -110,7 +113,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   return (
     <AuthContext.Provider value={{
-      authenticated, handleLogin, handleLogout, subAtivity, setSubAtivity, subEdit, setSubEdit, keywords, setKeywords
+      authenticated, handleLogin, handleLogout, subAtivity, setSubAtivity, subEdit, setSubEdit, keywords, setKeywords, error, setError
     }}>
       {children}
     </AuthContext.Provider>

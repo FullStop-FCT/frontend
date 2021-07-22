@@ -37,5 +37,5 @@ export default function token(){
     return ( <Loading /> );
 
   else
-    return ( <EmailConfirmation response="200"/> );
+    return ( <EmailConfirmation response={active}/> );
   }

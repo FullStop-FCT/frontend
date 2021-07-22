@@ -6,6 +6,9 @@ import NavBar from '../../Components/NavBar';
 import Footer from '../../Components/Footer';
 import * as Yup from 'Yup';
 import { useState } from 'react';
+import jwt_decode from "jwt-decode"
+import { Token } from "../../types";
+import { api } from "../../../services/api";
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -30,16 +33,31 @@ const validationSchema = Yup.object({
 
 });
 
-const passwordReset = (values: { password: string, confirmation: string }) => {
 
-  //TODO
-  //BACK-END REQUEST
-
-}
 
 export default function Password() {
 
   const[messageDisplay, setShow] = useState(false);
+  const[active,setActive] = useState<number>(null);
+
+  async function passwordReset (values: { password: string, confirmation: string })  {
+
+    let token = window.location.pathname.replace('/', '')
+    let path_values: String[] = token.split("/");
+    let jwt = path_values[1];
+  
+    const decodetoken: Token = jwt_decode(token);
+    const config = {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json'
+      }
+    }
+  
+    return await api.post('/users/changepwd', decodetoken.iss, config)
+              .then(response => setActive(response.status))
+              .catch(error => setActive(error.response.status))
+  }
 
     return (
 
@@ -51,7 +69,7 @@ export default function Password() {
 
           <NavBar />
 
-          {!messageDisplay ?
+          {!messageDisplay?
 
             <div className={styles.register}>
 
@@ -93,11 +111,21 @@ export default function Password() {
               </Formik>
             </div>
 
-            : 
+            : (messageDisplay && active == 200) ?
 
-            <div className={styles.register}>
-              <a>A sua password foi alterada com sucesso.</a>
-            </div>
+              <div className={styles.register}>
+                <a>A sua password foi alterada com sucesso.</a>
+              </div>
+
+            : (messageDisplay && active !== 200) ?
+
+              <div className={styles.register}>
+                <a>Ocorreu um erro na mudança de password, por favor tente novamente.</a>
+              </div>
+            
+            :
+
+            null
           }
 
           <Footer />

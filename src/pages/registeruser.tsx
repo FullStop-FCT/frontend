@@ -9,7 +9,35 @@ import { api } from '../../services/api';
 import { useState } from 'react';
 
 
+const validationSchema = Yup.object({
+  username: Yup.string()
+    .matches(/^(\S+$)/, "Não pode conter espaços")
+    .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
+    .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
+    .required("Obrigatório"),
+  name: Yup.string().required("Obrigatório"),
+  email: Yup.string()
+    .email("Por favor insira um email válido.")
+    .required("Obrigatório"),
+
+  password: Yup.string()
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+      "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
+    .required("Obrigatório"),
+  confirmation: Yup.string()
+    .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
+    .required("Obrigatório"),
+
+});
+
 export default function Register() {
+  
+  const [messageDisplay, setMessageDisplay] = useState(false);
+  const [buttonDisplay, setButtonDisplay] = useState(false);
+  const [isUserNameValid, setIsUserNameValid] = useState(true);
+  const[isEmailValid, setIsEmailValid] = useState(true);
+  const[values, setValues] = useState(null);
+
   const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...props }) => {
     const [field, meta] = useField<{}>(props);
     const errorText = meta.error && meta.touched ? meta.error : "";
@@ -21,31 +49,15 @@ export default function Register() {
         }} />
     )
   }
-  
-  const [messageDisplay, setShow] = useState(false);
-  const [isUserNameValid, setIsUserNameValid] = useState(true);
-  const[isEmailValid, setIsEmailValid] = useState(true);
 
-  const validationSchema = Yup.object({
-    username: Yup.string()
-      .matches(/^(\S+$)/, "Não pode conter espaços")
-      .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
-      .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
-      .required("Obrigatório"),
-    name: Yup.string().required("Obrigatório"),
-    email: Yup.string()
-      .email("Por favor insira um email válido.")
-      .required("Obrigatório"),
+  async function sendRequest() {
+    setButtonDisplay(true);
 
-    password: Yup.string()
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
-        "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
-      .required("Obrigatório"),
-    confirmation: Yup.string()
-      .oneOf([Yup.ref('password'), null], "Passwords têm de ser iguais.")
-      .required("Obrigatório"),
-  
-  });
+    return await api.post('users/insert', values)
+                    .catch(function (error) {
+                      console.log(error);
+                    });
+  }
 
   return (
     <div>
@@ -57,7 +69,7 @@ export default function Register() {
       {!messageDisplay ? 
 
         <div className={styles.register}>
-          <h1>Registar Utilizador</h1>
+          <h1>Registar</h1>
           <Formik initialValues={{
             username: '',
             name: '',
@@ -89,16 +101,9 @@ export default function Register() {
               else {
                 setSubmitting(true);
 
-                await api.post('users/insert', values
-                ).then(function (response) {
-                  console.log(JSON.stringify(response.data));
-                })
-                .catch(function (error) {
-                  console.log(error);
+                setMessageDisplay(true);
 
-                });
-
-                setShow(true);
+                setValues(values);
 
                 setSubmitting(false);
               }
@@ -149,7 +154,20 @@ export default function Register() {
         : 
 
         <div className={styles.register}>
-          <a>Irá receber um email de confirmação para poder iniciar sessão e começar a voluntariar-se.</a>
+          <p className={styles.register_org}>Irá receber um email de confirmação para poder iniciar sessão e começar a voluntariar-se.</p>
+          <p className={styles.register_org}>Se não encontrar o email, procure na sua paste de spam ou peça para enviar outro email.</p>
+          <p className={styles.register_org}>Se o problema persistir, por favor contate a nossa equipa.</p>
+          
+          {!buttonDisplay ?
+
+            <button onClick={sendRequest}>Enviar outro email</button>
+
+          :
+            <>
+            <br/>
+            <a className={styles.button_feedback}> Email enviado. </a>
+            </>
+          }
         </div>
       }
       <Footer />
