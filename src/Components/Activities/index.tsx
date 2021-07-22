@@ -67,7 +67,7 @@ const validationSchema = Yup.object({
     .max(50, "O título deve ter entre 10 a 50 caráteres.")
     .required("Obrigatório"),
   description: Yup.string()
-    .min(50, "A descrição deve conter no minímo 100 caráteres.")
+    .min(100, "A descrição deve conter no minímo 100 caráteres.")
     .required("Obrigatório"),
   date: Yup.date().required("Obrigatório"),
   totalParticipants: Yup.number()
@@ -86,7 +86,7 @@ export default function Activities() {
   const [category, setCategory] = useState("");
   const { keywords } = useContext(AuthContext);
   const { authenticated } = useContext(AuthContext);
-  const { activityLocation, markers } = useContext(MapContext
+  const { activityLocation, markers,mappoints } = useContext(MapContext
   )
   const token: Token = Cookies.getJSON('token')
 
@@ -134,12 +134,21 @@ export default function Activities() {
           startHour: timeIn,
           endHour: timeOut,
           keywords: keywords,
+          waypoints: mappoints,
+          activityTime : 0,
+
         }}
           validationSchema={validationSchema}
 
           //resetform
           onSubmit={async (values, { setSubmitting }) => {
             console.log("submitting");
+            let timeinsplit = timeIn.split(":");
+            let timeoutsplit = timeOut.split(":");
+
+            let minutesTotal = (((parseInt(timeoutsplit[0])) * 60 +(parseInt(timeoutsplit[1])))              -((parseInt(timeinsplit[0])) * 60 +(parseInt(timeinsplit[1]))))
+            console.log('total',minutesTotal);
+            
             setSubmitting(true);
             
             values.location = activityLocation;
@@ -149,7 +158,10 @@ export default function Activities() {
             values.startHour = timeIn;
             values.endHour = timeOut;
             values.keywords = keywords;
+            values.waypoints = mappoints;
             values.category = category;
+            values.activityTime = minutesTotal;
+            
 
             if (category == "") {
               values.category = "Outros"
@@ -163,7 +175,7 @@ export default function Activities() {
             
               
             };
-            console.log()
+            console.log(request)
             console.log(authenticated)
             if (values.location !== "") {
               if (authenticated) {
@@ -236,7 +248,7 @@ export default function Activities() {
 
                 <br />
 
-                <input onChange={e => setTimeIn(e.target.value)} type="time" required />    
+                <input onChange={e => setTimeIn(e.target.value) } type="time" required />    
 
                 <br />
 

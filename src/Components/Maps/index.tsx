@@ -50,6 +50,13 @@ export default function MapView() {
   const [render,setRender] = useState(false);
   //var npoints = 4;
   const[npoints,setNPoints] = useState<number>(0);
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
+  //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
+  const { activityLocation, setActivityLocation, markers, setMarkers, setMappoints } = useContext(MapContext);
+
   const handleNPoints = useCallback( (event) => {
     setRender(false);
       setNPoints(event.target.value)
@@ -68,12 +75,20 @@ export default function MapView() {
       console.log(npoints)
       if(points.length === npoints-1){
         console.log('render')
+        console.log(points)
+        points.map((local) => {
+          setMappoints((current) =>
+          current.concat(`${local.location.lat}`,`${local.location.lng}`)
+         
+          )
+        })
         setRender(true);
       }
       if(points.length > npoints-1){
         //setResponse(null);
         setRender(false);
         setPoints([{location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}])
+        setMappoints([]);
       
       }else{
         setPoints((current) =>[
@@ -115,12 +130,7 @@ export default function MapView() {
   };
 
 
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
-    libraries,
-  });
-  //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
-  const { activityLocation, setActivityLocation, markers, setMarkers } = useContext(MapContext);
+  
   const onMapClick = useCallback((event) => {
 
     setMarkers(
