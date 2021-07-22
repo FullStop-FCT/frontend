@@ -14,7 +14,9 @@ type MapContextData = {
   setActivityLocation: (input: string) => void;
   markers: marker;
   setMarkers: (marker: marker) => void
-}
+  mappoints: string[];
+  setMappoints: (point: any) => void;
+  }
 
 export const MapContext = createContext({} as MapContextData);
 
@@ -24,13 +26,13 @@ type MapContextProviderProps = {
 export function MapContextProvider({ children }: MapContextProviderProps) {
   const [activityLocation, setActivityLocation] = useState("");
   const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
-
+  const [mappoints,setMappoints] = useState([]);
 
 
   return (
     <MapContext.Provider value={{
       activityLocation, setActivityLocation,
-      markers, setMarkers,
+      markers, setMarkers, mappoints, setMappoints
     }}>
       {children}
     </MapContext.Provider>
