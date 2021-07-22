@@ -71,7 +71,7 @@ export default function Password() {
 
                 {({ isSubmitting }) => (
                   <Form className={styles.form}  >
-                    <MyTextField className={styles.input} placeholder="Email" name="email" type="input" as={TextField} />
+                    <MyTextField className={styles.input} placeholder="Username" name="" type="input" as={TextField} />
                     <br />
 
                     <div>
