@@ -36,6 +36,7 @@ export default function Activity() {
     }
 
     const token = Cookies.getJSON('token');
+    const decodedtoken: Token = jwt_decode(token);
     const config = {
         headers: {
           'Authorization': 'Bearer ' + token ,
@@ -46,14 +47,13 @@ export default function Activity() {
     let { data: user, error: error2 } = useSWR(`users/get/${activityOwner}`, fetchUser);
 
     useEffect(() => {
-
         api.get(`activities/isjoined/${activityID}`, config).then(response => setParticipation(response.data))
     }, [])
 
     async function handleClick() {
-        let decodetoken: Token = jwt_decode(token);
-        let user =  decodetoken.iss;
-        console.log(decodetoken.iss)
+        
+        let user =  decodedtoken.iss;
+        console.log(decodedtoken.iss)
         if (!isParticipating) {
             await api.post(`activities/join/${activityID}/${activityOwner}`,user,config).catch(error => console.log(error));
             setParticipation(true);
@@ -71,9 +71,11 @@ export default function Activity() {
         return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
 
+    console.log(activity);
     const props = {
         lat: activity.lat,
         long: activity.lon,
+        waypoints: activity.waypoints,
     }
 
     return (
@@ -111,7 +113,7 @@ export default function Activity() {
                         <MapActivity {...props} />
 
                         {
-                            (!isParticipating === false && activity.participants === activity.totalParticipants) || activity.activityOwner === token.iss ?
+                            (!isParticipating === false && activity.participants === activity.totalParticipants) || activity.activityOwner === decodedtoken.iss ?
                                 <></> : <button onClick={handleClick}>
                                     {isParticipating ? "Cancelar" : "Participar"}
                                 </button>

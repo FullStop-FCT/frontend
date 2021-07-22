@@ -1,6 +1,7 @@
-import { GoogleMap, useLoadScript, Marker, InfoWindow } from "@react-google-maps/api"
+import { GoogleMap, useLoadScript, Marker, InfoWindow,DirectionsService, DirectionsRenderer } from "@react-google-maps/api"
 import { Libraries } from "@react-google-maps/api/dist/utils/make-load-script-url";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
+import { listPointProps, mapProps } from "../../types";
 import mapstyle from "./mapstyle";
 
 const libraries: Libraries = ["places"];
@@ -15,13 +16,30 @@ const options = {
   disableDefaultUI: true,
   zoomControl: true,
 }
-type LatLong = {
-  lat: string,
-  long: string
-}
-export default function MapActivity(latlong: LatLong) {
-  let lat = parseFloat(latlong.lat);
-  let lng = parseFloat(latlong.long);
+
+export default function MapActivity(mapProps: mapProps) {
+  let points = [];
+  const [response, setResponse] = useState(null);
+  if(mapProps.waypoints.length > 0){
+    console.log('waypoints',mapProps.waypoints);
+
+     for(var i= 0; i < mapProps.waypoints.length; i+=2 ){
+       console.log(mapProps.waypoints[i])
+      points.push(
+        {
+          location: { 
+            lat: parseFloat(mapProps.waypoints[i]),
+            lng: parseFloat(mapProps.waypoints[i+1]),
+          }
+        }
+      )
+    }
+    console.log('points',points)
+
+  }
+  
+  let lat = parseFloat(mapProps.lat);
+  let lng = parseFloat(mapProps.long);
   const center = {
     lat: lat,
     lng: lng
@@ -32,6 +50,21 @@ export default function MapActivity(latlong: LatLong) {
     libraries,
   });
 
+
+  const directionsCallback = (response) => {
+    
+
+    if (response !== null) {
+      if (response.status === "OK") {
+       
+        setResponse(response)
+        
+      } else {
+        console.log("response: ", response);
+      }
+    }
+  };
+
   const mapRef = useRef(null);
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
@@ -41,7 +74,51 @@ export default function MapActivity(latlong: LatLong) {
   if (!isLoaded) return <div>Loading...</div>
   return (
     <div>
-      <GoogleMap mapContainerStyle={mapContainerStyle}
+      {
+        mapProps.waypoints.length > 0 ? <GoogleMap mapContainerStyle={mapContainerStyle}
+        zoom={9}
+        center={center}
+        options={options}
+        onLoad={onMapLoad}
+      >
+{
+              points.length === 0  ? <></> :(
+                <DirectionsService
+                  // required
+                  options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+                    origin: points[0],
+                    destination: points[points.length-1],
+                    travelMode: 'WALKING',
+                    waypoints: points,
+                  }}
+                  // required
+                  callback={directionsCallback}
+                  // optional
+                 
+                  // optional
+                 
+                />
+              )
+            }
+
+            {
+                response === null  ? <></> : (
+                <DirectionsRenderer
+                  // required
+                  options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+                    directions: response,
+                  }}
+                  // optional
+            
+                />
+              )
+            }
+
+
+
+
+      </GoogleMap> :
+        <GoogleMap mapContainerStyle={mapContainerStyle}
         zoom={16}
         center={center}
         options={options}
@@ -49,6 +126,9 @@ export default function MapActivity(latlong: LatLong) {
       >
         <Marker position={{ lat: lat, lng: lng }} />
       </GoogleMap>
+
+      }
+      
 
     </div>
   )

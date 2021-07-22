@@ -46,7 +46,7 @@ export default function MapView() {
       {location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}
     ]
     )
-    console.log(points)
+    console.log('points',points)
   
     if(points.length == npoints){
       setPoints([

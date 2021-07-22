@@ -65,3 +65,18 @@ export type activitytodoProps = {
 }
 
 export type listAtivitiesTodoProps = activitytodoProps[];
+
+export type mapProps = {
+  lat: string,
+  long: string
+  waypoints: string[],
+}
+
+
+export type pointProps = {
+  location: { 
+    lat: number,
+    lng: number,
+  }
+}
+export type listPointProps = pointProps[];
