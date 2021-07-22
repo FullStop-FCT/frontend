@@ -89,7 +89,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     ).then(function (response) {
 
       if (response.data) {
-        console.log(response)
+        console.log('response',response)
         Cookie.set('token', JSON.stringify(response.data),{ expires: 1 });
        
         //add date-fns
@@ -97,7 +97,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         //console.log(response.data.username)
         setAuthenticated(true);
         var decoded: token = jwt_decode(response.data);
-        console.log(decoded.iss)
+        //console.log(decoded.iss)
         router.push(`/${decoded.iss}`);
       }
     })
