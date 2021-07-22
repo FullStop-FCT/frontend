@@ -8,18 +8,19 @@ import EmailConfirmation from "../../Components/EmailConfirmation";
 
 export default function token(){
   
-  const router = useRouter();
-  let token = window.location.pathname.replace('/', '')
-  let path_values: String[] = token.split("/");
   const[active,setActive] = useState<number>(null);
+  const router = useRouter();
+  let path = window.location.pathname.replace('/', '')
+  let path_values: string[] = path.split("/");
   let jwt = path_values[1];
-
+  console.log(jwt)
   useEffect( () => {
     const funct = async () => {
-      let decodetoken: Token = jwt_decode(token);
+      let decodetoken: Token = jwt_decode(jwt);
+      console.log(decodetoken)
       let config = {
         headers: {
-          'Authorization': 'Bearer ' + token,
+          'Authorization': 'Bearer ' + jwt,
           'Content-Type': 'application/json'
         }
       }
