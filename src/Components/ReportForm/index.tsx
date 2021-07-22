@@ -3,6 +3,10 @@ import { TextField, Button } from "@material-ui/core";
 import * as Yup from 'Yup';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
+import { api } from '../../../services/api';
+import jwt_decode from "jwt-decode";
+import { Token, userProps } from '../../types';
+import Cookies from 'js-cookie';
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
     const [field, meta] = useField<{}>(props);
@@ -29,7 +33,20 @@ reason: Yup.string()
 description: Yup.string()
 });
 
-export default function ReportForm() {
+export default function ReportForm(props) {
+
+    const router = useRouter();
+
+    async function fetcher(path: string): Promise<userProps> {
+        const token: Token = Cookies.getJSON('token')
+        let config = {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type' : 'application/json'
+          }
+        }
+        return await api.post(path, props.accused, config).then(response => response.data);
+    }
     
     return (
         <div className={styles.container}>
@@ -37,7 +54,9 @@ export default function ReportForm() {
             <h1>Denúncia</h1>
             <Formik initialValues={{
                 reason: '',
-                description: ''
+                description: '',
+                accused: props.accused,
+                accuser: props.accuser
             }}
                 validationSchema={validationSchema}
     
@@ -45,11 +64,16 @@ export default function ReportForm() {
     
                 setSubmitting(true);
 
-                //add function
-
-                //useRouter para o perfil
+                fetch('/api/report', {
+                    method: 'post',
+                    body: JSON.stringify(values)
+                  });
+                
+                router.push(`/${props.accused}`);
     
                 setSubmitting(false);
+
+                fetcher('/users/report');
                 }}>
     
     

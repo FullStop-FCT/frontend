@@ -2,7 +2,8 @@ import styles from "./styles.module.scss";
 import React, { useState } from 'react';
 import * as Yup from 'Yup';
 import { TextField, Button } from "@material-ui/core";
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { useRouter } from 'next/router';
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -40,6 +41,7 @@ const validationSchema = Yup.object({
 export default function Contato() {
 
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleSubmit(e: { preventDefault: () => void; currentTarget: { elements: Iterable<unknown> | ArrayLike<unknown>; }; }) {
     //prevents the form from submitting to the browser
@@ -76,7 +78,7 @@ export default function Contato() {
             setLoading(true);
             setSubmitting(true);
 
-            fetch('/api/mail', {
+            fetch('/api/contact', {
               method: 'post',
               body: JSON.stringify(values)
             });
@@ -85,6 +87,7 @@ export default function Contato() {
             setSubmitting(false);
             setLoading(false)
             resetForm();
+            router.push('/');
           }}>
 
           {({ isSubmitting }) => (

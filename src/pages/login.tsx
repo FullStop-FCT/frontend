@@ -82,8 +82,6 @@ export default function Login() {
 
                   await handleLogin(values);
 
-                  console.log(error);
-
                   if(error == 'email')
                     setEmailError(true);
 

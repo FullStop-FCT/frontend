@@ -89,7 +89,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     ).then(function (response) {
 
       if (response.data) {
-        console.log('response',response)
         Cookie.set('token', JSON.stringify(response.data),{ expires: 1 });
        
         //add date-fns

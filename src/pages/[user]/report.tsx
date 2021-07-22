@@ -6,7 +6,11 @@ import jwt_decode from "jwt-decode";
 import Cookies from 'js-cookie';
 import styles from '../styles/createactivity.module.scss'
 
-export default function Report() {
+
+export default function Report(props) {
+
+    let path = window.location.pathname.split('/');
+    let username = path[path.length-2];
 
     let token: Token = null;
     
@@ -26,7 +30,7 @@ export default function Report() {
             </div>
                 
             <div className={styles.activityContainer}>
-                <ReportForm />
+                <ReportForm accused={username} accuser={token.iss}/>
             </div>
         </div>
     )
