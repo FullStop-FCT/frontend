@@ -35,6 +35,11 @@ export default function Activity() {
         return await api.get(path,config).then(response => response.data)
     }
 
+    async function fetchUserJoined(path: string): Promise<string[]> {
+
+        return await api.get(path, config).then(response =>(response.data))
+    }
+
     const token = Cookies.getJSON('token');
     const decodedtoken: Token = jwt_decode(token);
     const config = {
@@ -44,6 +49,9 @@ export default function Activity() {
         }
       }
     let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetchActivity);
+    let{ data: userjoined, error: error3} = useSWR(
+        `activities/listJoinedUsers/${activityID}`, fetchUserJoined
+    )
     let { data: user, error: error2 } = useSWR(`users/get/${activityOwner}`, fetchUser);
 
     useEffect(() => {
@@ -64,9 +72,10 @@ export default function Activity() {
         }
     }
 
-    if (!activity || !user) return <Loading />
-    if (error1 || error2) { return <SessionOf /> }
+    if (!activity || !user || !userjoined) return <Loading />
+    if (error1 || error2 || error3) { return <SessionOf /> }
 
+    console.log(userjoined)
     const myLoader = () => {
         return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
@@ -104,10 +113,19 @@ export default function Activity() {
                         <p> <a className={styles.bold}>{"Local: "}</a>  {activity.location}</p>
                         <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
                         <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
+                        
                         <div className={styles.description}>
                             <p className={styles.desc}> <a className={styles.bold}>{"Descrição: "}</a>{activity.description}</p>
 
                         </div>
+                        <div >
+                            {
+                               userjoined.map((user) => <a>{user}</a>
+                               )
+                            }
+
+                        </div>
+                        
                     </div>
                     <div className={styles.map}>
                         <MapActivity {...props} />
