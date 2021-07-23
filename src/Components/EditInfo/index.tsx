@@ -18,7 +18,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import { format } from 'date-fns'
 import Image from 'next/image'
 import { Token, userProps } from '../../types';
-
+import jwt_decode from 'jwt-decode'
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
@@ -101,7 +101,8 @@ export default function EditInfo(user: userProps) {
     setOpenProfile(true);
   };
   const classes = useStyles();
-  const token: Token = JSON.parse(Cookies.get('token'));
+  const token = JSON.parse(Cookies.get('token'));
+  const decodedtoken: Token = jwt_decode(token);
   const myLoader = () => {
     return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
   }
@@ -186,7 +187,7 @@ export default function EditInfo(user: userProps) {
                     console.log(error);
                   })*/
 
-                values.image = token.iss + Date.now() + '.jpg';
+                values.image = decodedtoken.iss + Date.now() + '.jpg';
                 await storageProfilePic.post(values.image, fd)
                   .then(function (response) {
                     console.log(response)
@@ -202,10 +203,9 @@ export default function EditInfo(user: userProps) {
                   'Authorization': 'Bearer ' + token,
                   'Content-Type': 'application/json' },
 
-                data: request
                   
               }
-              await api.patch('users/update',config)
+              await api.patch('users/update',request,config)
                 .then(function (response) {
                   // setSubAtivity(!subAtivity)
                   console.log(response.data)
@@ -223,7 +223,7 @@ export default function EditInfo(user: userProps) {
 
 
             setSubmitting(false);
-            router.push(`/${token.iss}`)
+            router.push(`/${decodedtoken.iss}`)
           }}>
 
 
@@ -249,9 +249,9 @@ export default function EditInfo(user: userProps) {
                 </Select>
               </FormControl>
 
-              <MyTextField placeholder="phoneNumber" name="phoneNumber" type="input" as={TextField} />
-              <MyTextField placeholder="mobileNumber" name="mobileNumber" type="input" as={TextField} />
-              <MyTextField placeholder="location" name="location" type="input" as={TextField} />
+              <MyTextField placeholder="número telemóvel" name="phoneNumber" type="input" as={TextField} />
+              <MyTextField placeholder="número telefone" name="mobileNumber" type="input" as={TextField} />
+              <MyTextField placeholder="localização" name="location" type="input" as={TextField} />
               <TextField
                 id="date"
                 label="Data nascimento"

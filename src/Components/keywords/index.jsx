@@ -14,9 +14,9 @@ const TagsInput = props => {
   };
   const addTags = event => {
     if (event.target.value !== "" && [...tags, event.target.value].length <= 5) {
-      setTags([...tags, event.target.value]);
-      setKeywords([...tags, event.target.value])
-      props.selectedTags([...tags, event.target.value]);
+      setTags([...tags, event.target.value.toLowerCase()]);
+      setKeywords([...tags, event.target.value.toLowerCase()])
+      props.selectedTags([...tags, event.target.value.toLowerCase()]);
       event.target.value = "";
       //  console.log(tag.lenght())
     }

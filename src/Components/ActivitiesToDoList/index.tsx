@@ -16,7 +16,7 @@ async function fetcher(path: string) {
       'Authorization': 'Bearer ' + token
     }
   }
-  return await api.get(path, config).then(response => response.data);
+  return await api.get(path,config).then(response => response.data);
 }
 const token: Token = Cookies.getJSON('token')
 export default function ActivitiesToDoList() {
