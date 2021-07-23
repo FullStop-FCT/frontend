@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { api } from "../../services/api";
 import jwt_decode from "jwt-decode";

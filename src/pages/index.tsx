@@ -4,9 +4,6 @@ import Head from "next/head";
 import Contato from '../Components/Contato';
 import Footer from '../Components/Footer';
 import Sobre from '../Components/Sobre';
-import Cookie from 'js-cookie'
-import Link from 'next/link';
-import { useEffect } from "react";
 export default function Home() {
 
 

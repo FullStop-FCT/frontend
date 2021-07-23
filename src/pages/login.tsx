@@ -53,6 +53,7 @@ export default function Login() {
   const { authenticated, handleLogin, error } = useContext(AuthContext);
 
   const[emailError, setEmailError] = useState(false);
+  const[inputError, setInputError] = useState(false);
 
   return (
     <div>
@@ -72,7 +73,6 @@ export default function Login() {
                 <Formik initialValues={{
                   username: '',
                   password: ''
-
                 }}
                   validationSchema={validationSchema}
 
@@ -80,17 +80,30 @@ export default function Login() {
 
                   setSubmitting(true);
 
-                  await handleLogin(values);
-
                   if(error == 'email')
                     setEmailError(true);
 
-                  setSubmitting(false);
+                  else if(error == 'inputerror')
+                    setInputError(true);
+
+                  else {
+                    handleLogin(values);
+                    setSubmitting(false);
+                  }
                   }}>
 
 
                 {({ isSubmitting }) => (
                   <Form className={styles.form}  >
+
+                    {inputError?
+
+                      <a className={styles.erro}>Por favor verifique se os dados que inseriu estão corretos.</a>
+
+                      :
+
+                      null
+                  }
 
                     <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
                     <br />

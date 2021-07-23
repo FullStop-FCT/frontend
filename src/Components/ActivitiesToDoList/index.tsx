@@ -6,10 +6,6 @@ import ActivityToDo from '../Activitytodo'
 
 
 
-
-
-
-
 async function fetcher(path: string) {
   let config = {
     headers: {

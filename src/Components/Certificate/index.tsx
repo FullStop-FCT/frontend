@@ -1,5 +1,6 @@
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
-import { Font } from '@react-pdf/renderer'
+import { Font } from '@react-pdf/renderer';
+
 
 Font.register({
     family: 'Oswald',
@@ -55,7 +56,7 @@ const styles = StyleSheet.create({
   });
       
 
-export default function Certificate() {
+export default function Certificate(props) {
 
     return(
         <Document>
