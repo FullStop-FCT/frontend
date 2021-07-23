@@ -19,7 +19,6 @@ const validationSchema = Yup.object({
   email: Yup.string()
     .email("Por favor insira um email válido.")
     .required("Obrigatório"),
-
   password: Yup.string()
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
       "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
@@ -33,7 +32,6 @@ const validationSchema = Yup.object({
 export default function Register() {
   
   const [messageDisplay, setMessageDisplay] = useState(false);
-  const [buttonDisplay, setButtonDisplay] = useState(false);
   const [isUserNameValid, setIsUserNameValid] = useState(true);
   const[isEmailValid, setIsEmailValid] = useState(true);
   const[values, setValues] = useState(null);
@@ -48,15 +46,6 @@ export default function Register() {
   
         }} />
     )
-  }
-
-  async function sendRequest() {
-    setButtonDisplay(true);
-
-    return await api.post('users/insert', values)
-                    .catch(function (error) {
-                      console.log(error);
-                    });
   }
 
   return (
@@ -82,23 +71,8 @@ export default function Register() {
 
             onSubmit={async (values, { setSubmitting }) => {
 
-
-
               await api.post('users/insert', values
               ).then(function (response) {
-                console.log(response.data);
-              })
-                .catch(function (error) {
-
-                  if (error.response.data == 'username') {
-                    setIsUserNameValid(false);
-                    console.log("entrou");
-                  }
-                  
-                  else if (error.response.data == 'email')
-                    setIsEmailValid(false);
-                  
-                  else {
                     setSubmitting(true);
     
                     setMessageDisplay(true);
@@ -106,7 +80,16 @@ export default function Register() {
                     setValues(values);
     
                     setSubmitting(false);
-                  }
+                console.log(response.data);
+              })
+                .catch(function (error) {
+
+                  if (error.response.data == 'username') 
+                    setIsUserNameValid(false);
+                  
+                  else if (error.response.data == 'email')
+                    setIsEmailValid(false);
+                  
                 });
             }}>
 
@@ -156,19 +139,8 @@ export default function Register() {
 
         <div className={styles.register}>
           <p className={styles.register_org}>Irá receber um email de confirmação para poder iniciar sessão e começar a voluntariar-se.</p>
-          <p className={styles.register_org}>Se não encontrar o email, procure na sua paste de spam ou peça para enviar outro email.</p>
+          <p className={styles.register_org}>Se não encontrar o email, procure na sua paste de spam ou tente-se registar novamente.</p>
           <p className={styles.register_org}>Se o problema persistir, por favor contate a nossa equipa.</p>
-          
-          {!buttonDisplay ?
-
-            <button onClick={sendRequest}>Enviar outro email</button>
-
-          :
-            <>
-            <br/>
-            <a className={styles.button_feedback}> Email enviado. </a>
-            </>
-          }
         </div>
       }
       <Footer />

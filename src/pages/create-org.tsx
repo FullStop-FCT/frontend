@@ -24,10 +24,14 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ placeholder, type, ...prop
 }
 
 const validationSchema = Yup.object({
-  username: Yup.string()
-    .matches(/^(\S+$)/, "Não pode conter espaços")
-    .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
-    .max(15, "O nome da conta deve ter entre 5 a 15 caráteres.")
+    username: Yup.string()
+        .matches(/^(\S+$)/, "Não pode conter espaços")
+        .min(5, "O nome da conta deve ter entre 5 a 15 caráteres.")
+        .max(15, "O nome da conta deve ter entre 5 a 15 caráteres."),
+    password: Yup.string()
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})/,
+            "Deve conter no mínimo 8 caráteres com pelo menos 1 minúscula, 1 maiúscula e 1 dígito")
+        .required("Obrigatório"),
 });
 
 
@@ -36,9 +40,7 @@ export default function Register() {
 
     const token: Token = jwt_decode(Cookies.getJSON('token'))
 
-    let role = token.role;
-
-    if (role == 'USER')
+    if (token.role == 'USER')
         return (<div><UnauthorizedAcess/></div>)
 
     else {
@@ -66,23 +68,25 @@ export default function Register() {
                     }}
                     validationSchema={validationSchema}
 
-                    onSubmit={async (values, { setSubmitting }) => {
+                    onSubmit={async (values, { setSubmitting, resetForm }) => {
 
                         setSubmitting(true);
 
                         values.confirmation = values.password;
+
+                        console.log(values);
 
                         await api.post('users/insert', values
                             ).then(function (response) {
                             console.log(JSON.stringify(response.data));
                             })
                             .catch(function (error) {
-                                console.log(error);
+                                console.log(error.response.data);
                             });
 
                         setSubmitting(false);
 
-                        router.push("/organizations");
+                        resetForm();
                     }}>
 
                     {({ isSubmitting }) => (

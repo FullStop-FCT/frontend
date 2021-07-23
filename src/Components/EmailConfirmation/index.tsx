@@ -7,8 +7,8 @@ import Link from 'next/link';
 
 export default function Confirmacao(props) {
 
-  const res = props.response.status;
-  const message = props.response.data;
+  const res = props.status;
+  const message = props.message;
 
   return (
     <div>
