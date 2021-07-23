@@ -23,7 +23,7 @@ export const atividades : Activities[] =[
 
   },
   {
-    title: 'Atividades Atividades Feitas',
+    title: 'Atividades Feitas',
     number: 3,
     url: '/',
     cName: 'af'

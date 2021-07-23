@@ -82,7 +82,7 @@ export default function Home() {
       }
       console.log(response.data.results)
       setListativities((current) => 
-        current.concat(response.data.results.reverse())   
+        current.concat(response.data.results)   
     )
     setCursor(response.data.cursorString)
       console.log(cursor);});

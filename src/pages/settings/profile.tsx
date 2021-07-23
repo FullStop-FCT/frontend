@@ -13,7 +13,11 @@ import SessionOf from '../../Components/SessionOf'
 import EditInfo from '../../Components/EditInfo'
 import Image from 'next/image'
 import { Token, userProps } from '../../types';
-
+import { GoLocation } from 'react-icons/go'
+import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
+import jwt_decode from 'jwt-decode'
+import Link from 'next/link';
+import de from 'date-fns/esm/locale/de/index';
 
 async function fetcher(path: string): Promise<userProps> {
 
@@ -47,9 +51,8 @@ export default function User() {
     }
   }
 
-
-
-  const token: Token = Cookies.getJSON('token')
+  const token = Cookies.getJSON('token')
+  const decodedtoken: Token = jwt_decode(token)
   const { data, error } = useSWR(`users/user/`, fetcher);
 
   let user: userProps = data;
@@ -60,8 +63,6 @@ export default function User() {
   const myLoader = () => {
     return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
   }
-
-
 
   return (
 
@@ -91,25 +92,22 @@ export default function User() {
           <div className={styles.userinfo}>
             <h2>{user.name}</h2>
             <p><span>@{user.username}</span></p><br />
-            <button>Edit info</button>
-
-
+            <p><GoLocation /> {user.location}</p>
+                        <p><AiOutlineMail /> {user.email}</p>
+                        <p><AiOutlinePhone /> {user.phoneNumber}</p>
+                       <a >Seguindo: {user.followings}</a>
+                        <a> Seguidores: {user.followers}</a>
+                        <br />
+                        <br />
+           
           </div>
 
           <div>
             <hr className={styles.line} />
-            <div className={styles.atividades}>
-              {atividades.map((item, index) => {
-                return (
-                  <button key={index} onClick={() => change(item.number)}>
-                    <span >{item.title}</span>
-                  </button>
-                )
-              })}
-            </div>
+           
 
             <div className={styles.currentpage}>
-              <h1>{page}</h1>
+              
             </div>
             <div></div>
           </div>
@@ -118,8 +116,8 @@ export default function User() {
         <div className={styles.other}></div>
       </div>
       <div className={styles.settingsTitle}>
-        <h1 >Edit user</h1>
-        <button onClick={() => router.push(`/${token.iss}`)}><p>&#10006;</p></button>
+        <h1 >Editar</h1>
+        <button onClick={() => router.push(`/${decodedtoken.iss}`)}><p>&#10006;</p></button>
       </div>
       <div className={styles.settings}>
         <EditInfo {...user} />

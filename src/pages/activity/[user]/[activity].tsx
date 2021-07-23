@@ -122,6 +122,12 @@ export default function Activity() {
                     </div>
                 </div>
             </div>
+            <div className={styles.textarea}>
+                        <div>
+                            <input type="textarea" placeholder=""/>
+                        </div>
+            </div>
+
         </div>
     )
 }
