@@ -6,6 +6,7 @@ import NavBar from '../Components/NavBar';
 import Footer from '../Components/Footer';
 import * as Yup from 'Yup';
 import { useState } from 'react';
+import { api } from "../../services/api";
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
   const [field, meta] = useField<{}>(props);
@@ -20,22 +21,33 @@ const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...prop
 }
 
 const validationSchema = Yup.object({
-  email: Yup.string()
-  .email("Por favor insira um email válido.")
-  .required("Obrigatório")
+  username: Yup.string().required("Obrigatório")
 });
 
-const sendEmail = (values) => {
 
-  //TODO
-  //GET USER AND GENERATE TOKEN
-  //SEND EMAIL
-
-}
 
 export default function Password() {
 
+  const [email, setEmail] = useState("");
   const [messageDisplay, setShow] = useState(false);
+  const string = "";
+
+  async function sendEmail(username) {
+
+    const config = {
+      headers: { 
+      'Content-Type': 'application/json'  
+      }
+    };
+
+    return await api.post('users/resetpwd', username, config)
+                    .then( function (response) {
+                      setEmail(response.data);
+                      setShow(true);
+                    })
+                    
+                    .catch(error => console.log(error));
+  }
 
     return (
 
@@ -51,10 +63,10 @@ export default function Password() {
 
             <div className={styles.register}>
 
-              <h1 style={{fontSize: "2.5rem"}}>Insira o seu email</h1>
+              <h1 style={{fontSize: "2.5rem"}}>Insira o seu nome de utilizador</h1>
 
               <Formik initialValues={{
-                email: '',
+                username: '',
               }}
                 validationSchema={validationSchema}
 
@@ -62,16 +74,15 @@ export default function Password() {
 
                   setSubmitting(true);
 
-                  sendEmail(values);
-
-                  setShow(true);
+                  sendEmail(values.username);
+                  
                   setSubmitting(false);
                 }}>
 
 
                 {({ isSubmitting }) => (
                   <Form className={styles.form}  >
-                    <MyTextField className={styles.input} placeholder="Username" name="" type="input" as={TextField} />
+                    <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
                     <br />
 
                     <div>
@@ -87,7 +98,7 @@ export default function Password() {
             :
 
             <div className={styles.register}>
-              <a>Se existir um utilizador registado com este email, receberá um link para alterar a sua password.</a>
+              <a>Foi enviado um email para {email}.</a>
             </div>
           }
 

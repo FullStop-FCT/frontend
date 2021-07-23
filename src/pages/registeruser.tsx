@@ -82,31 +82,32 @@ export default function Register() {
 
             onSubmit={async (values, { setSubmitting }) => {
 
-              let error = '';
+
 
               await api.post('users/insert', values
               ).then(function (response) {
-                console.log(JSON.stringify(response.data));
+                console.log(response.data);
               })
                 .catch(function (error) {
-                  error = error.response.data;
+
+                  if (error.response.data == 'username') {
+                    setIsUserNameValid(false);
+                    console.log("entrou");
+                  }
+                  
+                  else if (error.response.data == 'email')
+                    setIsEmailValid(false);
+                  
+                  else {
+                    setSubmitting(true);
+    
+                    setMessageDisplay(true);
+    
+                    setValues(values);
+    
+                    setSubmitting(false);
+                  }
                 });
-
-              if (error == 'username') 
-                setIsUserNameValid(false);
-              
-              else if (error == 'email')
-                setIsEmailValid(false);
-              
-              else {
-                setSubmitting(true);
-
-                setMessageDisplay(true);
-
-                setValues(values);
-
-                setSubmitting(false);
-              }
             }}>
 
             {({ isSubmitting }) => (

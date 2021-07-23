@@ -55,14 +55,13 @@ export default function Register() {
                 <div className={styles.register}>
                     <h1>Organização</h1>
                     <Formik initialValues={{
-                        name: '',
                         username: '',
-                        password: '',
+                        name: '',
                         email: '',
+                        password: '',
+                        confirmation: '',
                         phoneNumber: '',
-                        address: '',
                         location: '',
-                        postalCode: '',
                         org: true
                     }}
                     validationSchema={validationSchema}
@@ -70,6 +69,8 @@ export default function Register() {
                     onSubmit={async (values, { setSubmitting }) => {
 
                         setSubmitting(true);
+
+                        values.confirmation = values.password;
 
                         await api.post('users/insert', values
                             ).then(function (response) {
@@ -81,7 +82,7 @@ export default function Register() {
 
                         setSubmitting(false);
 
-                        router.push("/organizations")
+                        router.push("/organizations");
                     }}>
 
                     {({ isSubmitting }) => (
@@ -96,11 +97,7 @@ export default function Register() {
                         <br/>
                         <MyTextField placeholder="Telefone" name="phoneNumber" type="input" as={TextField} />
                         <br/>
-                        <MyTextField placeholder="Rua" name="address" type="input" as={TextField} />
-                        <br/>
                         <MyTextField placeholder="Localização" name="location" type="input" as={TextField} />
-                        <br/>
-                        <MyTextField placeholder="Código-Postal" name="postalCode" type="input" as={TextField} />
 
                         <div>
                             <Button disabled={isSubmitting} type="submit">Registar</Button>

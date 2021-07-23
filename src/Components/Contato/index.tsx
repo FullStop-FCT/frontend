@@ -59,7 +59,7 @@ export default function Contato() {
     <div className={styles.Container}>
       <div className={styles.contato}>
         <h1>Contato</h1>
-        <p>fullstophh@gmail.com</p>
+        <p>hxp@fullstop.website</p>
       </div>
 
       <div className={styles.feedback} >

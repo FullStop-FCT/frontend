@@ -171,10 +171,9 @@ export default function Activities() {
             const config = {
               headers: { 
               'Authorization': 'Bearer ' + token ,
-              'Content-Type': 'application/json' }
-            
-              
+              'Content-Type': 'application/json' }  
             };
+            
             console.log(request)
             console.log(authenticated)
             if (values.location !== "") {
