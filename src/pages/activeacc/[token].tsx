@@ -8,12 +8,14 @@ import EmailConfirmation from "../../Components/EmailConfirmation";
 
 export default function token(){
   
-  const[active,setActive] = useState<number>(null);
-  const router = useRouter();
+  const[status, setStatus] = useState<number>(null);
+  const[resMessage, setMessage] = useState<string>("");
+
   let path = window.location.pathname.replace('/', '')
   let path_values: string[] = path.split("/");
   let jwt = path_values[1];
   console.log(jwt)
+
   useEffect( () => {
     const funct = async () => {
       let decodetoken: Token = jwt_decode(jwt);
@@ -26,17 +28,19 @@ export default function token(){
       }
       console.log(token)
        await api.post('users/confirmSignup',decodetoken.iss,config)
-                .then(response => setActive(response.status))
-                .catch(error => setActive(error.response))
+                .then( function (response) {
+                  setStatus(response.status);
+                  console.log(response);
+                })
+                .catch( function (error) {
+                  setMessage(error.response.data);
+                  console.log(error.response.data);
+                })
   
     }
     funct()
    
   },[])
 
-  if(active === null) 
-    return ( <Loading /> );
-
-  else
-    return ( <EmailConfirmation response={active}/> );
+  return ( <EmailConfirmation response={status} message={resMessage}/> );
   }

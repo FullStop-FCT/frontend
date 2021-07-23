@@ -45,10 +45,11 @@ export default function Password() {
     let token = window.location.pathname.replace('/', '')
     let path_values: String[] = token.split("/");
     let jwt = path_values[1];
+    console.log(jwt);
   
     const config = {
       headers: {
-        'Authorization': 'Bearer ' + token,
+        'Authorization': 'Bearer ' + jwt,
         'Content-Type': 'application/json'
       }
     }
