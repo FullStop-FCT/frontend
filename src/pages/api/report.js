@@ -6,16 +6,16 @@ export default (req, res) => {
     const body = JSON.parse(req.body);
 
     const message = `
-        Nome: ${body.nome}\r\n
-        Email: ${body.email}\r\n
-        Assunto: ${body.assunto}\r\n
-        Mensagem: ${body.mensagem}
+        Submetida por: ${body.accuser}\r\n
+        Alvo: ${body.accused}\r\n
+        Razão: ${body.reason}\r\n
+        Mensagem: ${body.description}
         `;
 
     const data = {
         to: 'fullstophh@gmail.com',
-        from: 'HelpinHand@fullstop.website',
-        subject: `HelpinHand ${body.email}`,
+        from: 'Denuncias@fullstop.website',
+        subject: `Denúncia { ${body.accuser} -> ${body.accused} }`,
         text: message,
         html: message.replace(/\r\n/g, '<br>')
     };

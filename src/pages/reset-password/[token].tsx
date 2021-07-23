@@ -46,7 +46,6 @@ export default function Password() {
     let path_values: String[] = token.split("/");
     let jwt = path_values[1];
   
-    const decodetoken: Token = jwt_decode(token);
     const config = {
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -54,7 +53,7 @@ export default function Password() {
       }
     }
   
-    return await api.post('/users/changepwd', decodetoken.iss, config)
+    return await api.post('/users/changepwd', values, config)
               .then(response => setActive(response.status))
               .catch(error => setActive(error.response.status))
   }
@@ -64,7 +63,7 @@ export default function Password() {
         <div>
 
           <Head>
-            <title>Password</title>
+            <title>Alterar Password</title>
           </Head>
 
           <NavBar />

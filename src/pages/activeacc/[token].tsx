@@ -27,7 +27,7 @@ export default function token(){
       console.log(token)
        await api.post('users/confirmSignup',decodetoken.iss,config)
                 .then(response => setActive(response.status))
-                .catch(error => setActive(error.response.status))
+                .catch(error => setActive(error.response))
   
     }
     funct()

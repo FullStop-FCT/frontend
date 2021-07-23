@@ -76,7 +76,7 @@ export default function Organizations(orgs: userProps) {
                 </div>
             </div>
 
-            <h2 className={styles.org_name}>{orgs.username}</h2>
+            <h2 className={styles.org_name}>{orgs.name}</h2>
 
             <div className={styles.info}>
                 <a className={styles.info_text}><BsFillPersonFill className={styles.icon}/>{orgs.followers}</a> 

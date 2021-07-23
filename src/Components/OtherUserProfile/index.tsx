@@ -11,11 +11,6 @@ import useSWR from 'swr'
 import SessionOf from '../../Components/SessionOf'
 import Image from 'next/image'
 import Loading from '../../Components/Loading'
-import ActivitiesToDoList from '../../Components/ActivitiesToDoList';
-import OwnActivitiesList from '../../Components/OwnActivitiesList';
-import { GoLocation } from 'react-icons/go'
-import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
-import Link from 'next/link';
 import jwt_decode from "jwt-decode"
 import { Token, userProps } from '../../types';
 
@@ -29,9 +24,6 @@ async function fetcher(path: string): Promise<userProps> {
     }
     return await api.get(path,config).then(response => response.data);
 }
-
-
-
 
 export default function Profile() {
 
