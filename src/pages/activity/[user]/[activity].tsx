@@ -13,31 +13,28 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { Token,AtivitiesProps,userProps } from '../../../types'
 import jwt_decode from 'jwt-decode'
-
-
-
+import {BiPhotoAlbum} from 'react-icons/bi'
 export default function Activity() {
-
     let path = window.location.pathname.replace('/', '');
     let path_values: String[] = path.split("/");
     let activityOwner = path_values[1];
     let activityID = path_values[2];
-
+    const [userjoined, setUserjoined] = useState([]);
     const [isParticipating, setParticipation] = useState(false);
-
-    async function fetchActivity(path: string): Promise<AtivitiesProps> {
+    const [activity, setActivity] = useState<AtivitiesProps>(null);
+    async function fetchActivity(path: string) {
  
-        return await api.get(path, config).then(response => response.data)
+        await api.get(path, config).then(response => setActivity(response.data))
     }
 
     async function fetchUser(path: string): Promise<userProps> {
         
-        return await api.get(path,config).then(response => response.data)
+        return await api.get(path,config).then(response => response.data);
     }
 
-    async function fetchUserJoined(path: string): Promise<string[]> {
+    async function fetchUserJoined(path: string) {
 
-        return await api.get(path, config).then(response =>(response.data))
+         await api.get(path, config).then(response =>(setUserjoined(response.data)))
     }
 
     const token = Cookies.getJSON('token');
@@ -48,15 +45,20 @@ export default function Activity() {
           'Content-Type': 'application/json'
         }
       }
-    let { data: activity, error: error1 } = useSWR(`activities/get/${activityID}/${activityOwner}`, fetchActivity);
-    let{ data: userjoined, error: error3} = useSWR(
-        `activities/listJoinedUsers/${activityID}`, fetchUserJoined
-    )
+    
+    
     let { data: user, error: error2 } = useSWR(`users/get/${activityOwner}`, fetchUser);
 
     useEffect(() => {
-        api.get(`activities/isjoined/${activityID}`, config).then(response => setParticipation(response.data))
-    }, [])
+        async function fetch(){
+            await api.get(`activities/isjoined/${activityID}`, config).then(response => setParticipation(response.data))
+        }
+
+        fetchActivity(`activities/get/${activityID}/${activityOwner}`)
+        fetch();
+        fetchUserJoined(`activities/listJoinedUsers/${activityID}`);
+        
+    }, [isParticipating])
 
     async function handleClick() {
         
@@ -72,8 +74,8 @@ export default function Activity() {
         }
     }
 
-    if (!activity || !user || !userjoined) return <Loading />
-    if (error1 || error2 || error3) { return <SessionOf /> }
+    if ( !user || !activity) return <Loading />
+    if ( error2 ) { return <SessionOf /> }
 
     console.log(userjoined)
     const myLoader = () => {
@@ -88,11 +90,13 @@ export default function Activity() {
     }
 
     return (
-        <div className={styles.container}>
-
+        <div className={styles.main}>
             <div className={styles.header}>
                 <Header />
             </div>
+        <div className={styles.container}>
+
+            
 
             <div className={styles.organizer}>
 
@@ -119,8 +123,15 @@ export default function Activity() {
 
                         </div>
                         <div >
+                            
+                        <a className={styles.voluntariados}>             {"Voluntariados: "}</a><br/>
                             {
-                               userjoined.map((user) => <a>{user}</a>
+                               userjoined.map((user,index) =>
+                               <div key={index} >
+                               <li className={styles.username}>
+                               <a  href={`/${user}`}>{user}</a><br/>
+                               </li>
+                                 </div>
                                )
                             }
 
@@ -139,13 +150,25 @@ export default function Activity() {
 
                     </div>
                 </div>
+               
             </div>
-            <div className={styles.textarea}>
-                        <div>
-                            <input type="textarea" placeholder=""/>
+            
+            <div className={styles.areacomentarios}>
+                     
+                            <textarea  placeholder="escreva um comentário" className={styles.textarea}/>
+                        <div className={styles.addphoto}>
+                        <label>
+                            select
+                            <BiPhotoAlbum/>
+                        </label>
+                        <input accept="image/*" className={styles.photo}  type="file"  />
+                        
                         </div>
+                        <button>Enviar</button>
             </div>
-
+        </div>
+        
+       
         </div>
     )
 }

@@ -1,92 +1,149 @@
-.container {
+.main {
   display: flex;
   flex-direction: row;
-  height: 100%;
-
+  align-items: center;
+  justify-content: space-between;
   .header {
     background: var(--bluehh);
     width: 20%;
     height: 100%;
     border-right: 2px solid rgb(192, 189, 189);
   }
-
-  .organizer {
-    margin: auto;
-    background-color: #ccd6eb;
-    border-radius: 15px 15px 15px 15px;
-    box-shadow: black;
-    height: 400px;
-    width: 60%;
-    overflow-y: scroll;
+  .container {
     display: flex;
     flex-direction: column;
+    height: 100%;
 
-    .detailmap {
+    align-items: center;
+    margin: 0 auto;
+    .organizer {
+      margin: auto;
+      margin-top: 50px;
+      margin-bottom: 50px;
+      background-color: #ccd6eb;
+      border-radius: 15px 15px 15px 15px;
+      box-shadow: black;
+      height: 700px;
+      width: 1000px;
+      overflow-y: scroll;
       display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+      flex-direction: column;
+      color: #000;
+      .username {
+        color: #000;
+        margin-left: 4rem;
+        list-style-type: disc;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .voluntariados {
+        margin-left: 2.5rem;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 2rem;
+        list-style-type: disc;
+      }
+      .detailmap {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
 
-      .map {
-        margin-top: 20px;
-        margin-right: 100px;
-        border-radius: 2rem;
+        .map {
+          margin-top: 20px;
+          margin-right: 100px;
+          border-radius: 2rem;
 
-        button {
-          justify-self: center;
-          margin-top: 15px;
-          margin-bottom: 30px;
-          margin-left: 100px;
-          width: 100px;
-          height: 30px;
-          background-color: var(--redhh);
-          color: #fff;
+          button {
+            justify-self: center;
+            margin-top: 15px;
+            margin-bottom: 30px;
+            margin-left: 100px;
+            width: 100px;
+            height: 30px;
+            background-color: var(--redhh);
+            color: #fff;
+          }
+        }
+      }
+
+      .description {
+        width: 25rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .org_info {
+        display: flex;
+        align-items: center;
+        background-color: var(--bluehh);
+        border-radius: 15px 15px 0 0;
+
+        .avatar {
+          margin: 15px 15px 15px 25px;
+          display: inline-block;
+
+          .image {
+            border-radius: 50%;
+          }
+        }
+
+        a {
+          margin-left: 10px;
+          font-weight: bold;
+          color: var(--redhh);
+          font-size: 35px;
+        }
+      }
+
+      .details {
+        p {
+          margin: auto;
+          color: black;
+          margin-left: 40px;
+          line-height: 50px;
+          overflow-wrap: break-word;
+        }
+        .desc {
+          margin-top: 10px;
+          max-width: 80%;
+          line-height: 30px;
+        }
+
+        .bold {
+          font-weight: bold;
         }
       }
     }
 
-    .description {
-      width: 25rem;
-    }
-
-    .org_info {
-      display: flex;
-      align-items: center;
+    .areacomentarios {
       background-color: var(--bluehh);
-      border-radius: 15px 15px 0 0;
+      height: 140px;
+      width: 1000px;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
 
-      .avatar {
-        margin: 15px 15px 15px 25px;
-        display: inline-block;
-
-        .image {
-          border-radius: 50%;
-        }
+      .textarea {
+        height: 70px;
+        width: 990px;
+        overflow-y: auto;
+        resize: none;
       }
-
-      a {
-        margin-left: 10px;
-        font-weight: bold;
-        color: var(--redhh);
-        font-size: 35px;
-      }
-    }
-
-    .details {
-      p {
-        margin: auto;
-        color: black;
-        margin-left: 40px;
-        line-height: 50px;
-        overflow-wrap: break-word;
-      }
-      .desc {
+      button {
+        justify-self: center;
+        width: 100px;
+        height: 30px;
+        background-color: var(--redhh);
+        color: #fff;
         margin-top: 10px;
-        max-width: 80%;
-        line-height: 30px;
+        margin-bottom: 10px;
       }
 
-      .bold {
-        font-weight: bold;
+      .photo {
+        display: none;
       }
     }
   }
