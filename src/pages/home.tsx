@@ -114,9 +114,10 @@ export default function Home() {
           <input className={styles.formP} name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
           </div>
 
+          <div className={styles.scroll}>
         {
 
-    
+        
         <InfiniteScroll
           dataLength={listativities.length * 5} //This is important field to render the next data
           next={fetchData}
@@ -124,9 +125,12 @@ export default function Home() {
           loader={<h4>Loading...</h4>}
           //scrollableTarget="target"
           endMessage={
-          <p style={{ textAlign: 'center' }}>
-          <b>Yay! You have seen it all</b>
-          </p>
+            <div>
+            <br/>
+              <p style={{ textAlign: 'center' }}>
+                <b>Não há mais atividades.</b>
+            </p>
+          </div>
           }
         >
           {
@@ -139,6 +143,7 @@ export default function Home() {
           
           </InfiniteScroll>
           }
+          </div>
         
 
 

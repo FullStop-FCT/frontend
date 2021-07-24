@@ -12,7 +12,7 @@ export default function Error() {
 
             <h1>Acesso Proibido</h1>
 
-            <Link href='/home'><a className={styles.link}>Regressar à página inicial</a></Link>
+            <Link href='/'><a className={styles.link}>Regressar à página inicial</a></Link>
         </div>
     )
 }

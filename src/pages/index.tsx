@@ -32,8 +32,9 @@ export default function Home() {
         <Sobre />
       </div>
 
-      <Contato />
-
+      <div id="contatos">
+        <Contato />
+      </div>
       <div className={styles.footer}><Footer></Footer></div>
 
     </div>
