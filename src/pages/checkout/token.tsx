@@ -5,6 +5,7 @@ import styles from '../styles/pdf.module.scss'
 import Cookies from 'js-cookie';
 import { api } from "../../../services/api";
 import { useState } from 'react';
+import { AtivitiesProps } from '../../types';
 
 export default function App() {
 
@@ -13,7 +14,7 @@ export default function App() {
 
   useEffect(() => {
 
-    async function fetch() {
+    async function fetch() : Promise<AtivitiesProps> {
 
       const token = Cookies.getJSON('token');
       let config = {
@@ -26,7 +27,7 @@ export default function App() {
       return await api.get('activities/listCertificateActivities', config)
                 .then( function(response) {
                   setValues(response.data.reverse());
-                  console.log(response.data.reverse())})
+                  console.log("valores enviados" + response.data.reverse())})
                 .catch(error => console.log(error));
   }
 
@@ -41,9 +42,9 @@ export default function App() {
         loading ? 'Loading document...' : 'Download now!'
       }
     </PDFDownloadLink>*/}
-    <PDFViewer className={styles.viewer}>
+    {/*<PDFViewer className={styles.viewer}>
         <MyDocument activities={values}/>
-    </PDFViewer>
+    </PDFViewer>*/}
   </div>
 )
 }
