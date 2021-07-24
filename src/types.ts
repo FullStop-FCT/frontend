@@ -80,3 +80,21 @@ export type pointProps = {
   }
 }
 export type listPointProps = pointProps[];
+
+export type comment = {
+  author: string,
+  message: string,
+  receiver: string,
+  date: string,
+  activityID: string,
+  image: string,
+  msgID: number
+
+}
+
+export type listComments = {
+
+  results : comment[],
+  cursorString: string,
+
+}
