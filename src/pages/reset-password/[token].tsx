@@ -119,8 +119,12 @@ export default function Password() {
 
             : (messageDisplay && active !== 200) ?
 
-              <div className={styles.register}>
+            <div>
+              {setTimeout(function() { return (
+                <div className={styles.register}>
                 <a>Ocorreu um erro na mudança de password, por favor tente novamente.</a>
+                </div>)}
+              , 1000)}
               </div>
             
             :

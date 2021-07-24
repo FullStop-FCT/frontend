@@ -12,17 +12,7 @@ import Link from 'next/link';
 import { Token } from '../types';
 import jwt_decode from "jwt-decode";
 
-const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
-  const [field, meta] = useField<{}>(props);
-  const errorText = meta.error && meta.touched ? meta.error : "";
-  return (
-    <TextField variant="outlined" type={type}
-      size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} InputLabelProps={{
-        className: styles.form
 
-      }} />
-  )
-}
 
 const validationSchema = Yup.object({
   username: Yup.string()
@@ -54,6 +44,19 @@ export default function Login() {
 
   const[emailError, setEmailError] = useState(false);
   const[inputError, setInputError] = useState(false);
+
+
+  const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
+    const [field, meta] = useField<{}>(props);
+    const errorText = meta.error && meta.touched ? meta.error : "";
+    return (
+      <TextField variant="outlined" type={type}
+        size="small" placeholder={placeholder} {...field} helperText={errorText} onClick={() => setInputError(false)} error={!!errorText} InputLabelProps={{
+          className: styles.form
+  
+        }} />
+    )
+  }
 
   return (
     <div>

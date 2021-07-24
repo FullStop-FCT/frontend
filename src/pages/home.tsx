@@ -56,15 +56,19 @@ export default function Home() {
   }
 
   useEffect(() => {
+
     async function fetch(path){
+
       console.log("primeiro fetch");
-      await api.post(path, cursor, config).then( function(response) { 
-       res = response.data;
-       setCursor(response.data.cursorString);
-       setListativities(response.data.results.reverse());
-      
-       console.log('primeriro fetch' ,listativities)
-      console.log(cursor);});
+
+      await api.post(path, cursor, config)
+                .then( function(response) { 
+                  res = response.data;
+                  setCursor(response.data.cursorString);
+                  setListativities(response.data.results.reverse());
+                  
+                  console.log('primeriro fetch' ,listativities)
+                  console.log(cursor);});
     }
     fetch(path);
       

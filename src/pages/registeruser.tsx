@@ -41,7 +41,8 @@ export default function Register() {
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
       <TextField variant="outlined" type={type}
-        size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} onClick={() => setIsUserNameValid(true) } InputLabelProps={{
+        size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} 
+        onClick={() => {setIsUserNameValid(true); setIsEmailValid(true)}} InputLabelProps={{
           className: styles.form 
   
         }} />
@@ -51,7 +52,7 @@ export default function Register() {
   return (
     <div>
       <Head>
-        <title>Registar</title>
+        <title>Registar Utilizador</title>
       </Head>
       <NavBar />
 
@@ -79,7 +80,7 @@ export default function Register() {
     
                     setValues(values);
     
-                    setSubmitting(false);
+                   
                 console.log(response.data);
               })
                 .catch(function (error) {
@@ -91,6 +92,7 @@ export default function Register() {
                     setIsEmailValid(false);
                   
                 });
+                setSubmitting(false);
             }}>
 
             {({ isSubmitting }) => (

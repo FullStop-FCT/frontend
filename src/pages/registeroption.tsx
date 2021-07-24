@@ -7,7 +7,7 @@ export default function Login() {
   return (
     <div >
       <Head>
-        <title>Register</title>
+        <title>Registar</title>
       </Head>
       <NavBar />
       <div className={styles.h1}> <h1>Escolha uma categoria</h1></div>
