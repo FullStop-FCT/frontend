@@ -6,17 +6,20 @@ import Cookies from 'js-cookie';
 import { api } from "../../../services/api";
 import { useState } from 'react';
 import { listAtivitiesProps } from "../../types";
+import jwt_decode from "jwt-decode"
 
 export default function App() {
 
   const[values, setValues] = useState<listAtivitiesProps>([]);
 
+  const token = Cookies.getJSON('token');
+  const decoded_token = jwt_decode(token);
+  const username = token.iss;
 
   useEffect(() => {
 
     async function fetch(){
 
-      const token = Cookies.getJSON('token');
       let config = {
         headers: {
           'Authorization': 'Bearer ' + token,
@@ -32,7 +35,7 @@ export default function App() {
   }
 
   fetch();
-  
+
   }, [])
 
  return ( 

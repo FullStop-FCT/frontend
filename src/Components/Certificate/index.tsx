@@ -18,7 +18,8 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 24,
       textAlign: 'center',
-      fontFamily: 'Oswald'
+      fontFamily: 'Oswald',
+      marginBottom: 40,
     },
     author: {
       fontSize: 12,
@@ -72,15 +73,17 @@ export default function Certificate(props) {
             <Image src="https://i.postimg.cc/13HpmLvJ/output-onlinepngtools-1.png" />
 
             <Text style={styles.title}>Certificado de Voluntariado</Text>
+            <Text />
             
             {props.activities.map((activity, index) => 
 
+                
                 <div key={index}>
                   <Text style={styles.subtitle}>
                     {activity.title}
                   </Text>
                   <Text style={styles.text}>
-                    desc...
+                    {"Duração: " + activity.activityTime + " minutos."}
                   </Text>
                 </div>
               

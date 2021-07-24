@@ -3,8 +3,8 @@ import { menu } from './menuitems'
 import { useState } from 'react';
 import styles from './styles.module.scss'
 import Link from 'next/link';
-export default function NavBar() {
 
+export default function NavBar() {
 
   const [state, setState] = useState(false)
 
@@ -16,7 +16,7 @@ export default function NavBar() {
   return (
 
     <nav className={styles.NavbarItems}>
-      <Link href={'/'}><h1 className={styles.navbarlogo}>Helpin'Hand</h1></Link>
+      <img className={styles.brand_image} src='/red_logo.png' />
 
       <div className={styles.menuicon} onClick={handleClick}>
         <i className={state ? "fas fa-times" : "fas fa-bars"}></i>

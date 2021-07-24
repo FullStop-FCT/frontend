@@ -4,33 +4,37 @@ import Head from "next/head";
 import Contato from '../Components/Contato';
 import Footer from '../Components/Footer';
 import Sobre from '../Components/Sobre';
+
+
 export default function Home() {
 
 
   return (
     <div>
       <Head>
-        <title>Home Page</title>
+        <title>Helping XPerience</title>
       </Head>
       <NavBar />
-      <div className={styles.introContainer}>
-        <div className={styles.div1image}>
+      <div className={styles.introContainer} id="top">
+        <div className={styles.div1image} >
           <img src="/pessoas-parque.png" alt="Pessoas no parque" />
         </div>
 
         <div className={styles.divIntro}>
-          <h1><span>Bem vindos à<br /> Helpin’Hand</span></h1>
+          <h1><span>Helping XPerience</span></h1>
 
           <p>Foco na sua essência</p>
         </div>
 
       </div>
 
-      <Sobre />
+      <div id="sobre">
+        <Sobre />
+      </div>
 
       <Contato />
-      <div className={styles.footer}><Footer></Footer></div>
 
+      <div className={styles.footer}><Footer></Footer></div>
 
     </div>
   )

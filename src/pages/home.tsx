@@ -2,26 +2,29 @@ import styles from "./styles/base.module.scss";
 import { useState } from 'react'
 import Head from "next/head";
 import Header from '../Components/Header';
-import { AuthContext } from '../Context/AuthContext';
 import React, { useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { api } from "../../services/api";
 import useSWR from 'swr';
-import { useRouter } from 'next/router'
-import SessionOf from '../Components/SessionOf';
+import { useRouter } from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
-import { Token, listAtivitiesCursorProps, listAtivitiesProps, AtivitiesProps} from "../types";
+import { listAtivitiesCursorProps, listAtivitiesProps} from "../types";
 import Loading from "../Components/Loading";
 import InfiniteScroll from 'react-infinite-scroll-component'
+import UnauthorizedAccess from '../Components/UnauthorizedAccess'
 
 
 
 export default function Home() {
 
-  
+  const token = Cookies.getJSON('token');
+
+  if(!token)
+    return(<UnauthorizedAccess />)
+
   //let cursor: string = null;
   const path: string = 'activities/listCursor';
 
@@ -32,7 +35,9 @@ export default function Home() {
   const [cursor, setCursor] = useState<string>(null);
 
   const [endlist, setEndlist] = useState<boolean>(true);
-  const token = Cookies.getJSON('token');
+
+
+
 
   const config = {
     headers: {
@@ -134,10 +139,6 @@ export default function Home() {
           listativities.map((ativ, index) => < Activity {...ativ} key={index} /> )
           
           }
-             
-
-              
-          
           
           </InfiniteScroll>
           }
