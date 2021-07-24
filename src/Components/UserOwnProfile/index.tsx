@@ -14,6 +14,7 @@ import Image from 'next/image'
 import Loading from '../../Components/Loading'
 import ActivitiesToDoList from '../../Components/ActivitiesToDoList';
 import OwnActivitiesList from '../../Components/OwnActivitiesList';
+import ActivitiesDoneList from '../../Components/ActivitiesDoneList';
 import { GoLocation } from 'react-icons/go'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 import Link from 'next/link';
@@ -140,7 +141,7 @@ export default function Profile() {
                         }
                         {
                         number === 3 ?
-                            <p>Ainda Nao disponivel</p> : <></>
+                            <p><ActivitiesDoneList /></p> : <></>
                         }
         
                     </div>
