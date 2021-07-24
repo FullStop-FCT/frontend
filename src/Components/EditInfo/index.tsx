@@ -177,7 +177,7 @@ export default function EditInfo(user: userProps) {
             if (authenticated) {
 
 
-              if (photoState !== null) {
+              if (photoState !== null) {  
                 /*await storageProfilePic.delete(values.image + '.jpg')
                   .then(function (response) {
                     console.log(response)

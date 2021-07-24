@@ -1,7 +1,7 @@
 import styles from '../../styles/activity.module.scss'
 import Header from '../../../Components/Header'
 import Cookies from 'js-cookie'
-import { api } from '../../../../services/api'
+import { api, storageProfilePic } from '../../../../services/api'
 import useSWR from 'swr'
 import Loading from '../../../Components/Loading'
 import SessionOf from '../../../Components/SessionOf'
@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import { Token,AtivitiesProps,userProps } from '../../../types'
 import jwt_decode from 'jwt-decode'
 import {BiPhotoAlbum} from 'react-icons/bi'
+import ListComment from '../../../Components/ListComment'
 export default function Activity() {
     let path = window.location.pathname.replace('/', '');
     let path_values: String[] = path.split("/");
@@ -22,6 +23,56 @@ export default function Activity() {
     const [userjoined, setUserjoined] = useState([]);
     const [isParticipating, setParticipation] = useState(false);
     const [activity, setActivity] = useState<AtivitiesProps>(null);
+    const [photoState, setphotoState] = useState(null);
+    const [photopreviewState, setphotopreviewState] = useState(null);
+    const [comment, setComment] = useState<string>("");
+    const [isSubmitting, setSubmitting] = useState(false);
+
+    const handleComment = (event) => {
+        setComment(event.target.value);
+        console.log(comment)
+    } 
+
+    async function sendComment(){
+        setSubmitting(true)
+        
+        if(comment !== ""){
+            let image: string = ""
+        if(photoState !== null){
+            const fd = new FormData();
+            fd.append('image', photoState);
+           image= decodedtoken.iss + Date.now() + activityOwner +'.jpg';
+            await storageProfilePic.post(image, fd)
+                  .then(function (response) {
+                    console.log(response)
+                    console.log('upload')
+                  }).catch(function (error) {
+
+                    console.log(error);
+                  })
+        }
+
+        let request = JSON.stringify({
+            message: comment,
+            image: image,
+        })
+
+        const config = {
+            headers: { 
+              'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json' },
+
+              
+          }
+        await api.post(`comments/insert/${activityID}/${activityOwner}`,request,config).then(response => {console.log(response)}).catch(error => console.log(error))
+        setComment("");
+
+        }
+        setSubmitting(false);
+        
+    }
+
+
     async function fetchActivity(path: string) {
  
         await api.get(path, config).then(response => setActivity(response.data))
@@ -46,7 +97,14 @@ export default function Activity() {
         }
       }
     
-    
+      const photoHandler = (event) => {
+        console.log(event.target.files[0])
+        setphotoState(event.target.files[0])
+        setphotopreviewState(URL.createObjectURL(event.target.files[0]))
+        console.log(photopreviewState);
+        console.log(photoState)
+      }
+
     let { data: user, error: error2 } = useSWR(`users/get/${activityOwner}`, fetchUser);
 
     useEffect(() => {
@@ -155,16 +213,29 @@ export default function Activity() {
             
             <div className={styles.areacomentarios}>
                      
-                            <textarea  placeholder="escreva um comentário" className={styles.textarea}/>
-                        <div className={styles.addphoto}>
-                        <label>
-                            select
-                            <BiPhotoAlbum/>
-                        </label>
-                        <input accept="image/*" className={styles.photo}  type="file"  />
+                            <textarea  placeholder="escreva um comentário" className={styles.textarea} onChange={handleComment} value={comment}/>
+
+                        <div className={styles.send}>
+                            <div className={styles.addphoto}>
+            
+                                <input accept="image/*" className={styles.input} id="icon-button-file" type="file" onChange={photoHandler}  />
+                                <label htmlFor="icon-button-file">
+                                upload
+                                <BiPhotoAlbum/>
+                                </label>
+                                <img src={photopreviewState} className={styles.imagepreview} />
                         
+                            </div>
+                            <div className={styles.sendcoment}>
+                             <button disabled={isSubmitting} onClick={sendComment}>Enviar</button>
+                            </div>
                         </div>
-                        <button>Enviar</button>
+                        
+                        
+            </div>
+
+            <div className={styles.listcomment}>
+                        <ListComment {...activityID}/>
             </div>
         </div>
         
