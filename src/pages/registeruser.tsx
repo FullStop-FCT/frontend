@@ -111,7 +111,7 @@ export default function Register() {
                 }
 
                 <br/>
-                <MyTextField placeholder="Primeiro nome" name="name" type="input" as={TextField} /> <br/>
+                <MyTextField placeholder="Nome e Apelido" name="name" type="input" as={TextField} /> <br/>
                 
                 <MyTextField placeholder="Email" name="email" type="input" as={TextField}/> 
                 
