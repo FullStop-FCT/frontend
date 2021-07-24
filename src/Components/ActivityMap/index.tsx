@@ -20,6 +20,7 @@ const options = {
 export default function MapActivity(mapProps: mapProps) {
   let points = [];
   const [response, setResponse] = useState(null);
+  const [stop, setStop] = useState(false);
   if(mapProps.waypoints.length > 0){
     console.log('waypoints',mapProps.waypoints);
 
@@ -53,16 +54,20 @@ export default function MapActivity(mapProps: mapProps) {
 
   const directionsCallback = (response) => {
     
-
-    if (response !== null) {
-      if (response.status === "OK") {
-       
-        setResponse(response)
-        
-      } else {
-        console.log("response: ", response);
+    try{ 
+      if (response !== null) {
+        if (response.status === "OK") {
+          console.log(response)
+          setResponse(response)
+          
+        } else {
+          setStop(true)
+          console.log("response: ", response);
+        }
       }
     }
+    catch(error){ console.log('error',error)}
+   
   };
 
   const mapRef = useRef(null);
@@ -92,9 +97,15 @@ export default function MapActivity(mapProps: mapProps) {
                     waypoints: points,
                   }}
                   // required
-                  callback={directionsCallback}
+                  callback={
+                    
+                    !stop &&
+                      directionsCallback
+
+                    
+                  }
                   // optional
-                 
+                  onLoad={()=>setStop(true)}
                   // optional
                  
                 />
@@ -102,7 +113,7 @@ export default function MapActivity(mapProps: mapProps) {
             }
 
             {
-                response === null  ? <></> : (
+                response === null || stop  ? <></> : (
                 <DirectionsRenderer
                   // required
                   options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop

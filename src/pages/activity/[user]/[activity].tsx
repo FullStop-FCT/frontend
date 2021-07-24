@@ -30,7 +30,7 @@ export default function Activity() {
 
     const handleComment = (event) => {
         setComment(event.target.value);
-        console.log(comment)
+       // console.log(comment)
     } 
 
     async function sendComment(){
@@ -44,7 +44,7 @@ export default function Activity() {
            image= decodedtoken.iss + Date.now() + activityOwner +'.jpg';
             await storageProfilePic.post(image, fd)
                   .then(function (response) {
-                    console.log(response)
+                    //console.log(response)
                     console.log('upload')
                   }).catch(function (error) {
 
@@ -98,11 +98,11 @@ export default function Activity() {
       }
     
       const photoHandler = (event) => {
-        console.log(event.target.files[0])
+       // console.log(event.target.files[0])
         setphotoState(event.target.files[0])
         setphotopreviewState(URL.createObjectURL(event.target.files[0]))
-        console.log(photopreviewState);
-        console.log(photoState)
+        //console.log(photopreviewState);
+        //console.log(photoState)
       }
 
     let { data: user, error: error2 } = useSWR(`users/get/${activityOwner}`, fetchUser);
@@ -121,7 +121,7 @@ export default function Activity() {
     async function handleClick() {
         
         let user =  decodedtoken.iss;
-        console.log(decodedtoken.iss)
+       // console.log(decodedtoken.iss)
         if (!isParticipating) {
             await api.post(`activities/join/${activityID}/${activityOwner}`,user,config).catch(error => console.log(error));
             setParticipation(true);
@@ -135,12 +135,12 @@ export default function Activity() {
     if ( !user || !activity) return <Loading />
     if ( error2 ) { return <SessionOf /> }
 
-    console.log(userjoined)
+    //console.log(userjoined)
     const myLoader = () => {
         return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
 
-    console.log(activity);
+    //console.log(activity);
     const props = {
         lat: activity.lat,
         long: activity.lon,
@@ -235,7 +235,7 @@ export default function Activity() {
             </div>
 
             <div className={styles.listcomment}>
-                        <ListComment {...activityID}/>
+                        <ListComment {...activity}/>
             </div>
         </div>
         
