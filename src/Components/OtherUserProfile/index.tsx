@@ -13,7 +13,11 @@ import Image from 'next/image'
 import Loading from '../../Components/Loading'
 import jwt_decode from "jwt-decode"
 import { Token, userProps } from '../../types';
-
+import ActivitiesToDoList from '../../Components/ActivitiesToDoList';
+import OwnActivitiesList from '../../Components/OwnActivitiesList';
+import ActivitiesDoneList from '../../Components/ActivitiesDoneList';
+import { GoLocation } from 'react-icons/go'
+import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 
 async function fetcher(path: string): Promise<userProps> {
     const token: Token = Cookies.getJSON('token')
@@ -101,7 +105,12 @@ export default function Profile() {
             <div className={styles.userinfo}>
               <h2>{user.name}</h2>
               <p><span>@{user.username}</span></p><br />
-
+              <p><GoLocation /> {user.location}</p>
+                        <p><AiOutlineMail /> {user.email}</p>
+                        <p><AiOutlinePhone /> {user.phoneNumber}</p><br/>
+              {
+                user.profile !== 'PUBLIC' && (<h4>Esta conta é privada</h4>)
+              },
               {(role == 'USER') ?
                 <button onClick={ () => router.push(`/${username}/report`)}>Denunciar</button>
                 :
@@ -115,7 +124,8 @@ export default function Profile() {
               {(role == 'ADMIN') ?  //TODO -> Falta fazer a verifcao se ja e BO ou Admin para nao aparecerem sempre os dois botoes 
                                     //Ou para aparecerem botoes para despromover
                                     //talvez seja melhor meter isto na parte da listagem de users
-                <div>               
+                         
+                <div>    
                   <button>Promover para BO</button>
                   <br/>
                   <button>Promover para Admin</button>
@@ -140,7 +150,23 @@ export default function Profile() {
               <div className={styles.currentpage}>
   
               </div>
-              <div></div>
+              <div>
+                        {
+                        number === 1 ?
+                            <ActivitiesToDoList /> : <></>
+        
+                        }
+                        {
+                        number === 2 ?
+                            <OwnActivitiesList /> : <></>
+        
+                        }
+                        {
+                        number === 3 ?
+                            <p><ActivitiesDoneList /></p> : <></>
+                        }
+        
+                    </div>
             </div>
   
           </div>

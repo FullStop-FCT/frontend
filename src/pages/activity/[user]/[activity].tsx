@@ -166,7 +166,7 @@ export default function Activity() {
                                userjoined.map((user,index) =>
                                <div key={index} >
                                <li className={styles.username}>
-                               <a  href={`/${user}`}>{user}</a><br/>
+                               <a href={`/${user}`}>{user}</a><br/>
                                </li>
                                  </div>
                                )

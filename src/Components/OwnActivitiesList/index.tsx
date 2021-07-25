@@ -4,40 +4,70 @@ import { api } from "../../../services/api";
 import ActivityToDo from '../Activitytodo'
 import ActivityCreated from '../ActivityCreated'
 import { Token, activitytodoProps,listAtivitiesTodoProps } from "../../types";
+import { useState } from "react";
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 
-
-
-
-
-
-async function fetcher(path: string) {
+export default function OwnActivitiesList() {
+  const [listativities, setListativities] = useState<listAtivitiesTodoProps>([]);
+  const [cursor, setCursor] = useState<string>(null);
+  let username = window.location.pathname.replace('/', '')
+  const [endlist, setEndlist] = useState<boolean>(true);
   const token: Token = Cookies.getJSON('token')
   let config = {
     headers: {
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
     }
   }
+  async function fetchData() {
+    console.log('segundo fetch')
+       await api.post(`activities/listCreatedActivities/?username=${username}`, cursor, config).then( (response) => {
   
-  return await api.get(path, config).then(response => response.data);
-}
+        if(response.data.results.length === 0 ){
+          setEndlist(false);
+          return;
+        }
+        console.log(response.data.results)
+        setListativities((current) => 
+          current.concat(response.data.results)   
+      )
+      setCursor(response.data.cursorString)
+        console.log(cursor);});
+    }
 
-export default function OwnActivitiesList() {
-
-  const { data, error } = useSWR('activities/listCreatedActivities', fetcher);
-  if (!data) return <div>loading</div>
-  if (error) { return <div>error</div> }
-
-  let activities: listAtivitiesTodoProps = data;
-  console.log(activities)
   return (
     <div>
-      {activities.map((activity: activitytodoProps, index) => {
+
+<InfiniteScroll
+          dataLength={listativities.length * 5} //This is important field to render the next data
+          next={fetchData}
+          hasMore={endlist}
+          loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
+          //scrollableTarget="target"
+          endMessage={
+            <div>
+            <br/>
+              <p style={{ textAlign: 'center' }}>
+                <b>Não há mais atividades.</b>
+            </p>
+          </div>
+          }
+        >
+         {listativities.map((activity: activitytodoProps, index) => {
         return (
           <ActivityCreated {...activity} key={index} />
         )
       })
       }
+          
+          </InfiniteScroll>
+
+
+
+
+
+      
     </div>
   )
 }

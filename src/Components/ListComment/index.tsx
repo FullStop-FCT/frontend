@@ -4,7 +4,7 @@ import { api } from "../../../services/api";
 import { AtivitiesProps, comment } from "../../types";
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Comment from "../../Components/Comment";
-
+import styles from './styles.module.scss'
 
 export default function ListComment(activity:AtivitiesProps){
   //console.log('accc',activity.ID)
@@ -27,13 +27,14 @@ export default function ListComment(activity:AtivitiesProps){
   async function fetch(){
     console.log('fetch')
     await api.post(`comments/list/${activity.ID}/${activity.activityOwner}`,cursor,config).then( response => {
-
+  
       if(response.data.results.length ===0 ){
         setEndlist(false);
         return;
       }
       setCursor(response.data.cursorString);
-      setListcomments(response.data.results)
+      setListcomments((current) => current.concat(response.data.results))
+      console.log(cursor)
 
     })
 
@@ -41,9 +42,9 @@ export default function ListComment(activity:AtivitiesProps){
   
 
   return(
-    <div>
-{
-
+    
+    <div id="scrollableDiv" className={styles.scrollableDiv}>
+    {
     
 <InfiniteScroll
   dataLength={comments.length * 5} //This is important field to render the next data
@@ -51,26 +52,27 @@ export default function ListComment(activity:AtivitiesProps){
   hasMore={endlist}
   loader={<h4>Loading...</h4>}
   //scrollableTarget="target"
-  height={300}
+  
   endMessage={
-  <p style={{ textAlign: 'center' }}>
+    <p style={{ textAlign: 'center' }}>
   <b>endlist</b>
   </p>
   }
+  scrollableTarget="scrollableDiv"
 >
   {
   
   !comments ? <></> :
 
-  comments.map((ativ, index) => < Comment {...ativ} key={index} /> )
+  comments.map((ativ, index) => < Comment {...ativ} key={index} />)
   
   }
-    
+  
   </InfiniteScroll>
   }
+  </div>
 
 
-    </div>
   )
 
 }

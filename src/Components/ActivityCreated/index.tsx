@@ -35,9 +35,9 @@ async function fetchUser(path: string): Promise<userProps> {
   return await api.get(path,config).then(response => response.data)
 }
 export default function ActivityCreated(activity: activitytodoProps) {
-
+  let username = window.location.pathname.replace('/', '')
   decodedToken= jwt_decode(Cookies.getJSON('token'));
-  let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${decodedToken.iss}`, fetchActivity);
+  let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${username}`, fetchActivity);
   let { data: user, error: error2 } = useSWR(`users/get/${decodedToken.iss}`, fetchUser);
   if (!act || !user) return <div>loading</div>
   if (error1 || error2) { return <div>error</div> }
