@@ -36,6 +36,7 @@ export default function Home() {
 
   const [endlist, setEndlist] = useState<boolean>(true);
 
+  const[resstart, setresStart] =  useState<boolean>(false);
   const config = {
     headers: {
       'Authorization': 'Bearer ' + token,
@@ -51,16 +52,30 @@ export default function Home() {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
+  const Search = async () => {
+    api.get(`activities/search/?keyword=${val}`,config).then((response) => {
+      console.log(response.data)
+      setEndlist(false);
+      setListativities(response.data)
+    })
+
+  }
+
   const [val, setVal] = useState("");
 
   const handleVal = (e) => {
     setVal(e.target.value)
+    if(e.target.value==="" || e.target.value === null ){
+      setEndlist(true);
+      setListativities([]);
+      setCursor(null);
+    }
   }
 
   useEffect(() => {
     fetchData();
   }  
-  , [])
+  , [cursor])
   
  function fetchData() {
   console.log('segundo fetch')
@@ -93,7 +108,7 @@ export default function Home() {
       <div id="target" className={styles.Feed}>
 
           <div className={styles.searchBar}>
-          <button><SearchIcon fontSize="large" ></SearchIcon></button>
+          <button><SearchIcon fontSize="large" onClick={Search} ></SearchIcon></button>
           <input className={styles.formP} name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
           </div>
 
@@ -133,7 +148,7 @@ export default function Home() {
       </div>
 
       <div className={styles.other}>
-        <h1>Filtros</h1>
+        {/*<h1>Filtros</h1>
         <FormControlLabel className={styles.filters}
           control={
             <Checkbox
@@ -167,7 +182,8 @@ export default function Home() {
           }
           label="Mostrar apenas atividades de indivíduos"
         />
-        <br />
+        <br />*/}
+        
       </div>
     </div>
   )
