@@ -101,7 +101,6 @@ export default function Contato() {
               <Multiline placeholder="Mensagem" name="mensagem" type="input"
               />
 
-
               <div >
                 <Button disabled={isSubmitting} type="submit">Enviar</Button>
                 <div className={styles.loading}>
@@ -111,12 +110,7 @@ export default function Contato() {
                 </div >
               </div>
             </Form>
-
-
-
           )
-
-
           }
         </Formik>
 

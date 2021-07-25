@@ -2,14 +2,12 @@ import styles from '../../pages/styles/users.module.scss';
 import Head from "next/head"
 import { useState } from 'react'
 import { atividades } from '../../Components/atividades';
-import { AuthContext } from '../../Context/AuthContext';
 import React, { useContext } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 import Header from '../../Components/Header'
 import { api } from '../../../services/api';
 import useSWR from 'swr'
-import SessionOf from '../../Components/SessionOf'
 import Image from 'next/image'
 import Loading from '../../Components/Loading'
 import ActivitiesToDoList from '../../Components/ActivitiesToDoList';
@@ -32,6 +30,7 @@ async function fetcher(path: string): Promise<userProps> {
     return await api.get(path,config).then(response => response.data);
   
   }
+  
 
 export default function Profile() {
 
@@ -116,7 +115,7 @@ export default function Profile() {
                         <br />
                         <br />
                         <button className={styles.infobutt} onClick={() => router.push('/settings/profile')}>Edit info</button>
-                        <button className={styles.certificate_button} onClick={() => router.push('/certificate')}>Pedir Certificado</button>
+                        <button className={styles.certificate_button} onClick={() => router.push('checkout')}>Pedir Certificado</button>
                     </div>
                     <div>
                         <hr className={styles.line} />

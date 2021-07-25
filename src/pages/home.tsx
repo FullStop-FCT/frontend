@@ -5,14 +5,11 @@ import Header from '../Components/Header';
 import React, { useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { api } from "../../services/api";
-
-import { useRouter } from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
 import { listAtivitiesCursorProps, listAtivitiesProps} from "../types";
-import Loading from "../Components/Loading";
 import InfiniteScroll from 'react-infinite-scroll-component'
 import UnauthorizedAccess from '../Components/UnauthorizedAccess'
 

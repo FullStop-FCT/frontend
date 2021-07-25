@@ -32,7 +32,7 @@ export default function Home() {
         <Sobre />
       </div>
 
-      <div className={styles.contacts} id="contatos">
+      <div id="contatos">
         <Contato />
       </div>
       <div className={styles.footer}><Footer></Footer></div>

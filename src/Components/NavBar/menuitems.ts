@@ -32,10 +32,6 @@ export const menu : MenuItems[] = [
     cName: 'nav-links'
 
   },{
-    title: 'Como Funciona',
-    url: "/#video",
-    cName: 'nav-links'
-  },{
     title: 'Contatos',
     url: "/#contatos",
     cName: 'nav-links'
