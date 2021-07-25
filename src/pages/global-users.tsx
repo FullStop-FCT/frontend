@@ -44,63 +44,94 @@ export default function Users() {
 
     async function fetchReported() {
 
+        await api.post('backoffice/listreports', uRcursor, config)
+                    .then((response) => {
 
-        return await api.post('backoffice/listreports', uRcursor, config)
-                        .then((response) => {
+                        console.log("request reported");
 
-                            if(response.data.results.length == 0 ) {
-                                setEndUR(false);
-                                return;
-                            }
-                            
-                            setUsersReported((current) => 
-                                current.concat(response.data.results));
+                        if(response.data.results.length == 0 ) {
+                            setEndUR(false);
+                            return;
+                        }
+                        
+                        setUsersReported((current) => 
+                            current.concat(response.data.results));
 
-                            setURcursor(response.data.cursorString);
-                            setShowUR(true);
-                            console.log(response);
-                        })
-                        .catch(error => console.log(error));
+                        setURcursor(response.data.cursorString);
+
+                        setShowUR(true);
+                        setShowUD(false);
+                        setShowUS(false);
+
+                        console.log(response);
+                    })
+                    .catch(error => console.log(error));
+
+        setShowUR(true);
+        setShowUD(false);
+        setShowUS(false);
+
+
     }
 
     async function fetchDisabled() {
 
-        return await api.post('backoffice/listdisabled', uRcursor, config)
-                        .then((response) => {
 
-                            if(response.data.results.length == 0 ) {
-                                setEndUD(false);
-                                return;
-                            }
-                            
-                            setUsersDisabled((current) => 
-                                current.concat(response.data.results));
+        await api.post('backoffice/listdisabled', uRcursor, config)
+                    .then((response) => {
 
-                            setUDcursor(response.data.cursorString);
-                            setShowUD(true);
-                            console.log(response);
-                        })
-                        .catch(error => console.log(error));
+                        console.log("request disabled");
+
+                        if(response.data.results.length == 0 ) {
+                            setEndUD(false);
+                            return;
+                        }
+                        
+                        setUsersDisabled((current) => 
+                            current.concat(response.data.results));
+
+                        setUDcursor(response.data.cursorString);
+
+                        setShowUD(true);
+                        setShowUR(false);
+                        setShowUS(false);
+
+                        console.log(response);
+                    })
+                    .catch(error => console.log(error));
+
+        setShowUD(true);
+        setShowUR(false);
+        setShowUS(false);
+
     }
 
     async function fetchSuspended() {
 
-        return await api.post('backoffice/listsuspended', uRcursor, config)
-                        .then((response) => {
+        await api.post('backoffice/listsuspended', uRcursor, config)
+                    .then((response) => {
+                        console.log("request suspended");
 
-                            if(response.data.results.length == 0 ) {
-                                setEndUS(false);
-                                return;
-                            }
-                            
-                            setUsersSuspended((current) => 
-                                current.concat(response.data.results));
+                        if(response.data.results.length == 0 ) {
+                            setEndUS(false);
+                            return;
+                        }
+                        
+                        setUsersSuspended((current) => 
+                            current.concat(response.data.results));
 
-                            setUScursor(response.data.cursorString);
-                            setShowUS(true);
-                            console.log(response);
-                        })
-                        .catch(error => console.log(error));
+                        setUScursor(response.data.cursorString);
+                        setShowUR(false);
+                        setShowUD(false);
+                        setShowUS(true);
+                        console.log(response);
+                    })
+                    .catch(error => console.log(error));
+
+        setShowUR(false);
+        setShowUD(false);
+        setShowUS(true);
+
     }
 
     return (
@@ -116,7 +147,7 @@ export default function Users() {
                     className={styles.options_buttons}>Contas denunciadas</button>
 
                 <button onClick={() => fetchDisabled() } 
-                    className={styles.options_buttons}>Contas desativadas</button>
+                    className={styles.options_buttons}>Contas inativas</button>
 
                 <button onClick={() => fetchSuspended() } 
                     className={styles.options_buttons}>Contas suspensas</button>

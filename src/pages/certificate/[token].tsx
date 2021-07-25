@@ -7,14 +7,15 @@ import { api } from "../../../services/api";
 import { useState } from 'react';
 import { listAtivitiesProps } from "../../types";
 import jwt_decode from "jwt-decode"
+import { Token } from '../../types';
 
 export default function App() {
 
   const[values, setValues] = useState<listAtivitiesProps>([]);
 
   const token = Cookies.getJSON('token');
-  const decoded_token = jwt_decode(token);
-  const username = token.iss;
+  const decoded_token: Token = jwt_decode(token);
+  const username = decoded_token.iss;
 
   useEffect(() => {
 
