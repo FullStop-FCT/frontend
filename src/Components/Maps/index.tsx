@@ -54,6 +54,8 @@ export default function MapView() {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
   //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
   const { activityLocation, setActivityLocation, markers, setMarkers, setMappoints } = useContext(MapContext);
 
