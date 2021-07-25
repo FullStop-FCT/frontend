@@ -15,7 +15,9 @@ async function fetcher(path: string): Promise<userProps> {
       'Authorization': 'Bearer ' + token
     }
   }
-  return await api.get(path,config).then(response => response.data);
+  return await api.get(path,config).then(response => response.data).catch(error => {
+    console.log('')
+  });
 }
 
 export default function Activity(activity: AtivitiesProps) {
@@ -23,7 +25,7 @@ export default function Activity(activity: AtivitiesProps) {
   const { data, error } = useSWR(`users/get/${activity.activityOwner}`, fetcher);
   const user: userProps = data;
 
-  if (error) { return (<div>error</div>) }
+ 
   if (!data) return <></>
 
   const myLoader = () => {

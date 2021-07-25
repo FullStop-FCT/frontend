@@ -1,29 +1,27 @@
 .container {
-
   display: flex;
   flex-direction: row;
   height: 100%;
-  
- 
+
   .header {
-    background: var(--bluehh);
-    width: 20%;
-    height: 1000px;
-    border-right: 2px solid rgb(192, 189, 189);
+    width: 300px;
+    height: 100%;
+
+    margin-bottom: 0;
   }
 
-  .infobutt{
-      width: 5rem;
-      height: 1.5rem; 
-      background-color: var(--redhh);
-      color: #fff ;
-  }
-  .infobutt:hover{
+  .infobutt {
     width: 5rem;
-    height: 1.5rem; 
+    height: 1.5rem;
+    background-color: var(--redhh);
+    color: #fff;
+  }
+  .infobutt:hover {
+    width: 5rem;
+    height: 1.5rem;
     background-color: var(--redhh-2);
     color: #fff;
-}
+  }
 
   .banneravatar {
     width: 70%;
@@ -45,18 +43,15 @@
         height: 170px;
 
         border: 5px solid var(--redhh);
-        background: #C4C4C4;
+        background: #c4c4c4;
         border-radius: 50%;
 
         position: absolute;
         bottom: max(-100px, -10vw);
         left: 30px;
 
-        .image{
-  
-          
-        border-radius: 50%;
-   
+        .image {
+          border-radius: 50%;
         }
       }
     }
@@ -72,21 +67,21 @@
         color: #000000;
         font: 400 1rem Roboto;
       }
-      a{
+      a {
         margin-top: 0.2rem;
         color: #000000;
         font: 400 1rem Roboto;
       }
-      
+
       .certificate_button {
         margin-left: 10px;
         width: 9rem;
-        height: 1.5rem; 
+        height: 1.5rem;
         background-color: var(--redhh);
-        color: #fff ;
+        color: #fff;
       }
-      .certificate_button:hover{
-        height: 1.5rem; 
+      .certificate_button:hover {
+        height: 1.5rem;
         background-color: var(--redhh-2);
         color: #fff;
       }
@@ -108,7 +103,7 @@
 
       button {
         background-color: var(--redhh);
-      
+
         color: #fff;
       }
       button:hover {
@@ -125,10 +120,10 @@
   }
 }
 
-.link{
+.link {
   cursor: pointer;
 }
-.link:hover{
+.link:hover {
   text-decoration: underline;
 }
 
@@ -137,7 +132,6 @@
   text-align: center;
   color: #fff;
   font-size: 5rem;
-
 }
 @media screen and (max-width: 960px) {
   .container {

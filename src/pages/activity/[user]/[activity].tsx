@@ -180,7 +180,7 @@ export default function Activity() {
                         <MapActivity {...props} />
 
                         {
-                            (!isParticipating === false && activity.participants === activity.totalParticipants) || activity.activityOwner === decodedtoken.iss ?
+                            (!isParticipating === false && activity.participants === activity.totalParticipants) || decodedtoken.iss === activity.activityOwner ?
                                 <></> : <button onClick={handleClick}>
                                     {isParticipating ? "Cancelar" : "Participar"}
                                 </button>

@@ -28,8 +28,10 @@ export default function Organizations(orgs: userProps) {
         }
       }
     let decodedToken: Token = jwt_decode(Cookies.getJSON('token'));
-    useEffect(() => {
-        api.get(`users/isfollowing/${orgs.username}` ,config).then(response => setFollowing(response.data))
+    useEffect( () => {
+        async function get(){
+        await api.get(`users/isfollowing/${orgs.username}` ,config).then(response => setFollowing(response.data))}
+        get();
     }, [])
 
     async function follow(orgname) {

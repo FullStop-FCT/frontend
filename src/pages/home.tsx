@@ -49,8 +49,19 @@ export default function Home() {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
+  const SearchEnter = async (e) => {
+    if(e.key === 'Enter'){
+      console.log('enter')
+      await api.get(`activities/search/?keyword=${val}`,config).then((response) => {
+        console.log(response.data)
+        setEndlist(false);
+        setListativities(response.data)
+      })
+    }
+  }
   const Search = async () => {
-    api.get(`activities/search/?keyword=${val}`,config).then((response) => {
+    
+    await api.get(`activities/search/?keyword=${val}`,config).then((response) => {
       console.log(response.data)
       setEndlist(false);
       setListativities(response.data)
@@ -105,8 +116,8 @@ export default function Home() {
       <div id="target" className={styles.Feed}>
 
           <div className={styles.searchBar}>
-          <button><SearchIcon fontSize="large" onClick={Search} ></SearchIcon></button>
-          <input className={styles.formP} name="pesquisa" placeholder="Pesquisa" onChange={(e) => handleVal(e)}></input>
+          <button><SearchIcon fontSize="large" onClick={Search} onKeyDown={() => SearchEnter} ></SearchIcon></button>
+          <input className={styles.formP} name="pesquisa" placeholder="Pesquisa por atividades" onChange={(e) => handleVal(e)}></input>
           </div>
 
           <div className={styles.scroll}>
