@@ -5,52 +5,96 @@ import UnauthorizedAcess from '../Components/UnauthorizedAccess';
 import styles from './ranking/rankingtables.module.scss';
 import Header from '../Components/Header';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { listBackOfficeProps } from '../types';
+import { api } from '../../services/api'
 
 export default function Users() {
 
-    const token: Token = jwt_decode(Cookies.getJSON('token'))
+    const token = Cookies.getJSON('token');
+    const decoded_token: Token = jwt_decode(token);
 
-    let role = token.role;
+    let user_role = decoded_token.role;
 
-    if (role == 'USER' || role == 'BO')
+    
+    if (user_role == 'USER' || user_role == 'BO')
         return (<div><UnauthorizedAcess/></div>)
 
-    else {
-        const [users, setUsers] = useState([]);
+    const path: string = 'backoffice/liststaff';
+    const [cursor, setCursor] = useState<string>(null);
+    const [users, setUsers] = useState<listBackOfficeProps>([]);
+    const [endlist, setEndlist] = useState<boolean>(true);
 
-        useEffect( () => {
-            axios.post('https://helpinhand-318217.ey.r.appspot.com/rest/users/user/hours', token) //Mudar fetch aqui
-                .then(response => { setUsers(response.data)})
-        }, [])
+    const config = {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        }
+    }
 
-        return (
-            <div className={styles.container}>
 
-                <div className={styles.header}>
-                    <Header/>
-                </div> 
+    async function fetch() {
 
-                <div className={styles.scoreTable}>
+
+        return await api.post(path, cursor, config) 
+                        .then(function(response) { 
+                            
+                            if(response.data.results.length == 0 ) {
+                                setEndlist(false);
+                                return;
+                              }
+
+                            setUsers((current) => 
+                                current.concat(response.data.results)  );
+                            setCursor(response.data.cursorString);})
+
+                        .catch(error => console.log(error))
+    }
+
+    return (
+
+        <div className={styles.container}>
+
+            <div className={styles.header}>
+                <Header/>
+            </div> 
+
+            <div className={styles.scoreTable}>
+                <InfiniteScroll
+                    dataLength={users.length + 6} //This is important field to render the next data
+                    next={fetch}
+                    hasMore={endlist}
+                    loader={<a></a>}
+                    endMessage={
+                        <div>
+                        <br/>
+                        <p style={{ textAlign: 'center' }}>
+                            <b>Não há mais utilizadores.</b>
+                        </p>
+                    </div>
+                    }
+                >
                     <table>
                         <tbody>
                             <tr>
                                 <th>Username</th>
-                                <th>Denúncias Recebidas</th>
+                                <th>Role</th>
                             </tr>
                         </tbody>
-                        {users.map( (user, index) => 
-                                <tbody key={index}>
-                                    <tr>
-                                        <td>{user.username}</td> 
-                                        <td>Meter aqui o atributo denuncias</td>
-                                    </tr>
-                                </tbody>
-                            )
-                        }
+                        
+                            {users.map((user, index) => 
+                                    <tbody key={index}>
+                                        <tr>
+                                            <td>{user.username}</td> 
+                                            <td>{user.role}</td>
+                                        </tr>
+                                    </tbody>
+                                )
+                            }
+                        
                     </table>
-                </div>
+                </InfiniteScroll>
             </div>
-        )
-    }
+        </div>
+    )
 }
