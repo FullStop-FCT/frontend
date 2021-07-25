@@ -153,7 +153,10 @@ export default function Profile() {
               <div>
                         {
                         number === 1 ?
-                            <ActivitiesToDoList /> : <></>
+                          
+                            <ActivitiesToDoList />
+                        
+                             : <></>
         
                         }
                         {

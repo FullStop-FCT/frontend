@@ -4,7 +4,7 @@ import { api } from "../../../services/api";
 import ActivityToDo from '../Activitytodo'
 import ActivityCreated from '../ActivityCreated'
 import { Token, activitytodoProps,listAtivitiesTodoProps } from "../../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 
@@ -35,10 +35,14 @@ export default function OwnActivitiesList() {
       setCursor(response.data.cursorString)
         console.log(cursor);});
     }
-
+    useEffect(() => {
+      fetchData();
+    }  
+    , [])
+  
   return (
     <div>
-
+<h3 style={{ textAlign: 'center' }}>Atividades Criadas</h3>
 <InfiniteScroll
           dataLength={listativities.length * 5} //This is important field to render the next data
           next={fetchData}
