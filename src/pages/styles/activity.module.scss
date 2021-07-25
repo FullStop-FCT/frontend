@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
   .header {
     background: var(--bluehh);
     width: 20%;
@@ -23,9 +24,9 @@
       background-color: #ccd6eb;
       border-radius: 15px 15px 15px 15px;
       box-shadow: black;
-      height: 700px;
+      min-height: 500px;
       width: 1000px;
-      overflow-y: scroll;
+      overflow-y: auto;
       display: flex;
       flex-direction: column;
       color: #000;
@@ -170,6 +171,11 @@
         .sendcoment {
         }
       }
+    }
+    .listcomment {
+      height: 300px;
+      width: 1000px;
+      background-color: var(--bluehh);
     }
   }
 }
