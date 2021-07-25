@@ -56,6 +56,11 @@ export default function Home() {
   const handleVal = (e) => {
     setVal(e.target.value)
   }
+
+  useEffect(() => {
+    fetchData();
+  }  
+  , [])
   
  function fetchData() {
   console.log('segundo fetch')
@@ -167,3 +172,4 @@ export default function Home() {
     </div>
   )
 }
+
