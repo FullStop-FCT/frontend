@@ -18,6 +18,12 @@ export default function ListComment(activity:AtivitiesProps){
       'Content-Type': 'application/json'
     }
   }
+
+  useEffect(() => {
+    fetch();
+  }  
+  , [])
+
   async function fetch(){
     console.log('fetch')
     await api.post(`comments/list/${activity.ID}/${activity.activityOwner}`,cursor,config).then( response => {
