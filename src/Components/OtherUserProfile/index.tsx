@@ -19,19 +19,33 @@ import ActivitiesDoneList from '../../Components/ActivitiesDoneList';
 import { GoLocation } from 'react-icons/go'
 import { AiOutlineMail, AiOutlinePhone } from 'react-icons/ai'
 
+const token: Token = Cookies.getJSON('token');
+
+const config = {
+  headers: {
+    'Authorization': 'Bearer ' + token,
+    'Content-Type': 'application/json'
+  }
+}
+
 async function fetcher(path: string): Promise<userProps> {
-    const token: Token = Cookies.getJSON('token')
-    let config = {
-      headers: {
-        'Authorization': 'Bearer ' + token
-      }
-    }
     return await api.get(path,config).then(response => response.data);
 }
+
 
 export default function Profile() {
 
   const router = useRouter();
+
+  async function suspend(user) {
+
+    await api.post(`backoffice/suspend`,user, config).then(() => router.push('/home'))
+  }
+  
+  async function remove(user) {
+  
+    await api.post(`backoffice/delete`, user, config).then(() => router.push('/home'))
+  }
   
   const [page, changepage] = useState(1);
   const [number, setNumber] = useState(1);
@@ -52,7 +66,6 @@ export default function Profile() {
     }
   }
     
-    let username = window.location.pathname.replace('/', '');
     let user: userProps = null;
     let imageLoader = null;
     
@@ -64,6 +77,8 @@ export default function Profile() {
     catch(error){ 
       window.location.href = '/login';
     }
+
+    let username = window.location.pathname.replace('/', '');
 
     let { data, error } = useSWR(`users/get/${username}`, fetcher);
     user = data;
@@ -82,7 +97,7 @@ export default function Profile() {
 
         <div className={styles.container}>
           <Head>
-            <title>{token.iss}</title>
+            <title>{user.name}</title>
           </Head>
   
           <div className={styles.header}>
@@ -115,23 +130,10 @@ export default function Profile() {
                 <button onClick={ () => router.push(`/${username}/report`)}>Denunciar</button>
                 :
                 <div>
-                  <button>Suspender Conta</button>
+                  <button onClick={() => suspend(username)}>Suspender Conta</button>
                   <br/>
-                  <button>Eliminar Conta</button>
+                  <button onClick={() => remove(username)}>Eliminar Conta</button>
                 </div>
-              }
-
-              {(role == 'ADMIN') ?  //TODO -> Falta fazer a verifcao se ja e BO ou Admin para nao aparecerem sempre os dois botoes 
-                                    //Ou para aparecerem botoes para despromover
-                                    //talvez seja melhor meter isto na parte da listagem de users
-                         
-                <div>    
-                  <button>Promover para BO</button>
-                  <br/>
-                  <button>Promover para Admin</button>
-                </div>
-                :
-                null
               }
   
             </div>

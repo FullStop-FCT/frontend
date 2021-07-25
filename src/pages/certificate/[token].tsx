@@ -13,7 +13,7 @@ export default function App() {
 
   const[values, setValues] = useState<listAtivitiesProps>([]);
 
-  const token = Cookies.getJSON('token');
+ /* const token = Cookies.getJSON('token');
   const decoded_token: Token = jwt_decode(token);
   const username = decoded_token.iss;
 
@@ -37,7 +37,7 @@ export default function App() {
 
   fetch();
 
-  }, [])
+  }, [])*/
 
  return ( 
     <div>
