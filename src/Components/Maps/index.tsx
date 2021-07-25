@@ -71,7 +71,7 @@ export default function MapView() {
   )  
 
   const onMapClickPoints = (event) => {
-    if(npoints > 1){
+    if(npoints > 1 && npoints < 11){
       console.log(npoints)
       if(points.length === npoints-1){
         console.log('render')
@@ -173,7 +173,7 @@ export default function MapView() {
       </label>
 
       {
-        routes ? <input name="npoints" id="npoints" type="text" placeholder="Numero de pontos no mapa" onChange={handleNPoints}></input> : <></>
+        routes ? <input name="npoints" id="npoints" type="text" placeholder="Número de pontos, Min: 2 Max: 10" onChange={handleNPoints}></input> : <></>
       }
       
       {
