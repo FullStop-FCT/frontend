@@ -19,10 +19,6 @@ export default function User() {
   catch(error){ 
     window.location.href = '/login';
   }
-  
-  
-  var myLoader = null;
-  let user: userProps = null;
 
   if (username == token.iss) {
     return (

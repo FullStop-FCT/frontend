@@ -9,6 +9,8 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { listBackOfficeProps } from '../types';
 import { api } from '../../services/api'
 
+
+
 export default function Users() {
 
     const token = Cookies.getJSON('token');
@@ -20,7 +22,6 @@ export default function Users() {
     if (user_role == 'USER' || user_role == 'BO')
         return (<div><UnauthorizedAcess/></div>)
 
-    const path: string = 'backoffice/liststaff';
     const [cursor, setCursor] = useState<string>(null);
     const [users, setUsers] = useState<listBackOfficeProps>([]);
     const [endlist, setEndlist] = useState<boolean>(true);
@@ -32,23 +33,22 @@ export default function Users() {
         }
     }
 
-
     async function fetch() {
 
 
-        return await api.post(path, cursor, config) 
-                        .then(function(response) { 
-                            
-                            if(response.data.results.length == 0 ) {
-                                setEndlist(false);
-                                return;
-                              }
+        return await api.post('backoffice/liststaff', cursor, config) 
+            .then(function(response) { 
+                
+                if(response.data.results.length == 0 ) {
+                    setEndlist(false);
+                    return;
+                    }
 
-                            setUsers((current) => 
-                                current.concat(response.data.results)  );
-                            setCursor(response.data.cursorString);})
+                setUsers((current) => 
+                    current.concat(response.data.results)  );
+                setCursor(response.data.cursorString);})
 
-                        .catch(error => console.log(error))
+            .catch(error => console.log(error))
     }
 
     return (
@@ -78,7 +78,8 @@ export default function Users() {
                         <tbody>
                             <tr>
                                 <th>Username</th>
-                                <th>Role</th>
+                                <th>Cargo</th>
+                                <th>Comandos</th>
                             </tr>
                         </tbody>
                         
@@ -87,6 +88,25 @@ export default function Users() {
                                         <tr>
                                             <td>{user.username}</td> 
                                             <td>{user.role}</td>
+                                            <td>
+                                                {user.role == 'BO' ?
+                                                
+                                                <button onClick={async() => {await api.post('backoffice/promote', user.username, config);
+                                                                            setTimeout(() => location.reload(), 750)}}>
+                                                    Promover</button>
+                                                
+                                                :
+                                                
+                                                <button onClick={async() => {await api.post('backoffice/demote', user.username, config);
+                                                                            setTimeout(() => location.reload(), 750)}}>
+                                                    Despromover</button>
+                                                }
+                                                
+                                                <button onClick={async() => {await api.post('backoffice/deleteStaff', user.username, config);
+                                                                            setTimeout(() => location.reload(), 750)}}>
+                                                    Eliminar</button>
+                                            </td>
+                                            
                                         </tr>
                                     </tbody>
                                 )

@@ -66,6 +66,15 @@ const styles = StyleSheet.create({
 
 export default function Certificate(props) {
 
+  function timeConvert(n) {
+    var num = n;
+    var hours = (num / 60);
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + " hora(s) e " + rminutes + " minuto(s).";
+  }
+
     return(
         <Document>
           <Page size="A4" style={styles.body}>
@@ -83,7 +92,7 @@ export default function Certificate(props) {
                     {activity.title}
                   </Text>
                   <Text style={styles.text}>
-                    {"Duração: " + activity.activityTime + " minutos."}
+                    {"Duração: " + timeConvert(activity.activityTime)}
                   </Text>
                 </div>
               

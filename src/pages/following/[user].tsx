@@ -17,7 +17,13 @@ type Token = {
 }
 async function fetcher(path: string) {
   const token: Token = Cookies.getJSON('token')
-  return await api.post(path, token).then(response => response.data);
+
+  const config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  }
+  return await api.get(path, config).then(response => response.data);
 }
 
 export default function Following() {
