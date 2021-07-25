@@ -1,6 +1,5 @@
 import Header from '../Header';
 import styles from './styles.module.scss';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import Image from 'next/image'
@@ -9,11 +8,12 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { IoLocationSharp } from "react-icons/io5";
 import { userProps, Token } from "../../types"
 import jwt_decode from "jwt-decode"
-
-
+import { useRouter } from 'next/router';
 
 
 export default function Organizations(orgs: userProps) {
+
+    const router = useRouter();
 
     const [following, setFollowing] = useState<boolean>();
 
@@ -92,7 +92,7 @@ export default function Organizations(orgs: userProps) {
                             following ? 'Seguindo' : 'Seguir'
                     }
                 </h1>
-                <h1 className={styles.message_button}>Contatar</h1>
+                <h1 onClick={() => router.push(`/${orgs.username}`)} className={styles.message_button}>Ver</h1>
                 
             </div>           
         </div>
