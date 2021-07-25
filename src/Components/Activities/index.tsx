@@ -176,7 +176,7 @@ export default function Activities() {
             
             console.log(request)
             console.log(authenticated)
-            if (values.location !== "") {
+            if (values.location !== "" || values.date === null) {
               if (authenticated) {
                 await api.post('activities/insert',request,config)
                   .then(response => 
@@ -189,7 +189,7 @@ export default function Activities() {
               }
             }
             else {
-              //alert('Sem localização.')
+              alert('Prencher data')
               setLocalError(true)
             }
             setSubmitting(false);

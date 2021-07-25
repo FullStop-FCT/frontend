@@ -58,6 +58,7 @@ export type AtivitiesProps = {
   keywords: string[],
   waypoints: string[],
   activityTime: number,
+  done: boolean,
 }
 
 export type listAtivitiesProps = AtivitiesProps[];

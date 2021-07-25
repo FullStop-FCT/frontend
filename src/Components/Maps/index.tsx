@@ -54,6 +54,8 @@ export default function MapView() {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries,
   });
+
+  console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
   //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
   const { activityLocation, setActivityLocation, markers, setMarkers, setMappoints } = useContext(MapContext);
 
@@ -71,7 +73,7 @@ export default function MapView() {
   )  
 
   const onMapClickPoints = (event) => {
-    if(npoints > 1){
+    if(npoints > 1 && npoints < 11){
       console.log(npoints)
       if(points.length === npoints-1){
         console.log('render')
@@ -173,7 +175,7 @@ export default function MapView() {
       </label>
 
       {
-        routes ? <input name="npoints" id="npoints" type="text" placeholder="Numero de pontos no mapa" onChange={handleNPoints}></input> : <></>
+        routes ? <input name="npoints" id="npoints" type="text" placeholder="Número de pontos, Min: 2 Max: 10" onChange={handleNPoints}></input> : <></>
       }
       
       {

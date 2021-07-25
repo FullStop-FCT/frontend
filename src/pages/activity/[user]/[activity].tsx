@@ -42,6 +42,12 @@ export default function Activity() {
             size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} className={styles.multiline} />
         )
     }
+    async function SetHours() {
+        
+
+        await api.get(`activities/compute/${activity.ID}/${activity.activityTime}`,config).then(response => console.log(response.data))
+        router.reload();
+    }
 
     const validationSchema = Yup.object({
         comment: Yup.string()
@@ -50,12 +56,11 @@ export default function Activity() {
        
       });
 
-   
-
 
     async function fetchActivity(path: string) {
         
         await api.get(path, config).then(response => setActivity(response.data))
+        
     }
 
     async function fetchUser(path: string): Promise<userProps> {
@@ -94,6 +99,7 @@ export default function Activity() {
 
         fetchActivity(`activities/get/${activityID}/${activityOwner}`)
         fetch();
+        console.log(activity)
         fetchUserJoined(`activities/listJoinedUsers/${activityID}`);
         
     }, [isParticipating])
@@ -133,9 +139,6 @@ export default function Activity() {
                 <Header />
             </div>
         <div className={styles.container}>
-
-            
-
             <div className={styles.organizer}>
 
                 <div className={styles.org_info}>
@@ -180,10 +183,19 @@ export default function Activity() {
                         <MapActivity {...props} />
 
                         {
-                            (!isParticipating === false && activity.participants === activity.totalParticipants) || decodedtoken.iss === activity.activityOwner ?
+                            (!isParticipating === false && activity.participants === activity.totalParticipants) || decodedtoken.iss === activity.activityOwner ||
+                            (format(new Date(activity.date), "dd/MM/yyyy") < format(Date.now(),"dd/MM/yyyy") ) ?
                                 <></> : <button onClick={handleClick}>
                                     {isParticipating ? "Cancelar" : "Participar"}
                                 </button>
+                        }
+
+                        {
+
+(format(new Date(activity.date), "dd/MM/yyyy") < format(Date.now(),"dd/MM/yyyy") ) && activity.activityOwner === decodedtoken.iss && activity.done === false ? <button className={styles.addhours} onClick={SetHours}>
+Atribuir Horas aos participantes {activity.done}
+</button> : <></>
+                            
                         }
 
                     </div>

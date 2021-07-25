@@ -114,8 +114,15 @@ export default function Profile() {
                         }
                         <br />
                         <br />
-                        <button className={styles.infobutt} onClick={() => router.push('/settings/profile')}>Edit info</button>
-                        <button className={styles.certificate_button} onClick={() => router.push('checkout')}>Pedir Certificado</button>
+                        {
+                            !user.isOrg &&
+                            <button className={styles.infobutt} onClick={() => router.push('/settings/profile')}>Edit info</button>
+                        }
+                        {
+                            !user.isOrg &&
+                            <button className={styles.certificate_button} onClick={() => router.push('checkout')}>Pedir Certificado</button>
+                        }
+                       
                     </div>
                     <div>
                         <hr className={styles.line} />
