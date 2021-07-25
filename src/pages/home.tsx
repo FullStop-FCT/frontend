@@ -36,9 +36,6 @@ export default function Home() {
 
   const [endlist, setEndlist] = useState<boolean>(true);
 
-
-
-
   const config = {
     headers: {
       'Authorization': 'Bearer ' + token,

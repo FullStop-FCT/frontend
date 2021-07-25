@@ -107,7 +107,12 @@ export default function Profile() {
                         <p><AiOutlineMail /> {user.email}</p>
                         <p><AiOutlinePhone /> {user.phoneNumber}</p>
                         <Link href={`following/${token.iss}`}><a className={styles.link}>Seguindo: {user.followings}</a></Link>
-                        <a> Seguidores: {user.followers}</a>
+
+                        {user.isOrg ?
+                            <a> Seguidores: {user.followers}</a>
+                            :
+                            null
+                        }
                         <br />
                         <br />
                         <button className={styles.infobutt} onClick={() => router.push('/settings/profile')}>Edit info</button>

@@ -25,6 +25,7 @@ export type userProps = {
   image: string;
   followers: number,
   followings: number,
+  isOrg: boolean
 }
 
 export type listuserProps = userProps[];
