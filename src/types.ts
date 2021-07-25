@@ -29,6 +29,15 @@ export type userProps = {
 
 export type listuserProps = userProps[];
 
+export type BackOfficeProps = {
+  username: string;
+  email: string;
+  password: string;
+  role: string;
+}
+
+export type listBackOfficeProps = BackOfficeProps[];
+
 
 export type AtivitiesProps = {
   ID: string,

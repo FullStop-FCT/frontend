@@ -18,10 +18,25 @@ export default function Users() {
 
     const [users, setUsers] = useState([]);
 
+    const config = {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
+    }
+
     useEffect( () => {
-        axios.post('https://helpinhand-318217.ey.r.appspot.com/rest/users/user/hours', token)
+        axios.get('https://helpinhand-318217.ey.r.appspot.com/rest/users/user/hours', config)
             .then(response => { setUsers(response.data)})
     }, [])
+
+    function timeConvert(n) {
+        var num = n;
+        var hours = (num / 60);
+        var rhours = Math.floor(hours);
+        var minutes = (hours - rhours) * 60;
+        var rminutes = Math.round(minutes);
+        return rhours + "h " + rminutes + "m";
+    }
 
     return  (
 
@@ -37,7 +52,7 @@ export default function Users() {
                         <tr>
                             <th>Posição</th>
                             <th>Nome</th>
-                            <th>Horas Realizadas</th>
+                            <th>Tempo Dispendido</th>
                         </tr>
                     </tbody>
                     {users.map( (user, index) => 
@@ -45,7 +60,7 @@ export default function Users() {
                                 <tr>
                                     <td>{index + 1 + "."}</td>
                                     <td>{user.username}</td> 
-                                    <td>{user.hoursDone}</td>
+                                    <td>{timeConvert(user.hoursDone)}</td>
                                 </tr>
                             </tbody>
                         )

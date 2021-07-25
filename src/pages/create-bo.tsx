@@ -34,83 +34,87 @@ const validationSchema = Yup.object({
 
 export default function Register() {
 
-    const token: Token = jwt_decode(Cookies.getJSON('token'))
+    const token = Cookies.getJSON('token');
+    const decoded_token: Token = jwt_decode(token);
 
-    let role = token.role;
+    let user_role = decoded_token.role;
 
-    if (role == 'USER' || role == 'BO')
+    
+    if (user_role == 'USER' || user_role == 'BO')
         return (<div><UnauthorizedAcess/></div>)
 
-    else {
-        
-        const[role, setRole] = useState('');
-        const router = useRouter();
+    async function fetch(values) {
 
-        return (
-            <div className={styles.container}>
+        const config = {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }
 
-                <div className={styles.header}>
-                    <Header/>
-                </div>
-
-                <div className={styles.register}>
-                    <h1>Organização</h1>
-                    <Formik initialValues={{
-                        name: '',
-                        username: '',
-                        password: '',
-                        email: '',
-                        role: '',
-                        org: false
-                    }}
-                    validationSchema={validationSchema}
-
-                    onSubmit={async (values, { setSubmitting }) => {
-
-                        setSubmitting(true);
-
-                        values.role = role;
-
-                        await api.post('users/insert', values
-                            ).then(function (response) {
-                            console.log(JSON.stringify(response.data));
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
-
-                        setSubmitting(false);
-
-                        router.push("/bo-users")
-                    }}>
-
-                    {({ isSubmitting }) => (
-                        <Form className={styles.form}  >
-                        <MyTextField className={styles.input} placeholder="Nome da Organização" name="name" type="input" as={TextField} />
-                        <br/>
-                        <MyTextField placeholder="Username" name="username" type="input" as={TextField} />
-                        <br/>
-                        <MyTextField placeholder="Password" name="password" type="input" as={TextField} />
-                        <br/>
-                        <MyTextField placeholder="Email" name="email" type="input" as={TextField} />
-                        <br/>
-                        <a>Role:</a>
-                        <select name="role" onChange={e => setRole(e.target.value)}>
-                            <option value="ADMIN">Admin</option>
-                            <option value="BO">Back Office</option>
-                            <option value="USER">User</option>
-                        </select>
-
-                        <div>
-                            <Button disabled={isSubmitting} type="submit">Registar</Button>
-                        </div>
-                        </Form>
-                    )
-                    }
-                    
-                    </Formik>
-                </div>
-            </div>
-        );
+        return await api.post('backoffice/insert', values, config)
+                        .then(response => console.log(response))
+                        .catch(error => console.log(error));
     }
+
+
+    const[role, setRole] = useState('ADMIN');
+    const router = useRouter();
+
+    return (
+        <div className={styles.container}>
+
+            <div className={styles.header}>
+                <Header/>
+            </div>
+
+            <div className={styles.register}>
+                
+                <Formik initialValues={{
+                    username: '',
+                    password: '',
+                    email: '',
+                    role: '',
+                }}
+                validationSchema={validationSchema}
+
+                onSubmit={async (values, { setSubmitting, resetForm }) => {
+
+                    setSubmitting(true);
+
+                    values.role = role;
+
+                    fetch(values);
+
+                    setSubmitting(false);
+
+                    resetForm();
+
+                    console.log(values);
+                }}>
+
+                {({ isSubmitting }) => (
+                    <Form className={styles.form}  >
+                    <MyTextField placeholder="Username" name="username" type="input" as={TextField} />
+                    <br/>
+                    <MyTextField placeholder="Password" name="password" type="input" as={TextField} />
+                    <br/>
+                    <MyTextField placeholder="Email" name="email" type="input" as={TextField} />
+                    <br/>
+                    <a>Role:</a>
+                    <select name="role" onChange={e => setRole(e.target.value)}>
+                        <option value="ADMIN">Admin</option>
+                        <option value="BO">Back Office</option>
+                    </select>
+
+                    <div>
+                        <Button disabled={isSubmitting} type="submit">Registar</Button>
+                    </div>
+                    </Form>
+                )
+                }
+                
+                </Formik>
+            </div>
+        </div>
+    );
 }

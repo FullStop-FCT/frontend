@@ -5,7 +5,7 @@ import Header from '../Components/Header';
 import React, { useContext, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { api } from "../../services/api";
-import useSWR from 'swr';
+
 import { useRouter } from 'next/router';
 import SearchIcon from '@material-ui/icons/Search';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -59,30 +59,13 @@ export default function Home() {
   const handleVal = (e) => {
     setVal(e.target.value)
   }
-
-  useEffect(() => {
-    async function fetch(path: string){
-      console.log("primeiro fetch");
-      await api.post(path, cursor, config).then( function(response) { 
-        console.log(response.data)
-       res = response.data;
-       setCursor(response.data.cursorString);
-       setListativities(response.data.results.reverse());
-      
-       console.log('primeriro fetch' ,listativities)
-      console.log(cursor);});
-    }
-    fetch(path);
-      
-  }  
-  , [])
   
  function fetchData() {
   console.log('segundo fetch')
      api.post(path, cursor, config).then( (response) => {
 
       res = response.data;
-      if(res.results.length ===0 ){
+      if(res.results.length === 0 ){
         setEndlist(false);
         return;
       }
@@ -96,9 +79,7 @@ export default function Home() {
 
 
   return (
-
     <div className={styles.container} >
-
       <Head>
         <title>Home</title>
       </Head>
@@ -189,4 +170,3 @@ export default function Home() {
     </div>
   )
 }
-

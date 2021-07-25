@@ -18,8 +18,14 @@ export default function Users() {
 
     const [orgs, setOrgs] = useState([]);
 
+    const config = {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
+    }
+
     useEffect( () => {
-        axios.post('https://helpinhand-318217.ey.r.appspot.com/rest/users/listorg', token)
+        axios.get('https://helpinhand-318217.ey.r.appspot.com/rest/users/listorg', config)
             .then(response => { console.log(response.data); setOrgs(response.data)})
     }, [])
 
