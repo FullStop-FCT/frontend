@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-
+  width: 300px;
+  position: fixed;
+  background-color: var(--bluehh);
   h1 {
     font-size: 3.2rem;
     color: var(--redhh);
@@ -20,7 +22,7 @@
     text-align: start;
     min-height: 100vh;
     font-size: 1.5rem;
-    width: 100%; 
+    width: 100%;
 
     .logout {
       display: flex;

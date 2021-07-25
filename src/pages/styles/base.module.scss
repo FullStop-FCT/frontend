@@ -4,16 +4,13 @@
   justify-content: space-between;
   height: 100vh;
 
-  
-
   .header {
-    background: var(--bluehh);
     width: 20%;
     height: 100%;
-    border-right: 2px solid rgb(192, 189, 189);
-    margin-bottom:0;
+
+    margin-bottom: 0;
   }
- 
+
   .Feed {
     width: 65%;
     height: 100%;
@@ -22,10 +19,9 @@
     flex-direction: column;
     text-align: center;
     align-items: center;
-    position: relative;
 
     .scroll {
-      width:100%;
+      width: 100%;
     }
 
     .searchBar {
@@ -33,9 +29,8 @@
       margin-bottom: 20px;
       margin-top: 70px;
       margin-bottom: 30px;
-    
     }
-  
+
     .activity {
       background-color: var(--whitehh);
       border-radius: 5px;
@@ -43,7 +38,7 @@
       border-style: solid;
       margin-bottom: 20px;
       width: 600px;
-  
+
       a {
         font-size: 160%;
         color: #993955;
@@ -51,7 +46,7 @@
       }
     }
 
-    .formP{
+    .formP {
       width: 15rem;
     }
   }
@@ -64,33 +59,24 @@
     .filters {
       margin-bottom: 30px;
     }
-    
-    h1{
+
+    h1 {
       margin-bottom: 30px;
     }
   }
+}
 
-
-
- 
-  }
-
-
-  @media screen and (max-width: 960px) {
-    .container {
-      flex-direction: column;
-      .header {
-        display: none;
-      }
-      .banneravatar {
-        width: 100%;
-      }
-      .other {
-        display: none;
-      }
+@media screen and (max-width: 960px) {
+  .container {
+    flex-direction: column;
+    .header {
+      display: none;
+    }
+    .banneravatar {
+      width: 100%;
+    }
+    .other {
+      display: none;
     }
   }
-  
-    
-
-
+}
