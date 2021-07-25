@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 import Link from 'next/link';
 import { Token } from '../types';
 import jwt_decode from "jwt-decode";
+import Footer from '../Components/Footer';
 
 
 
@@ -34,13 +35,7 @@ export default function Login() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (token) {
-      router.push(`/${token.iss}`)
-    }
-  })  
-
-  const { authenticated, handleLogin, error } = useContext(AuthContext);
+  const { handleLogin, error } = useContext(AuthContext);
 
   const[emailError, setEmailError] = useState(false);
   const[inputError, setInputError] = useState(false);
@@ -131,6 +126,7 @@ export default function Login() {
             }
         </div>
     </div>
+    <Footer />
   </div>
   );
 }

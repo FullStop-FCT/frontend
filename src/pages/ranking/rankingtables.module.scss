@@ -11,6 +11,18 @@
       
     }
 
+    
+  .options{
+    width: 100%;
+    position: fixed;
+    left: 45%;
+
+    .options_buttons {
+        height: 45px;
+        width: 160px;
+    }
+  }
+
     .scoreTable {
       margin:auto;
     }

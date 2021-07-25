@@ -8,7 +8,7 @@ type MenuItems = {
 export const menu : MenuItems[] = [
   {
     title: 'Início',
-    url: "#top",
+    url: "/#top",
     cName: 'nav-links'
 
   },{
@@ -22,22 +22,22 @@ export const menu : MenuItems[] = [
     cName: 'nav-links'
 
   },{
-    title: 'Inscreva-se',
+    title: 'Registar',
     url: "/registeroption",
     cName: 'nav-links'
 
   },{
     title: 'Sobre',
-    url: "#sobre",
+    url: "/#sobre",
     cName: 'nav-links'
 
   },{
     title: 'Como Funciona',
-    url: "#video",
+    url: "/#video",
     cName: 'nav-links'
   },{
     title: 'Contatos',
-    url: "#contatos",
+    url: "/#contatos",
     cName: 'nav-links'
   }
   
