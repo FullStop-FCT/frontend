@@ -18,9 +18,10 @@ import jwt_decode from 'jwt-decode'
 import {BiPhotoAlbum} from 'react-icons/bi'
 import ListComment from '../../../Components/ListComment'
 import {TextField,Button} from '@material-ui/core';
-
+import { useRouter } from 'next/router'
 
 export default function Activity() {
+    const router = useRouter();
     let path = window.location.pathname.replace('/', '');
     let path_values: String[] = path.split("/");
     let activityOwner = path_values[1];
@@ -53,7 +54,7 @@ export default function Activity() {
 
 
     async function fetchActivity(path: string) {
- 
+        
         await api.get(path, config).then(response => setActivity(response.data))
     }
 
@@ -235,6 +236,7 @@ export default function Activity() {
             resetForm();
             setphotopreviewState("");
             setSubmitting(false);
+            router.reload();
             
 
           }
