@@ -127,7 +127,7 @@ export default function Profile() {
                 user.profile !== 'PUBLIC' && (<h4>Esta conta é privada</h4>)
               },
               {(role == 'USER') ?
-                <button onClick={ () => router.push(`/${username}/report`)}>Denunciar</button>
+                <button onClick={ () => router.push(`reportpage/${username}/report`)}>Denunciar</button>
                 :
                 <div>
                   <button onClick={() => suspend(username)}>Suspender Conta</button>
