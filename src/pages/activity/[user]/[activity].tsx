@@ -133,9 +133,6 @@ export default function Activity() {
                 <Header />
             </div>
         <div className={styles.container}>
-
-            
-
             <div className={styles.organizer}>
 
                 <div className={styles.org_info}>
@@ -184,6 +181,10 @@ export default function Activity() {
                                 <></> : <button onClick={handleClick}>
                                     {isParticipating ? "Cancelar" : "Participar"}
                                 </button>
+                        }
+
+                        {
+                            
                         }
 
                     </div>
