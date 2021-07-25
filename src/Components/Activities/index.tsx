@@ -185,7 +185,7 @@ export default function Activities() {
                     console.log('error ' +error)
                   )
                 setSubmitting(false);
-                router.push('/home')
+                window.location.href = '/home';
               }
             }
             else {

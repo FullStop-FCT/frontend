@@ -92,7 +92,7 @@ export default function MapActivity(mapProps: mapProps) {
                     waypoints: points,
                   }}
                   // required
-                  callback={directionsCallback}
+                  callback={response && directionsCallback}
                   // optional
                  
                   // optional

@@ -1,12 +1,14 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react"
 import { api } from "../../../services/api";
-import { comment } from "../../types";
+import { AtivitiesProps, comment } from "../../types";
 import InfiniteScroll from 'react-infinite-scroll-component'
+import Comment from "../../Components/Comment";
 
 
-export default function ListComment(activityId){
-  const activity = activityId;
+export default function ListComment(activity:AtivitiesProps){
+  //console.log('accc',activity.ID)
+  
   const token = Cookies.getJSON('token')
   const [cursor, setCursor] = useState<string>(null);
   const [comments, setListcomments] = useState<comment[]>([]);
@@ -19,8 +21,12 @@ export default function ListComment(activityId){
   }
   async function fetch(){
       
-    await api.post(`comments/list/${activity}`,cursor,config).then( response => {
+    await api.post(`comments/list/${activity.ID}/${activity.activityOwner}`,cursor,config).then( response => {
 
+      if(response.data.results.length ===0 ){
+        setEndlist(false);
+        return;
+      }
       setCursor(response.data.cursorString);
       setListcomments(response.data.results)
 
@@ -45,7 +51,7 @@ export default function ListComment(activityId){
   //scrollableTarget="target"
   endMessage={
   <p style={{ textAlign: 'center' }}>
-  <b>Yay! You have seen it all</b>
+  <b></b>
   </p>
   }
 >
@@ -53,7 +59,8 @@ export default function ListComment(activityId){
   
   !comments ? <></> :
 
-  comments.map((ativ, index) => <div>{ativ}<div/>
+  comments.map((ativ, index) => < Comment {...ativ} key={index} /> )
+  
   }
     
   </InfiniteScroll>

@@ -217,6 +217,7 @@ export default function MapView() {
                     destination: points[points.length-1],
                     travelMode: 'WALKING',
                     waypoints: points,
+                    optimizeWaypoints: true,
                   }}
                   // required
                   callback={directionsCallback}
