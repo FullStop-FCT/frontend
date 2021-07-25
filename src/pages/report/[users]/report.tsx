@@ -1,10 +1,10 @@
 import ReportForm from '../../../Components/ReportForm';
 import Head from "next/head";
-import Header from '../../../Components/Header'
+import Header from '../../../Components/Header';
 import { Token } from '../../../types';
 import jwt_decode from "jwt-decode";
 import Cookies from 'js-cookie';
-import styles from '../styles/createactivity.module.scss'
+import styles from '../../styles/createactivity.module.scss'
 
 
 export default function Report(props) {
