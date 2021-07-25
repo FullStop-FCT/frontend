@@ -13,8 +13,6 @@ import { listAtivitiesCursorProps, listAtivitiesProps} from "../types";
 import InfiniteScroll from 'react-infinite-scroll-component'
 import UnauthorizedAccess from '../Components/UnauthorizedAccess'
 
-
-
 export default function Home() {
 
   const token = Cookies.getJSON('token');

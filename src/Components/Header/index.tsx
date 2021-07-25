@@ -24,7 +24,7 @@ export default function NavBar() {
 
         <div className={styles.Navbar}>
 
-          <h1 className={styles.title} >HxP</h1>
+        <Link href={'/'}><h1 className={styles.title} >HxP</h1></Link>  
 
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 

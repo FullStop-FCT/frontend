@@ -221,6 +221,10 @@ export default function Activities() {
                     <MenuItem value="" disabled>
                       Categorias
                     </MenuItem>
+                    <MenuItem value={'Sem Abrigo'}>Sem Abrigo</MenuItem>
+                    <MenuItem value={'Companhia'}>Companhia</MenuItem>
+                    <MenuItem value={'Saúde'}>Saúde</MenuItem>
+                    <MenuItem value={'Comida'}>Comida</MenuItem>
                     <MenuItem value={'Limpeza'}>Limpeza</MenuItem>
                     <MenuItem value={'Idosos'}>Idosos</MenuItem>
                     <MenuItem value={'Animais'}>Animais</MenuItem>

@@ -16,7 +16,7 @@ export default function NavBar() {
   return (
 
     <nav className={styles.NavbarItems}>
-      <img className={styles.brand_image} src='/red_logo.png' />
+      <a href="/"><img className={styles.brand_image} src='/red_logo.png' /></a>
 
       <div className={styles.menuicon} onClick={handleClick}>
         <i className={state ? "fas fa-times" : "fas fa-bars"}></i>
