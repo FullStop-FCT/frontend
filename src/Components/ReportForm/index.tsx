@@ -45,7 +45,8 @@ export default function ReportForm(props) {
             'Content-Type' : 'application/json'
           }
         }
-        return await api.post(path, props.accused, config).then(response => response.data);
+        return await api.post(path, props.accused, config)
+                .then(response => response.data);
     }
     
     return (
@@ -63,17 +64,18 @@ export default function ReportForm(props) {
             onSubmit={async (values, { setSubmitting }) => {
     
                 setSubmitting(true);
+                
+                fetcher('/users/report');
 
                 fetch('/api/report', {
                     method: 'post',
                     body: JSON.stringify(values)
                   });
-                
-                router.push(`/${props.accused}`);
-    
+
                 setSubmitting(false);
 
-                fetcher('/users/report');
+                router.push(`/${props.accused}`);
+                
                 }}>
     
     

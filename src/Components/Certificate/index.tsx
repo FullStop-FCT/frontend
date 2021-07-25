@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
       fontSize: 24,
       textAlign: 'center',
       fontFamily: 'Oswald',
-      marginBottom: 40,
+      marginBottom: 20,
     },
     author: {
       fontSize: 12,
@@ -31,11 +31,30 @@ const styles = StyleSheet.create({
       margin: 12,
       fontFamily: 'Oswald'
     },
-    text: {
+    sub_subtitle: {
+      fontSize: 15,
       margin: 12,
+      fontFamily: 'Oswald'
+    },
+    text: {
       fontSize: 14,
+      margin: 12,
       textAlign: 'justify',
       fontFamily: 'Times-Roman'
+    },
+    presentation: {
+      margin: 12,
+      fontSize: 20,
+      textAlign: 'center',
+      fontFamily: 'Times-Roman',
+      marginBottom: 40,
+    },
+    presentation_final: {
+      margin: 12,
+      fontSize: 20,
+      textAlign: 'center',
+      fontFamily: 'Times-Roman',
+      marginTop: 50,
     },
     image: {
       marginHorizontal: 300,
@@ -66,13 +85,20 @@ const styles = StyleSheet.create({
 
 export default function Certificate(props) {
 
+  console.log(props.activities);
   function timeConvert(n) {
     var num = n;
     var hours = (num / 60);
     var rhours = Math.floor(hours);
     var minutes = (hours - rhours) * 60;
     var rminutes = Math.round(minutes);
-    return rhours + " hora(s) e " + rminutes + " minuto(s).";
+    return rhours + " hora(s) e " + rminutes + " minuto(s)";
+  }
+
+  let total = 0;
+
+  function sum(time) {
+    total += time;
   }
 
     return(
@@ -83,21 +109,30 @@ export default function Certificate(props) {
 
             <Text style={styles.title}>Certificado de Voluntariado</Text>
             <Text />
+
+            <Text style={styles.presentation}>A Helping XPerience reconhece {props.user_name} pela sua contribuição nas seguintes atividades sociais:</Text>
             
             {props.activities.map((activity, index) => 
 
                 
                 <div key={index}>
                   <Text style={styles.subtitle}>
+                    {activity.activityOwner}
+                  </Text>
+                  <Text style={styles.sub_subtitle}>
                     {activity.title}
                   </Text>
                   <Text style={styles.text}>
                     {"Duração: " + timeConvert(activity.activityTime)}
+                    {sum(activity.activityTime)}
                   </Text>
                 </div>
               
             )}
 
+            <Text/>
+            <Text/>
+            <Text style={styles.presentation_final}> Totalizando {timeConvert(total)} de voluntariado durante o seu tempo registado(a) na nossa plataforma. </Text>
 
             <Image style={styles.signature} src="https://i.postimg.cc/bJgqB9gC/signature.png" />
             <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (

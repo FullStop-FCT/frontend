@@ -7,15 +7,35 @@ import { api } from "../../../services/api";
 import { useState } from 'react';
 import { listAtivitiesProps } from "../../types";
 import jwt_decode from "jwt-decode"
-import { Token } from '../../types';
+import UnauthorizedAcess from '../../Components/UnauthorizedAccess';
+
+export type Token = {
+  exp: number,
+  iat: number,
+  iss: string,
+  id: string,
+  name: string
+}
 
 export default function App() {
 
   const[values, setValues] = useState<listAtivitiesProps>([]);
 
- /* const token = Cookies.getJSON('token');
-  const decoded_token: Token = jwt_decode(token);
-  const username = decoded_token.iss;
+  const path = window.location.pathname.split('/');
+  const token = path[path.length-1];
+  let name = "";
+  let decoded_token: Token = null;
+
+  try {
+    decoded_token = jwt_decode(token);
+    name = decoded_token.name;
+  }
+  catch (error) {
+    return <UnauthorizedAcess />;
+  }
+
+  if (process.env.CERTIFICATE_KEY !== decoded_token.id)
+    return <UnauthorizedAcess />
 
   useEffect(() => {
 
@@ -37,17 +57,13 @@ export default function App() {
 
   fetch();
 
-  }, [])*/
+  }, [])
 
  return ( 
     <div>
-    {/*<PDFDownloadLink document={<MyDocument />} fileName="somename.pdf">
-      {({ blob, url, loading, error }) =>
-        loading ? 'Loading document...' : 'Download now!'
-      }
-    </PDFDownloadLink>*/}
+
     <PDFViewer className={styles.viewer}>
-        <MyDocument activities={values}/>
+        <MyDocument user_name={name} activities={values}/>
     </PDFViewer>
   </div>
 )
