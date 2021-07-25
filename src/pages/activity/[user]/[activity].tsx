@@ -1,8 +1,10 @@
 import styles from '../../styles/activity.module.scss'
 import Header from '../../../Components/Header'
+import { Formik, Form, useField, FieldAttributes } from 'Formik'
 import Cookies from 'js-cookie'
 import { api, storageProfilePic } from '../../../../services/api'
 import useSWR from 'swr'
+import * as Yup from 'Yup';
 import Loading from '../../../Components/Loading'
 import SessionOf from '../../../Components/SessionOf'
 import Image from 'next/image'
@@ -15,6 +17,9 @@ import { Token,AtivitiesProps,userProps } from '../../../types'
 import jwt_decode from 'jwt-decode'
 import {BiPhotoAlbum} from 'react-icons/bi'
 import ListComment from '../../../Components/ListComment'
+import {TextField,Button} from '@material-ui/core';
+
+
 export default function Activity() {
     let path = window.location.pathname.replace('/', '');
     let path_values: String[] = path.split("/");
@@ -25,52 +30,26 @@ export default function Activity() {
     const [activity, setActivity] = useState<AtivitiesProps>(null);
     const [photoState, setphotoState] = useState(null);
     const [photopreviewState, setphotopreviewState] = useState(null);
-    const [comment, setComment] = useState<string>("");
-    const [isSubmitting, setSubmitting] = useState(false);
 
-    const handleComment = (event) => {
-        setComment(event.target.value);
-       // console.log(comment)
-    } 
 
-    async function sendComment(){
-        setSubmitting(true)
-        
-        if(comment !== ""){
-            let image: string = ""
-        if(photoState !== null){
-            const fd = new FormData();
-            fd.append('image', photoState);
-           image= decodedtoken.iss + Date.now() + activityOwner +'.jpg';
-            await storageProfilePic.post(image, fd)
-                  .then(function (response) {
-                    //console.log(response)
-                    console.log('upload')
-                  }).catch(function (error) {
 
-                    console.log(error);
-                  })
-        }
-
-        let request = JSON.stringify({
-            message: comment,
-            image: image,
-        })
-
-        const config = {
-            headers: { 
-              'Authorization': 'Bearer ' + token,
-              'Content-Type': 'application/json' },
-
-              
-          }
-        await api.post(`comments/insert/${activityID}/${activityOwner}`,request,config).then(response => {console.log(response)}).catch(error => console.log(error))
-        setComment("");
-
-        }
-        setSubmitting(false);
-        
+    const Multiline: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
+        const [field, meta] = useField<{}>(props);
+        const errorText = meta.error && meta.touched ? meta.error : "";
+        return (
+          <TextField rows={3} variant="outlined" multiline type={type}
+            size="small" placeholder={placeholder} {...field} helperText={errorText} error={!!errorText} className={styles.multiline} />
+        )
     }
+
+    const validationSchema = Yup.object({
+        comment: Yup.string()
+          .max(100, "A descrição deve conter no maximo 100 caráteres.")
+          .required("Obrigatório"),
+       
+      });
+
+   
 
 
     async function fetchActivity(path: string) {
@@ -213,7 +192,67 @@ export default function Activity() {
             
             <div className={styles.areacomentarios}>
                      
-                            <textarea  placeholder="escreva um comentário" className={styles.textarea} onChange={handleComment} value={comment}/>
+                           
+        <Formik initialValues={{
+          comment: '',
+    
+        }}
+          validationSchema={validationSchema}
+
+          //resetform
+          onSubmit={async (values, { setSubmitting,resetForm }) => {
+            setSubmitting(true)
+        
+            
+            let image: string = ""
+            if(photoState !== null){
+                const fd = new FormData();
+                fd.append('image', photoState);
+               image= decodedtoken.iss + Date.now() + activityOwner +'.jpg';
+                await storageProfilePic.post(image, fd)
+                      .then(function (response) {
+                        //console.log(response)
+                        console.log('upload')
+                      }).catch(function (error) {
+    
+                        console.log(error);
+                      })
+            }
+    
+            let request = JSON.stringify({
+                message: values.comment,
+                image: image,
+            })
+    
+            const config = {
+                headers: { 
+                  'Authorization': 'Bearer ' + token,
+                  'Content-Type': 'application/json' },
+              }
+            await api.post(`comments/insert/${activityID}/${activityOwner}`,request,config).then(response => {console.log(response)}).catch(error => console.log(error))
+            setphotoState(null);
+            
+            resetForm();
+            setphotopreviewState("");
+            setSubmitting(false);
+            
+
+          }
+          }>
+
+          {({ isSubmitting }) => (
+            <Form className={styles.form}>
+              <div className={styles.formtext}>
+                <Multiline placeholder="Escreva um comentário" name="comment" type="input"
+                  as={Multiline} />
+
+                <Button disabled={isSubmitting} type="submit">Criar </Button>
+
+              </div>
+            </Form>
+          )
+          }
+        </Formik>
 
                         <div className={styles.send}>
                             <div className={styles.addphoto}>
@@ -226,9 +265,7 @@ export default function Activity() {
                                 <img src={photopreviewState} className={styles.imagepreview} />
                         
                             </div>
-                            <div className={styles.sendcoment}>
-                             <button disabled={isSubmitting} onClick={sendComment}>Enviar</button>
-                            </div>
+                            
                         </div>
                         
                         

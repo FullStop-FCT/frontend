@@ -20,6 +20,7 @@ const options = {
 export default function MapActivity(mapProps: mapProps) {
   let points = [];
   const [response, setResponse] = useState(null);
+  const [ stop , setStop] = useState(false);
   if(mapProps.waypoints.length > 0){
     console.log('waypoints',mapProps.waypoints);
 
@@ -59,8 +60,9 @@ export default function MapActivity(mapProps: mapProps) {
        
         setResponse(response)
         
-      } else {
-        console.log("response: ", response);
+      } else{
+          console.log("OVER_QUERY_LIMIT ");
+     
       }
     }
   };
@@ -82,7 +84,7 @@ export default function MapActivity(mapProps: mapProps) {
         onLoad={onMapLoad}
       >
 {
-              points.length === 0  ? <></> :(
+              points.length === 0 || response !== null ? <></> :(
                 <DirectionsService
                   // required
                   options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
@@ -92,7 +94,7 @@ export default function MapActivity(mapProps: mapProps) {
                     waypoints: points,
                   }}
                   // required
-                  callback={response && directionsCallback}
+                  callback={!response && directionsCallback}
                   // optional
                  
                   // optional
@@ -102,7 +104,7 @@ export default function MapActivity(mapProps: mapProps) {
             }
 
             {
-                response === null  ? <></> : (
+                response && (
                 <DirectionsRenderer
                   // required
                   options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop

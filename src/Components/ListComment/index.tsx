@@ -8,7 +8,6 @@ import Comment from "../../Components/Comment";
 
 export default function ListComment(activity:AtivitiesProps){
   //console.log('accc',activity.ID)
-  
   const token = Cookies.getJSON('token')
   const [cursor, setCursor] = useState<string>(null);
   const [comments, setListcomments] = useState<comment[]>([]);
@@ -20,7 +19,7 @@ export default function ListComment(activity:AtivitiesProps){
     }
   }
   async function fetch(){
-      
+    console.log('fetch')
     await api.post(`comments/list/${activity.ID}/${activity.activityOwner}`,cursor,config).then( response => {
 
       if(response.data.results.length ===0 ){
@@ -33,10 +32,7 @@ export default function ListComment(activity:AtivitiesProps){
     })
 
   }
-  useEffect( () => {
-    fetch();
-
-  },[])
+  
 
   return(
     <div>
@@ -49,9 +45,10 @@ export default function ListComment(activity:AtivitiesProps){
   hasMore={endlist}
   loader={<h4>Loading...</h4>}
   //scrollableTarget="target"
+  height={300}
   endMessage={
   <p style={{ textAlign: 'center' }}>
-  <b></b>
+  <b>endlist</b>
   </p>
   }
 >
