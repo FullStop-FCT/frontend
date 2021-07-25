@@ -33,6 +33,12 @@ export default function Users() {
         }
     }
 
+    useEffect(() => {
+
+        fetch()
+
+    }, [])
+
     async function fetch() {
 
 
@@ -42,7 +48,7 @@ export default function Users() {
                 if(response.data.results.length == 0 ) {
                     setEndlist(false);
                     return;
-                    }
+                }
 
                 setUsers((current) => 
                     current.concat(response.data.results)  );

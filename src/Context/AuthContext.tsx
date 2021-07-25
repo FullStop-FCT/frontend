@@ -2,11 +2,8 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { api } from '../../services/api';
 import { useRouter } from 'next/router'
 import Cookie from 'js-cookie';
-import { addDays, milliseconds } from 'date-fns'
-import Loading from '../Components/Loading'
-import { IoLogOutSharp } from 'react-icons/io5';
-import KeyWord from '../Components/keywords';
 import jwt_decode from "jwt-decode"
+
 type data = {
   username: string;
   password: string;
@@ -74,11 +71,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   
   async function handleLogout() {
     setAuthenticated(false);
-
-    Cookie.remove('token');
-    //Cookie.remove('user');
-    window.location.href = '/';
-
   }
 
 
@@ -91,19 +83,18 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       if (response.data) {
         Cookie.set('token', JSON.stringify(response.data),{ expires: 1 });
        
-        //add date-fns
-        //api.defaults.headers.Authorization = `Bearer ${response.data.tokenID}`;
-        //console.log(response.data.username)
+
         setAuthenticated(true);
         var decoded: token = jwt_decode(response.data);
-        //console.log(decoded.iss)
-        router.push(`/${decoded.iss}`);
+        
       }
     })
       .catch(function (error) {
         setError(error.response.data);
         setAuthenticated(false);
       });
+
+      router.push('/home');
   }
 
   if (loading) {

@@ -20,7 +20,7 @@ export default function User() {
     window.location.href = '/login';
   }
 
-  if (username == token.iss) {
+  if (username == token.iss && token.role == 'USER') {
     return (
       <div>
         <UserOwnProfile/>
