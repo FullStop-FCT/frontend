@@ -1,6 +1,6 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'formik'
 import { TextField, Button } from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import { api, storageProfilePic } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
 import React, { useContext, useEffect, useState } from 'react'
@@ -75,11 +75,11 @@ export default function EditInfo(user: userProps) {
   const [photopreviewState, setphotopreviewState] = useState(null);
   const handleBirthdayChange = (event) => {
     setBirthday(format(new Date(event.target.value), "yyyy-MM-dd"));
-    console.log(format(new Date(event.target.value), "yyyy-MM-dd"))
+    //console.log(format(new Date(event.target.value), "yyyy-MM-dd"))
   }
   const handleChange = (event) => {
     setGender(event.target.value);
-    console.log(event.target.value)
+    //console.log(event.target.value)
   };
 
   const handleClose = () => {
@@ -108,11 +108,11 @@ export default function EditInfo(user: userProps) {
   }
 
   const photoHandler = (event) => {
-    console.log(event.target.files[0])
+   // console.log(event.target.files[0])
     setphotoState(event.target.files[0])
     setphotopreviewState(URL.createObjectURL(event.target.files[0]))
-    console.log(photopreviewState);
-    console.log(photoState)
+   // console.log(photopreviewState);
+    //console.log(photoState)
   }
 
   return (
@@ -164,7 +164,7 @@ export default function EditInfo(user: userProps) {
           //resetform
           onSubmit={async (values, { setSubmitting }) => {
 
-            console.log("submitting");
+            //console.log("submitting");
             setSubmitting(true);
             
             values.profile = profile
@@ -173,7 +173,7 @@ export default function EditInfo(user: userProps) {
 
             const fd = new FormData();
             fd.append('image', photoState);
-            console.log(fd.get('type'));
+            //console.log(fd.get('type'));
             if (authenticated) {
 
 
@@ -190,8 +190,8 @@ export default function EditInfo(user: userProps) {
                 values.image = decodedtoken.iss + Date.now() + '.jpg';
                 await storageProfilePic.post(values.image, fd)
                   .then(function (response) {
-                    console.log(response)
-                    console.log('upload')
+                   // console.log(response)
+                   // console.log('upload')
                   }).catch(function (error) {
 
                     console.log(error);
@@ -208,10 +208,10 @@ export default function EditInfo(user: userProps) {
               await api.patch('users/update',request,config)
                 .then(function (response) {
                   // setSubAtivity(!subAtivity)
-                  console.log(response.data)
+                 // console.log(response.data)
                 }).catch(function (error) {
 
-                  console.log(error);
+                  //console.log(error);
                 })
             }
 

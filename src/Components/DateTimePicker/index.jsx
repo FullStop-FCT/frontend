@@ -1,5 +1,5 @@
 import { TextField } from '@material-ui/core';
-import { useField } from 'Formik';
+import { useField } from 'formik';
 
 const DateTimePicker = ({
   name,

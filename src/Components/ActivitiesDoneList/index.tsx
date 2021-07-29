@@ -12,7 +12,7 @@ export default function ActivitiesDoneList() {
   const [listativities, setListativities] = useState<listAtivitiesTodoProps>([]);
   const [cursor, setCursor] = useState<string>(null);
   let username = window.location.pathname.replace('/', '')
-  const [endlist, setEndlist] = useState<boolean>(true);
+  const [endlist, setEndlist] = useState<boolean>(false);
   const token: Token = Cookies.getJSON('token')
   let config = {
     headers: {
@@ -21,29 +21,33 @@ export default function ActivitiesDoneList() {
     }
   }
   async function fetchData() {
-    console.log('segundo fetch')
+    //console.log('segundo fetch')
        await api.post(`activities/listPastActivities/?username=${username}`, cursor, config).then( (response) => {
   
         if(response.data.results.length === 0 ){
           setEndlist(false);
           return;
         }
-        console.log(response.data.results)
+        //console.log(response.data.results)
         setListativities((current) => 
           current.concat(response.data.results)   
       )
       setCursor(response.data.cursorString)
-        console.log(cursor);});
+        //console.log(cursor);
+      });
     }
+
     useEffect(() => {
-      fetchData();
-    }  
-    , [])
+      fetchData()
+      setEndlist(true)
+       
+      
+    },[])
   
 
   return (
     <div>
-<h3 style={{ textAlign: 'center' }}>Atividades já feitas</h3>
+<h3 style={{ textAlign: 'center' }}>Atividades Realizadas</h3>
 <InfiniteScroll
           dataLength={listativities.length * 5} //This is important field to render the next data
           next={fetchData}

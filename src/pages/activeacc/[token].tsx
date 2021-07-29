@@ -14,27 +14,30 @@ export default function token(){
   let path = window.location.pathname.replace('/', '')
   let path_values: string[] = path.split("/");
   let jwt = path_values[1];
-  console.log(jwt)
+  //console.log(jwt)
 
   useEffect( () => {
     const funct = async () => {
       let decodetoken: Token = jwt_decode(jwt);
-      console.log(decodetoken)
+      //console.log(decodetoken)
       let config = {
         headers: {
           'Authorization': 'Bearer ' + jwt,
           'Content-Type': 'application/json'
         }
       }
-      console.log(token)
+      //console.log(token)
        await api.post('users/confirmSignup',decodetoken.iss,config)
                 .then( function (response) {
                   setStatus(response.status);
-                  console.log(response);
+                  setMessage(response.data);
+                  //console.log("200000")
+                  //console.log(response.status);
                 })
                 .catch( function (error) {
                   setMessage(error.response.data);
-                  console.log(error.response.data);
+                  setStatus(error.response.status);
+                  //console.log(error.response.status);
                 })
   
     }
@@ -42,5 +45,10 @@ export default function token(){
    
   },[])
 
-  return ( <EmailConfirmation response={status} message={resMessage}/> );
+  let props = {
+    res : status,
+    message : resMessage
+    }
+
+  return ( <EmailConfirmation {...props}/> );
   }

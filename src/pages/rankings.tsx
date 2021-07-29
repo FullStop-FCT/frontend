@@ -3,7 +3,7 @@ import styles from './styles/rankings.module.scss';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-
+import Head from "next/head";
 type Token = {
     username: string,
     tokenID: string,
@@ -18,7 +18,9 @@ export default function Rankings() {
 
     return (
         <div className={styles.container}>
-
+        <Head>
+        <title>Rankings</title>
+      </Head>
             <div className={styles.header}>
                 <Header />
             </div>

@@ -18,8 +18,8 @@ async function fetcher(path: string) {
 const token: Token = Cookies.getJSON('token')
 export default function ActivitiesToDoList() {
   const [cursor, setCursor] = useState<string>(null);
-
-  const [endlist, setEndlist] = useState<boolean>(true);
+  const [firsttimefetch, setfirsttimefetch] = useState(true);
+  const [endlist, setEndlist] = useState<boolean>(false);
   const [listativities, setListativities] = useState<listAtivitiesTodoProps>([]);
   let username = window.location.pathname.replace('/', '')
   const config = {
@@ -28,27 +28,35 @@ export default function ActivitiesToDoList() {
       'Content-Type': 'application/json'
     }
   }
-  function fetchData() {
-    console.log('segundo fetch')
-       api.post(`activities/listJoinedActivities/?username=${username}`, cursor, config).then( (response) => {
-  
-        if(response.data.results.length === 0 ){
-          setEndlist(false);
-          return;
-        }
-        console.log(response.data.results)
+  async function fetchData() {
+    //console.log('segundo fetch')
+   
+       await api.post(`activities/listJoinedActivities/?username=${username}`, cursor, config).then( (response) => {
+         setCursor(response.data.cursorString)
+         
+         if(response.data.results.length === 0 ){
+           setEndlist(false);
+           return;
+          }
+       // console.log(response.data.results)
         setListativities((current) => 
+          
           current.concat(response.data.results)   
       )
-      setCursor(response.data.cursorString)
-        console.log(cursor);});
+        //console.log(cursor);
+      });
+    
     }
 
-
     useEffect(() => {
-      fetchData();
-    }  
-    , [])
+      fetchData()
+      setEndlist(true)
+       
+      
+    },[])
+
+    
+  
   return (
     <div>
        <h3 style={{ textAlign: 'center' }}>Atividades a fazer</h3>
@@ -57,6 +65,7 @@ export default function ActivitiesToDoList() {
           dataLength={listativities.length * 5} //This is important field to render the next data
           next={fetchData}
           hasMore={endlist}
+      
           loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
           //scrollableTarget="target"
           endMessage={

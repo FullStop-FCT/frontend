@@ -1,6 +1,6 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { Formik, Form, useField, FieldAttributes } from 'formik';
 import { TextField, Button } from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import styles from './styles.module.scss';
 import { useRouter } from 'next/router';
 import { api } from '../../../services/api';

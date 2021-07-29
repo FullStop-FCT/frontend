@@ -8,8 +8,8 @@ export default function Footer()  {
       <div  className="socialbtns">
         
         <ul>
-          <li><a href="#" className="fa fa-lg fa-facebook"></a></li>
-          <li><a href="#" className="fa fa-lg fa-twitter"></a></li>
+          <li><a href="https://www.facebook.com/HelpingXperience-109439071437626" target="_blank" className="fa fa-lg fa-facebook"></a></li>
+          <li><a href="https://twitter.com/x_helping" className="fa fa-lg fa-twitter" target="_blank"></a></li>
           <li><a href="#" className="fa fa-lg fa-linkedin"></a></li>
           <li><a href="#" className="fa fa-lg fa-instagram"></a></li>
         </ul>

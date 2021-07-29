@@ -6,8 +6,8 @@ import mapstyle from "./mapstyle";
 
 const libraries: Libraries = ["places"];
 const mapContainerStyle = {
-  width: "20rem",
-  height: "15rem",
+  width: "28rem",
+  height: "20rem",
   borderRadius: '1rem',
 };
 
@@ -22,10 +22,10 @@ export default function MapActivity(mapProps: mapProps) {
   const [response, setResponse] = useState(null);
   const [ stop , setStop] = useState(false);
   if(mapProps.waypoints.length > 0){
-    console.log('waypoints',mapProps.waypoints);
+    //console.log('waypoints',mapProps.waypoints);
 
      for(var i= 0; i < mapProps.waypoints.length; i+=2 ){
-       console.log(mapProps.waypoints[i])
+       //console.log(mapProps.waypoints[i])
       points.push(
         {
           location: { 
@@ -35,7 +35,7 @@ export default function MapActivity(mapProps: mapProps) {
         }
       )
     }
-    console.log('points',points)
+    //console.log('points',points)
 
   }
   
@@ -61,7 +61,7 @@ export default function MapActivity(mapProps: mapProps) {
         setResponse(response)
         
       } else{
-          console.log("OVER_QUERY_LIMIT ");
+          //console.log("OVER_QUERY_LIMIT ");
      
       }
     }
@@ -115,9 +115,6 @@ export default function MapActivity(mapProps: mapProps) {
                 />
               )
             }
-
-
-
 
       </GoogleMap> :
         <GoogleMap mapContainerStyle={mapContainerStyle}

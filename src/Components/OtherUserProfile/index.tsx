@@ -83,7 +83,7 @@ export default function Profile() {
     let { data, error } = useSWR(`users/get/${username}`, fetcher);
     user = data;
 
-    console.log(user);
+   // console.log(user);
 
     if (error) { return <SessionOf /> }
     if (!data) return <Loading />

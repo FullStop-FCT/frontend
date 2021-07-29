@@ -39,7 +39,7 @@ export default function ActivityCreated(activity: activitytodoProps) {
   decodedToken= jwt_decode(Cookies.getJSON('token'));
   let { data: act, error: error1 } = useSWR(`activities/get/${activity.ID}/${username}`, fetchActivity);
   let { data: user, error: error2 } = useSWR(`users/get/${username}`, fetchUser);
-  if (!act || !user) return <div>loading</div>
+  if (!act || !user) return <div></div>
   if (error1 || error2) { return <div>error</div> }
 
   const myLoader = () => {
@@ -65,10 +65,20 @@ export default function ActivityCreated(activity: activitytodoProps) {
         </div>
       </div>
       <div className={styles.activity}>
+        <div className={styles.titlediv}>
+
         <h3>{activity.title}</h3>
+        </div>
 
         <div className={styles.activityinfo}>
-
+          <div className={styles.localdate}>
+            <p>{format(new Date(act.date), "dd/MM/yyyy")}</p>
+            <p>{act.location}</p>
+          </div>
+          <div className={styles.participants}>
+            <h4>Participantes</h4>
+            <p>{act.participants}/{activity.totalParticipants}</p>
+          </div>
         </div>
       </div>
       <div className={styles.vermaiscontainer}>

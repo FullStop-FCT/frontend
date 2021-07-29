@@ -1,6 +1,6 @@
-import { Formik, Form, useFormik, useField, FieldAttributes } from 'Formik';
+import { Formik, Form, useFormik, useField, FieldAttributes } from 'formik';
 import { TextField, Button} from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import styles from './styles/register.module.scss';
 import Head from "next/head";
 import NavBar from '../Components/NavBar'
@@ -81,7 +81,7 @@ export default function Register() {
                     setValues(values);
     
                    
-                console.log(response.data);
+                //console.log(response.data);
               })
                 .catch(function (error) {
 

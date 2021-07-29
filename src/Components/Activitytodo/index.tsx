@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import styles from './styles.module.scss'
 import { activitytodoProps, AtivitiesProps, Token, userProps } from "../../types";
+import { format } from "date-fns";
 
 
 const token: Token = Cookies.getJSON('token');
@@ -28,8 +29,8 @@ export default function ActivityToDo(activity: activitytodoProps) {
   let { data: user, error: error2 } = useSWR(`users/get/${activity.activityOwner}`, fetchUser);
 
 
-  if (!act && !user) return <div>loading</div>
-  if (!user) return <div>loading</div>
+  if (!act || !user) return <div></div>
+  if (!user) return <div></div>
   if (error1 && error2) { return <div>error</div> }
   if (error1 && error2) { return <div>error</div> }
 
@@ -56,10 +57,19 @@ export default function ActivityToDo(activity: activitytodoProps) {
         </div>
       </div>
       <div className={styles.activity}>
+        <div className={styles.titlediv}>
         <h3>{activity.title}</h3>
+        </div>
 
         <div className={styles.activityinfo}>
-
+          <div className={styles.localdate}>
+            <p>{format(new Date(act.date), "dd/MM/yyyy")}</p>
+            <p>{act.location}</p>
+          </div>
+          <div className={styles.participants}>
+            <h4>Participantes</h4>
+            <p>{act.participants}/{activity.totalParticipants}</p>
+          </div>
         </div>
       </div>
       <div className={styles.vermaiscontainer}>

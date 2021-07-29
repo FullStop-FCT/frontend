@@ -2,9 +2,9 @@ import  {Token } from '../types';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import UnauthorizedAcess from '../Components/UnauthorizedAccess';
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'formik'
 import { TextField, Button} from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import styles from './styles/bo-register.module.scss';
 import { api } from '../../services/api';
 import { useRouter } from 'next/router';
@@ -89,7 +89,7 @@ export default function Register() {
 
                     resetForm();
 
-                    console.log(values);
+                    //console.log(values);
                 }}>
 
                 {({ isSubmitting }) => (

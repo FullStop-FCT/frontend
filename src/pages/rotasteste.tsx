@@ -46,7 +46,7 @@ export default function MapView() {
       {location: {lat:event.latLng.lat(), lng:event.latLng.lng()}}
     ]
     )
-    console.log('points',points)
+    //console.log('points',points)
   
     if(points.length == npoints){
       setPoints([
@@ -54,8 +54,8 @@ export default function MapView() {
       ])
     
     }
-    console.log(event.latLng.lat(), event.latLng.lng());
-    console.log(points)
+    //console.log(event.latLng.lat(), event.latLng.lng());
+    //console.log(points)
   };
 
   const mapRef = useRef(null);
@@ -74,7 +74,7 @@ export default function MapView() {
         setResponse(response)
         
       } else {
-        console.log("response: ", response);
+        //console.log("response: ", response);
       }
     }
   };

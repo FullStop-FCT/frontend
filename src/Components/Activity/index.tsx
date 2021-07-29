@@ -16,7 +16,7 @@ async function fetcher(path: string): Promise<userProps> {
     }
   }
   return await api.get(path,config).then(response => response.data).catch(error => {
-    console.log('')
+    //console.log('')
   });
 }
 
@@ -49,7 +49,10 @@ export default function Activity(activity: AtivitiesProps) {
         </div>
       </div>
       <div className={styles.activity}>
+        <div className={styles.titlediv}>
         <h3>{activity.title}</h3>
+
+        </div>
 
         <div className={styles.activityinfo}>
           <div className={styles.localdate}>

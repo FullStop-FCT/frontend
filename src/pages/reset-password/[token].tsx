@@ -1,10 +1,10 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { Formik, Form, useField, FieldAttributes } from 'formik';
 import { TextField, Button } from "@material-ui/core";
 import styles from '../styles/register.module.scss';
 import Head from "next/head";
 import NavBar from '../../Components/NavBar';
 import Footer from '../../Components/Footer';
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import { useState } from 'react';
 import jwt_decode from "jwt-decode"
 import { Token } from "../../types";
@@ -45,7 +45,7 @@ export default function Password() {
     let token = window.location.pathname.replace('/', '')
     let path_values: String[] = token.split("/");
     let jwt = path_values[1];
-    console.log(jwt);
+    //console.log(jwt);
   
     const config = {
       headers: {

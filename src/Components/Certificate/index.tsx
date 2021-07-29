@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 
 export default function Certificate(props) {
 
-  console.log(props.activities);
+  //console.log(props.activities);
   function timeConvert(n) {
     var num = n;
     var hours = (num / 60);

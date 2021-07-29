@@ -55,18 +55,18 @@ export default function MapView() {
     libraries,
   });
 
-  console.log(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+  
   //const [markers, setMarkers] = useState({ lat: 0, lng: 0 });
   const { activityLocation, setActivityLocation, markers, setMarkers, setMappoints } = useContext(MapContext);
 
   const handleNPoints = useCallback( (event) => {
     setRender(false);
       setNPoints(event.target.value)
-      console.log(npoints);
+      //console.log(npoints);
       setPoints([])
       setResponse(null);
       //console.log(event.target.value);
-      console.log(npoints);
+     // console.log(npoints);
     
   },[npoints]
     
@@ -74,10 +74,10 @@ export default function MapView() {
 
   const onMapClickPoints = (event) => {
     if(npoints > 1 && npoints < 11){
-      console.log(npoints)
+      //console.log(npoints)
       if(points.length === npoints-1){
-        console.log('render')
-        console.log(points)
+       // console.log('render')
+       // console.log(points)
         points.map((local) => {
           setMappoints((current) =>
           current.concat(`${local.location.lat}`,`${local.location.lng}`)
@@ -105,8 +105,8 @@ export default function MapView() {
      
     }
    
-    console.log(event.latLng.lat(), event.latLng.lng());
-    console.log(points)
+    //console.log(event.latLng.lat(), event.latLng.lng());
+    //console.log(points)
   };
 
 
@@ -115,7 +115,7 @@ export default function MapView() {
     !routes ? 
     setRoutes(true) : setRoutes(false)
     
-    console.log(routes)
+    //console.log(routes)
   }
   const directionsCallback = (response) => {
     
@@ -126,7 +126,7 @@ export default function MapView() {
         setResponse(response)
         
       } else {
-        console.log("response: ", response);
+        //console.log("response: ", response);
       }
     }
   };
@@ -142,7 +142,7 @@ export default function MapView() {
 
       } ,
     );
-    console.log(event.latLng.lat(), event.latLng.lng())
+   // console.log(event.latLng.lat(), event.latLng.lng())
   }, []);
 
   const mapRef = useRef(null);
@@ -160,9 +160,9 @@ export default function MapView() {
   const inputvalue = (result: string) => {
     //debugger
     let res: string = result;
-    console.log(res)
+   // console.log(res)
     setActivityLocation(res)
-    console.log('local: ' + activityLocation)
+    //console.log('local: ' + activityLocation)
   };
 
   if (loadError) return <div> Error Loading Google Maps</div>

@@ -46,7 +46,7 @@ const TagsInput = props => {
 
 export default function KeyWord() {
   const selectedTags = tags => {
-    console.log(tags);
+    //console.log(tags);
   };
   return (
     <div className="App">

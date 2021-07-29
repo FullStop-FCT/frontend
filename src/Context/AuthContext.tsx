@@ -24,8 +24,8 @@ type AuthContextData = {
   setSubEdit: (state: boolean) => void;
   keywords: string[];
   setKeywords: (string) => void;
-  error: string;
-  setError: (string) => void;
+  error: number;
+  setError: (number) => void;
 }
 
 type token = {
@@ -49,7 +49,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [subAtivity, setSubAtivity] = useState(false);
   const [subEdit, setSubEdit] = useState(false);
   const [keywords, setKeywords] = useState([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(0);
 
 
   useEffect(() => {
@@ -71,6 +71,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   
   async function handleLogout() {
     setAuthenticated(false);
+    setTimeout(() =>Cookie.remove('token'),1000);
+    
   }
 
 
@@ -82,19 +84,17 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       if (response.data) {
         Cookie.set('token', JSON.stringify(response.data),{ expires: 1 });
-       
-
         setAuthenticated(true);
-        var decoded: token = jwt_decode(response.data);
+        router.push('/home');
         
       }
     })
       .catch(function (error) {
-        setError(error.response.data);
-        setAuthenticated(false);
+        //console.log(error.response.status)
+        setError(error.response.status);
+        
       });
 
-      router.push('/home');
   }
 
   if (loading) {

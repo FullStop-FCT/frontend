@@ -67,7 +67,7 @@ export default function Users() {
 
             <div className={styles.scoreTable}>
                 <InfiniteScroll
-                    dataLength={users.length + 6} //This is important field to render the next data
+                    dataLength={users.length * 6} //This is important field to render the next data
                     next={fetch}
                     hasMore={endlist}
                     loader={<a></a>}

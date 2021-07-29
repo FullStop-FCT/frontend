@@ -115,7 +115,9 @@
 
   .other {
     width: 15%;
-    height: 1000px;
+    height: 100%;
+    position: fixed;
+    right: 0;
     background-color: var(--bluehh);
   }
 }

@@ -1,6 +1,6 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { Formik, Form, useField, FieldAttributes } from 'formik';
 import { TextField, Button } from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import styles from './styles/login.module.scss';
 import Head from "next/head";
 import NavBar from '../Components/NavBar';
@@ -35,7 +35,7 @@ export default function Login() {
 
   const router = useRouter();
 
-  const { handleLogin, error } = useContext(AuthContext);
+  const { handleLogin, error,setError } = useContext(AuthContext);
 
   const[emailError, setEmailError] = useState(false);
   const[inputError, setInputError] = useState(false);
@@ -46,7 +46,7 @@ export default function Login() {
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
       <TextField variant="outlined" type={type}
-        size="small" placeholder={placeholder} {...field} helperText={errorText} onClick={() => setInputError(false)} error={!!errorText} InputLabelProps={{
+        size="small" placeholder={placeholder} {...field} helperText={errorText} onFocus={() => setError(0)} error={!!errorText} InputLabelProps={{
           className: styles.form
   
         }} />
@@ -65,8 +65,7 @@ export default function Login() {
 
           <div className={styles.login}>
 
-            {!emailError ? 
-              <>
+            
                 <h1>Login</h1>
                 <Formik initialValues={{
                   username: '',
@@ -78,29 +77,26 @@ export default function Login() {
 
                   setSubmitting(true);
 
-                  if(error == 'email')
-                    setEmailError(true);
-
-                  else if(error == 'inputerror')
-                    setInputError(true);
-
-                  else {
                     handleLogin(values);
                     setSubmitting(false);
-                  }
+                    
+                  
                   }}>
 
 
                 {({ isSubmitting }) => (
                   <Form className={styles.form}  >
 
-                    {inputError?
+                    {error === 403?
 
                       <a className={styles.erro}>Por favor verifique se os dados que inseriu estão corretos.</a>
 
-                      :
+                      : <></>
+                    }
+                    {
+                      error === 400?
 
-                      null
+                      <a className={styles.erro}>Por favor confirme o seu email. Caso não o encontre, verifique a sua caixa de spam. </a> : <></>
                   }
 
                     <MyTextField className={styles.input} placeholder="Nome de utilizador" name="username" type="input" as={TextField} />
@@ -117,13 +113,13 @@ export default function Login() {
                   )
                 }
               </Formik>
-            </>
+            
           
-            :
+            
 
-            <a>Por favor confirme o seu email. Caso não o encontre, verifique a sua caixa de spam. </a>
+           
 
-            }
+            
         </div>
     </div>
     <Footer />

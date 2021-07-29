@@ -41,13 +41,12 @@ export default function Users() {
             'Content-Type': 'application/json'
         }
     }
+    
 
     async function fetchReported() {
 
         await api.post('backoffice/listreports', uRcursor, config)
                     .then((response) => {
-
-                        console.log("request reported");
 
                         if(response.data.results.length == 0 ) {
                             setEndUR(false);
@@ -58,12 +57,6 @@ export default function Users() {
                             current.concat(response.data.results));
 
                         setURcursor(response.data.cursorString);
-
-                        setShowUR(true);
-                        setShowUD(false);
-                        setShowUS(false);
-
-                        console.log(response);
                     })
                     .catch(error => console.log(error));
 
@@ -80,7 +73,7 @@ export default function Users() {
         await api.post('backoffice/listdisabled', uRcursor, config)
                     .then((response) => {
 
-                        console.log("request disabled");
+                        //console.log("request disabled");
 
                         if(response.data.results.length == 0 ) {
                             setEndUD(false);
@@ -91,12 +84,6 @@ export default function Users() {
                             current.concat(response.data.results));
 
                         setUDcursor(response.data.cursorString);
-
-                        setShowUD(true);
-                        setShowUR(false);
-                        setShowUS(false);
-
-                        console.log(response);
                     })
                     .catch(error => console.log(error));
 
@@ -110,7 +97,7 @@ export default function Users() {
 
         await api.post('backoffice/listsuspended', uRcursor, config)
                     .then((response) => {
-                        console.log("request suspended");
+                        //console.log("request suspended");
 
                         if(response.data.results.length == 0 ) {
                             setEndUS(false);
@@ -121,10 +108,7 @@ export default function Users() {
                             current.concat(response.data.results));
 
                         setUScursor(response.data.cursorString);
-                        setShowUR(false);
-                        setShowUD(false);
-                        setShowUS(true);
-                        console.log(response);
+
                     })
                     .catch(error => console.log(error));
 
@@ -159,7 +143,7 @@ export default function Users() {
                 {showUR ? 
 
                     <InfiniteScroll
-                    dataLength={usersReported.length + 6} 
+                    dataLength={usersReported.length * 6} 
                     next={fetchReported}
                     hasMore={endUR}
                     loader={<a></a>}
@@ -182,7 +166,7 @@ export default function Users() {
                             {usersReported.map( (user, index) => 
                                     <tbody key={index}>
                                         <tr>
-                                            <td>{user.username}</td> 
+                                            <td><a href={`${user.username}`}>{user.username}</a></td> 
                                             <td>{user.reports}</td>
                                         </tr>
                                     </tbody>
@@ -193,7 +177,7 @@ export default function Users() {
 
                     : showUD ? 
                         <InfiniteScroll
-                            dataLength={usersReported.length + 6} 
+                            dataLength={usersReported.length * 6} 
                             next={fetchReported}
                             hasMore={endUR}
                             loader={<a></a>}
@@ -215,7 +199,7 @@ export default function Users() {
                                     {usersDisabled.map( (user, index) => 
                                             <tbody key={index}>
                                                 <tr>
-                                                    <td>{user.username}</td> 
+                                                    <td><a href={`${user.username}`}>{user.username}</a></td> 
                                                 </tr>
                                             </tbody>
                                         )
@@ -248,7 +232,7 @@ export default function Users() {
                                     {usersSuspended.map( (user, index) => 
                                             <tbody key={index}>
                                                 <tr>
-                                                    <td>{user.username}</td> 
+                                                    <td><a href={`${user.username}`}>{user.username}</a></td> 
                                                 </tr>
                                             </tbody>
                                         )

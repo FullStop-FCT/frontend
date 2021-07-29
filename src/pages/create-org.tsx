@@ -2,9 +2,9 @@ import  {Token } from '../types';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import UnauthorizedAcess from '../Components/UnauthorizedAccess';
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'formik'
 import { TextField, Button} from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import styles from './styles/bo-register.module.scss';
 import { api } from '../../services/api';
 import { useRouter } from 'next/router';
@@ -74,14 +74,14 @@ export default function Register() {
 
                         values.confirmation = values.password;
 
-                        console.log(values);
+                        //console.log(values);
 
                         await api.post('users/insert', values
                             ).then(function (response) {
-                            console.log(JSON.stringify(response.data));
+                            //console.log(JSON.stringify(response.data));
                             })
                             .catch(function (error) {
-                                console.log(error.response.data);
+                                //console.log(error.response.data);
                             });
 
                         setSubmitting(false);

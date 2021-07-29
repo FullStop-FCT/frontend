@@ -25,7 +25,7 @@ export default function ListComment(activity:AtivitiesProps){
   , [])
 
   async function fetch(){
-    console.log('fetch')
+    //console.log('fetch')
     await api.post(`comments/list/${activity.ID}/${activity.activityOwner}`,cursor,config).then( response => {
   
       if(response.data.results.length ===0 ){
@@ -34,7 +34,7 @@ export default function ListComment(activity:AtivitiesProps){
       }
       setCursor(response.data.cursorString);
       setListcomments((current) => current.concat(response.data.results))
-      console.log(cursor)
+      //console.log(cursor)
 
     })
 
@@ -55,7 +55,7 @@ export default function ListComment(activity:AtivitiesProps){
   
   endMessage={
     <p style={{ textAlign: 'center' }}>
-  <b>endlist</b>
+  <b>Sem mais comentários</b>
   </p>
   }
   scrollableTarget="scrollableDiv"

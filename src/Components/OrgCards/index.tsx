@@ -18,7 +18,7 @@ export default function Organizations(orgs: userProps) {
     const [following, setFollowing] = useState<boolean>();
 
     useEffect( () => {
-        console.log("following" + following)
+        //console.log("following" + following)
     }, [following])
 
     const token = Cookies.getJSON('token')
@@ -59,7 +59,7 @@ export default function Organizations(orgs: userProps) {
 
     }
 
-    console.log("orgs" + orgs)
+    //console.log("orgs" + orgs)
     return (
 
         <div className={styles.cardcontainer}>

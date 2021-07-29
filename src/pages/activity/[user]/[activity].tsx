@@ -1,10 +1,10 @@
 import styles from '../../styles/activity.module.scss'
 import Header from '../../../Components/Header'
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'formik'
 import Cookies from 'js-cookie'
 import { api, storageProfilePic } from '../../../../services/api'
 import useSWR from 'swr'
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import Loading from '../../../Components/Loading'
 import SessionOf from '../../../Components/SessionOf'
 import Image from 'next/image'
@@ -19,7 +19,7 @@ import {BiPhotoAlbum} from 'react-icons/bi'
 import ListComment from '../../../Components/ListComment'
 import {TextField,Button} from '@material-ui/core';
 import { useRouter } from 'next/router'
-
+import Head from "next/head";
 export default function Activity() {
     const router = useRouter();
     let path = window.location.pathname.replace('/', '');
@@ -43,8 +43,6 @@ export default function Activity() {
         )
     }
     async function SetHours() {
-        
-
         await api.get(`activities/compute/${activity.ID}/${activity.activityTime}`,config).then(response => console.log(response.data))
         router.reload();
     }
@@ -55,6 +53,23 @@ export default function Activity() {
           .required("Obrigatório"),
        
       });
+
+
+      async function ApagarAtividade(){
+        const config = {
+            headers: {
+              'Authorization': 'Bearer ' + token ,
+              'Content-Type': 'application/json'
+            }
+          }
+
+        await api.delete(``, config).then(response => setActivity(response.data))
+            
+        
+        router.push('/home')
+
+
+      }
 
 
     async function fetchActivity(path: string) {
@@ -99,7 +114,7 @@ export default function Activity() {
 
         fetchActivity(`activities/get/${activityID}/${activityOwner}`)
         fetch();
-        console.log(activity)
+        //console.log(activity)
         fetchUserJoined(`activities/listJoinedUsers/${activityID}`);
         
     }, [isParticipating])
@@ -132,9 +147,24 @@ export default function Activity() {
         long: activity.lon,
         waypoints: activity.waypoints,
     }
+    var now = new Date(Date.now())
+    
+    var today = activity.date.split("-")
+    var hour = activity.startHour.split(":")
+    //console.log(activity.date)
+    //console.log(parseInt(today[1]))
+    var newDate = new Date(parseInt(today[0]),parseInt(today[1])-1,parseInt(today[2]),parseInt(hour[0]),parseInt(hour[1]));
+    //console.log(newDate > now );
+    //console.log(now)
+   // console.log(newDate)
+    
+    
 
     return (
         <div className={styles.main}>
+             <Head>
+        <title>{activity.title}</title>
+      </Head>
             <div className={styles.header}>
                 <Header />
             </div>
@@ -155,6 +185,9 @@ export default function Activity() {
                 <div className={styles.detailmap}>
                     <div className={styles.details}>
                         <p><a className={styles.bold}>{"Data: "}</a>{format(new Date(activity.date), "dd/MM/yyyy")}</p>
+                        <p> <a className={styles.bold}>{"Hora de início: "}</a>  {activity.startHour}</p>
+                        <p> <a className={styles.bold}>{"Hora de término: "}</a>  {activity.endHour}</p>
+                        <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
                         <p> <a className={styles.bold}>{"Local: "}</a>  {activity.location}</p>
                         <p> <a className={styles.bold}>{"Categoria: "}</a>  {activity.category}</p>
                         <p> <a className={styles.bold}>{"Vagas preenchidas: "}</a>  {activity.participants + "/" + activity.totalParticipants}</p>
@@ -183,16 +216,20 @@ export default function Activity() {
                         <MapActivity {...props} />
 
                         {
-                            (!isParticipating === false && activity.participants === activity.totalParticipants) || decodedtoken.iss === activity.activityOwner ||
-                            (format(new Date(activity.date), "dd/MM/yyyy") < format(Date.now(),"dd/MM/yyyy") ) ?
+                            
+                            newDate < now || activity.activityOwner == decodedtoken.iss || activity.participants == activity.totalParticipants  ?
                                 <></> : <button onClick={handleClick}>
                                     {isParticipating ? "Cancelar" : "Participar"}
                                 </button>
                         }
+                        {/*
+                            activity.activityOwner == decodedtoken.iss ?
+                            <button className={styles.addhours} onClick={ApagarAtividade}>Apagar Atividade</button> : null
+                        */}
 
                         {
 
-(format(new Date(activity.date), "dd/MM/yyyy") < format(Date.now(),"dd/MM/yyyy") ) && activity.activityOwner === decodedtoken.iss && activity.done === false ? <button className={styles.addhours} onClick={SetHours}>
+newDate < now  && activity.activityOwner === decodedtoken.iss && activity.done === false ? <button className={styles.addhours} onClick={SetHours}>
 Atribuir Horas aos participantes {activity.done}
 </button> : <></>
                             
@@ -260,7 +297,7 @@ Atribuir Horas aos participantes {activity.done}
                 <Multiline placeholder="Escreva um comentário" name="comment" type="input"
                   as={Multiline} />
 
-                <Button disabled={isSubmitting} type="submit">Criar </Button>
+                <button className={styles.enviar} disabled={isSubmitting} type="submit">Enviar</button>
 
               </div>
             </Form>

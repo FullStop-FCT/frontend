@@ -1,6 +1,6 @@
-import { Formik, Form, useField, FieldAttributes } from 'Formik'
+import { Formik, Form, useField, FieldAttributes } from 'formik'
 import { TextField, Button, makeStyles } from "@material-ui/core";
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import { api } from '../../../services/api';
 import { AuthContext } from '../../Context/AuthContext'
 import { MapContext } from '../../Context/MapContext'
@@ -67,7 +67,7 @@ const validationSchema = Yup.object({
     .max(50, "O título deve ter entre 10 a 50 caráteres.")
     .required("Obrigatório"),
   description: Yup.string()
-    .min(50, "A descrição deve conter no minímo 100 caráteres.")
+    .min(50, "A descrição deve conter no minímo 50 caráteres.")
     .required("Obrigatório"),
   date: Yup.date().required("Obrigatório"),
   totalParticipants: Yup.number()
@@ -96,7 +96,7 @@ export default function Activities() {
 
   const handleChange = (event) => {
     setCategory(event.target.value);
-    console.log(event.target.value)
+    //console.log(event.target.value)
   };
 
   function onKeyDown(keyEvent) {
@@ -142,12 +142,12 @@ export default function Activities() {
 
           //resetform
           onSubmit={async (values, { setSubmitting }) => {
-            console.log("submitting");
+            //console.log("submitting");
             let timeinsplit = timeIn.split(":");
             let timeoutsplit = timeOut.split(":");
 
             let minutesTotal = (((parseInt(timeoutsplit[0])) * 60 +(parseInt(timeoutsplit[1])))              -((parseInt(timeinsplit[0])) * 60 +(parseInt(timeinsplit[1]))))
-            console.log('total',minutesTotal);
+            //console.log('total',minutesTotal);
             
             setSubmitting(true);
             
@@ -174,22 +174,21 @@ export default function Activities() {
               'Content-Type': 'application/json' }  
             };
             
-            console.log(request)
-            console.log(authenticated)
-            if (values.location !== "" || values.date === null) {
-              if (authenticated) {
+            //console.log(request)
+           // console.log(authenticated)
+           // console.log(values.date)
+          //  console.log(format(Date.now(), "yyyy-MM-dd"))
+            values.date = date;
+            if (values.location !== "" && values.date !== format(Date.now(), "yyyy-MM-dd")) {
+              
                 await api.post('activities/insert',request,config)
-                  .then(response => 
-                    console.log(response.data)
-                  ).catch( (error) => 
-                    console.log('error ' +error)
-                  )
+                  
                 setSubmitting(false);
                 window.location.href = '/home';
-              }
+              
             }
             else {
-              alert('Prencher data')
+              alert('Verificar data e localização')
               setLocalError(true)
             }
             setSubmitting(false);

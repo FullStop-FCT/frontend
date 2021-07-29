@@ -1,8 +1,8 @@
 import styles from "./styles.module.scss";
 import React, { useState } from 'react';
-import * as Yup from 'Yup';
+import * as Yup from 'yup';
 import { TextField, Button } from "@material-ui/core";
-import { Formik, Form, useField, FieldAttributes } from 'Formik';
+import { Formik, Form, useField, FieldAttributes } from 'formik';
 import { useRouter } from 'next/router';
 
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
@@ -52,7 +52,7 @@ export default function Contato() {
     //accesses the form values which do not come in an array and so therefore we wrap it with Array.from
     //then we can iterate it and store it in formData
     Array.from(e.currentTarget.elements).forEach((field: { name: string | number; value: any; }) => { formData[field.name] = field.value });
-    console.log(formData.name)
+    //console.log(formData.name)
   }
 
   return (
@@ -83,7 +83,7 @@ export default function Contato() {
               body: JSON.stringify(values)
             });
             
-            console.log('')
+            //console.log('')
             setSubmitting(false);
             setLoading(false)
             resetForm();

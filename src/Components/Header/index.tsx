@@ -9,6 +9,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import  {Token } from '../../types';
 import jwt_decode from 'jwt-decode';
 import Cookie from 'js-cookie';
+import router from 'next/router';
 
 export default function NavBar() {
 
@@ -28,16 +29,10 @@ export default function NavBar() {
 
           <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
-          {role == 'USER' ?
-
             <Link href={`/${token.iss}`}>
               <div className={username == `${token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div>
             </Link>
 
-          :
-
-            null
-          }
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 
           <Link href={'/organizations'}><div className={styles.topics}><span className={styles.links}><BsFillPeopleFill /><a className={styles.linkname}> Organizações</a></span></div></Link>
@@ -77,9 +72,13 @@ export default function NavBar() {
           <div className={styles.topics}>
             <span className={styles.links}>
               <IoLogOutSharp />
-              <a onClick={() => {window.location.href = '/';
-                                Cookie.remove('token');
-                                handleLogout();}} 
+              <a onClick={() => {
+                //window.location.href = '/';
+                router.push('/');
+                //Cookie.remove('token');
+                handleLogout();
+                              }
+                              } 
                   className={styles.linkname}> Logout</a>
             </span>
           </div>
