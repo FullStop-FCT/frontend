@@ -22,7 +22,7 @@ export default function MapActivity(mapProps: mapProps) {
   const [response, setResponse] = useState(null);
   const [ stop , setStop] = useState(false);
   if(mapProps.waypoints.length > 0){
-    //console.log('waypoints',mapProps.waypoints);
+    console.log('waypoints',mapProps.waypoints);
 
      for(var i= 0; i < mapProps.waypoints.length; i+=2 ){
        //console.log(mapProps.waypoints[i])
@@ -35,7 +35,7 @@ export default function MapActivity(mapProps: mapProps) {
         }
       )
     }
-    //console.log('points',points)
+    console.log('points',points)
 
   }
   

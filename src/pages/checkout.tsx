@@ -49,6 +49,11 @@ const ProductDisplay = () => (
             <button type="submit" onClick={ () => fetcher('create-checkout-session')}>
                 Checkout
             </button>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <a>* Atividades organizadas por outros utilizadores não serão mencionadas no certificado.</a>
       </div>
   </div>
 );

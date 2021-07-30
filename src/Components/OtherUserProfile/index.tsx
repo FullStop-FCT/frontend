@@ -2,7 +2,7 @@ import styles from '../../pages/styles/users.module.scss';
 import Head from "next/head"
 import { useState } from 'react'
 import { atividades } from '../../Components/atividades';
-import React, { useContext } from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 import Header from '../../Components/Header'
@@ -28,10 +28,6 @@ const config = {
   }
 }
 
-async function fetcher(path: string): Promise<userProps> {
-    return await api.get(path,config).then(response => response.data);
-}
-
 
 export default function Profile() {
 
@@ -39,16 +35,37 @@ export default function Profile() {
 
   async function suspend(user) {
 
-    await api.post(`backoffice/suspend`,user, config).then(() => router.push('/home'))
+    await api.post(`backoffice/suspend`,user, config).then(() => location.reload())
   }
   
   async function remove(user) {
   
     await api.post(`backoffice/delete`, user, config).then(() => router.push('/home'))
   }
+
+  async function enable(user) {
+    
+    await api.post(`backoffice/enable`, user, config).then(() => location.reload())
+  }
   
   const [page, changepage] = useState(1);
   const [number, setNumber] = useState(1);
+  const [suspended, setSuspended] = useState(false);
+  const [enabled, setEnabled] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [user, setUser] = useState<userProps>(null);
+
+  function checkState(state) {
+
+    if (state == 'DISABLED')
+      setDisabled(true);
+  
+    else if (state == 'SUSPENDED')
+      setSuspended(true);
+
+    else if (state == 'ENABLED')
+      setEnabled(true);
+  }
 
   async function change(number: number) {
 
@@ -65,8 +82,7 @@ export default function Profile() {
       changepage(3);
     }
   }
-    
-    let user: userProps = null;
+
     let imageLoader = null;
     
     let token: Token = null;
@@ -80,18 +96,27 @@ export default function Profile() {
 
     let username = window.location.pathname.replace('/', '');
 
-    let { data, error } = useSWR(`users/get/${username}`, fetcher);
-    user = data;
+    useEffect(() => {
 
-   // console.log(user);
+      async function fetcher() {
+        await api.get(`users/get/${username}`,config)
+          .then(function(response) { 
+            checkState(response.data.state);
+            setUser(response.data)});
+         };
 
-    if (error) { return <SessionOf /> }
-    if (!data) return <Loading />
+      fetcher();
+
+    }, []);
+
     imageLoader = () => {
       return `https://storage.googleapis.com/helpinhand-318217.appspot.com/${user.image}`
     }
 
     let role = token.role;
+
+
+    if(!user) return null;
 
     return (
 
@@ -130,7 +155,31 @@ export default function Profile() {
                 <button onClick={ () => router.push(`report/${username}/report`)}>Denunciar</button>
                 :
                 <div>
-                  <button onClick={() => suspend(username)}>Suspender Conta</button>
+                  {user.role == 'USER' ?
+
+                  <div>
+                    {suspended ?
+
+                    <button onClick={() => enable(username)}>Ativar Conta</button>
+
+                    :disabled ?
+
+                    <button onClick={() => enable(username)}>Ativar Conta</button>
+
+                    :enabled ?
+
+                    <button onClick={() => suspend(username)}>Suspender Conta</button>
+
+                    :
+                    
+                    null
+                    }
+                  </div>
+
+                  :
+
+                  null
+                  }
                   <br/>
                   <button onClick={() => remove(username)}>Eliminar Conta</button>
                 </div>
@@ -153,23 +202,23 @@ export default function Profile() {
   
               </div>
               <div>
-                        {
-                        number === 1 ?
-                          
-                            <ActivitiesToDoList />
+                      {
+                      number === 1 ?
                         
-                             : <></>
-        
-                        }
-                        {
-                        number === 2 ?
-                            <OwnActivitiesList /> : <></>
-        
-                        }
-                        {
-                        number === 3 ?
-                            <p><ActivitiesDoneList /></p> : <></>
-                        }
+                          <ActivitiesToDoList />
+                      
+                            : <></>
+      
+                      }
+                      {
+                      number === 2 ?
+                          <OwnActivitiesList /> : <></>
+      
+                      }
+                      {
+                      number === 3 ?
+                          <p><ActivitiesDoneList /></p> : <></>
+                      }
         
                     </div>
             </div>

@@ -72,11 +72,7 @@ export default function OwnActivitiesList() {
           
           </InfiniteScroll>
 
-
-
-
-
-      
+    
     </div>
   )
 }

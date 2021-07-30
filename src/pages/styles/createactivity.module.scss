@@ -1,21 +1,17 @@
 .container {
-
   display: flex;
   flex-direction: row;
   height: 100%;
-  
+
   .header {
     background: var(--bluehh);
-    width: 20%;
+    width: 300px;
     border-right: 2px solid rgb(192, 189, 189);
     height: 100%;
   }
 
-  .activityContainer{
+  .activityContainer {
     margin: auto;
     width: 60%;
   }
 }
-
-
-

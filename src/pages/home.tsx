@@ -2,12 +2,10 @@ import styles from "./styles/base.module.scss";
 import { useState } from 'react'
 import Head from "next/head";
 import Header from '../Components/Header';
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { api } from "../../services/api";
 import SearchIcon from '@material-ui/icons/Search';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Activity from '../Components/Activity'
 import { listAtivitiesCursorProps, listAtivitiesProps} from "../types";
 import InfiniteScroll from 'react-infinite-scroll-component'
@@ -20,32 +18,21 @@ export default function Home() {
   if(!token)
     return(<UnauthorizedAccess />)
 
-  //let cursor: string = null;
   const path: string = 'activities/listCursor';
 
   let res : listAtivitiesCursorProps  = null;
-  //let listactivities: listAtivitiesProps = null;
   const [listativities, setListativities] = useState<listAtivitiesProps>([]);
 
   const [cursor, setCursor] = useState<string>(null);
 
   const [endlist, setEndlist] = useState<boolean>(true);
 
-  const[resstart, setresStart] =  useState<boolean>(false);
   const config = {
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json'
     }
   }
-
-  const [state, setState] = useState({
-    checkedA: true,
-  });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
-  };
 
   const SearchEnter = async (e) => {
     if(e.key === 'Enter'){
@@ -60,7 +47,6 @@ export default function Home() {
   const Search = async () => {
     
     await api.get(`activities/search/?keyword=${val}`,config).then((response) => {
-      //console.log(response.data)
       setEndlist(false);
       setListativities(response.data)
     })
@@ -93,12 +79,10 @@ export default function Home() {
         setEndlist(false);
         return;
       }
-      //console.log(response.data.results)
       setListativities((current) => 
         current.concat(response.data.results)   
     )
     setCursor(response.data.cursorString)
-      //console.log(cursor);
     });
   }
 
@@ -155,44 +139,8 @@ export default function Home() {
 
       </div>
 
-      <div className={styles.other}>
-        {/*<h1>Filtros</h1>
-        <FormControlLabel className={styles.filters}
-          control={
-            <Checkbox
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="default"
-            />
-          }
-          label="Mostrar apenas atividades das organizações que sigo"
-        />
-        <FormControlLabel className={styles.filters}
-          control={
-            <Checkbox
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="default"
-            />
-          }
-          label="Mostrar apenas atividades de organizações"
-        />
-        <FormControlLabel className={styles.filters}
-          control={
-            <Checkbox
-              checked={state.checkedA}
-              onChange={handleChange}
-              name="checkedA"
-              color="default"
-            />
-          }
-          label="Mostrar apenas atividades de indivíduos"
-        />
-        <br />*/}
-        
-      </div>
+      <div className={styles.other} />
+       
     </div>
   )
 }

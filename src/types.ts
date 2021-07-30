@@ -20,13 +20,15 @@ export type userProps = {
   postalCode: string;
   gender: string;
   username: string;
-  points: number;
-  kind: string;
   image: string;
   followers: number,
   followings: number,
   reports: number,
-  isOrg: boolean
+  isOrg: boolean,
+  state: string,
+  role: string,
+  hoursDone: number,
+  joinedActivities: number
 }
 
 export type listuserProps = userProps[];

@@ -27,11 +27,18 @@ export default function NavBar() {
 
         <Link href={'/'}><h1 className={styles.title} >HxP</h1></Link>  
 
-          <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
+        <Link href={'/'}><div className={styles.topics}><span className={styles.links}><IoHome /><a className={styles.linkname}> Início</a></span></div></Link>
 
-            <Link href={`/${token.iss}`}>
+          {role == 'USER' ?
+          
+          <Link href={`/${token.iss}`}>
               <div className={username == `${token}` ? `${styles.linkactive}` : `${styles.topics}`}><span className={styles.links} ><IoPersonSharp /><a className={styles.linkname}> Perfil</a></span></div>
             </Link>
+
+          :
+
+          null
+          }
 
           <Link href={'/home'}><div className={styles.topics}><span className={styles.links}><FaHandHoldingHeart /><a className={styles.linkname}> Explorar</a></span></div></Link>
 

@@ -20,7 +20,6 @@ import { Popup } from 'semantic-ui-react'
 import { Token } from '../../types';
 
 
-
 const MyTextField: React.FC<FieldAttributes<{}>> = ({ type, placeholder, ...props }) => {
 
   const [field, meta] = useField<{}>(props);
@@ -60,7 +59,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-
 const validationSchema = Yup.object({
   title: Yup.string()
     .min(10, "O título deve ter entre 10 a 50 caráteres.")
@@ -74,7 +72,6 @@ const validationSchema = Yup.object({
     .moreThan(0, "Uma atividade precisa de pelo menos uma pessoa.")
     .typeError("Não pode conter letras.")
     .required("Obrigatório"),
-  // category: Yup.string().required("Obrigatório")
 });
 
 
@@ -96,7 +93,6 @@ export default function Activities() {
 
   const handleChange = (event) => {
     setCategory(event.target.value);
-    //console.log(event.target.value)
   };
 
   function onKeyDown(keyEvent) {
@@ -140,14 +136,11 @@ export default function Activities() {
         }}
           validationSchema={validationSchema}
 
-          //resetform
           onSubmit={async (values, { setSubmitting }) => {
-            //console.log("submitting");
             let timeinsplit = timeIn.split(":");
             let timeoutsplit = timeOut.split(":");
 
-            let minutesTotal = (((parseInt(timeoutsplit[0])) * 60 +(parseInt(timeoutsplit[1])))              -((parseInt(timeinsplit[0])) * 60 +(parseInt(timeinsplit[1]))))
-            //console.log('total',minutesTotal);
+            let minutesTotal = (((parseInt(timeoutsplit[0])) * 60 +(parseInt(timeoutsplit[1]))) - ((parseInt(timeinsplit[0])) * 60 +(parseInt(timeinsplit[1]))))
             
             setSubmitting(true);
             
@@ -173,12 +166,10 @@ export default function Activities() {
               'Authorization': 'Bearer ' + token ,
               'Content-Type': 'application/json' }  
             };
-            
-            //console.log(request)
-           // console.log(authenticated)
-           // console.log(values.date)
-          //  console.log(format(Date.now(), "yyyy-MM-dd"))
+
             values.date = date;
+            //console.log('values',mappoints)
+            values.waypoints = mappoints;
             if (values.location !== "" && values.date !== format(Date.now(), "yyyy-MM-dd")) {
               
                 await api.post('activities/insert',request,config)
